@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+.thumbnail
+
+# Editor
+.vscode/
+.idea/
+
+# Logs / temp
+*.log
+node_modules/

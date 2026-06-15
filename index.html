@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>auto-in — Fahrzeugankauf Ingolstadt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">auto<span class="dash">-</span>in<span class="dot"></span></a>
+    <nav class="nav-links">
+      <a href="#bewerter">Bewertung</a>
+      <a href="#steuer">Kfz-Steuer</a>
+      <a href="#bewertungen">Kunden</a>
+      <a href="#kontakt" class="btn nav-cta">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Fahrzeugankauf · Ingolstadt &amp; Umgebung</span>
+      <h1>Wir kaufen<br>dein Auto.<br><span class="muted">Schnell. Fair.<br>Unkompliziert.</span></h1>
+      <p class="lede">Kostenlose Bewertung in 60 Sekunden, sofortige Auszahlung bei Abholung — den Rest erledigen wir.</p>
+      <div class="hero-actions">
+        <a href="#bewerter" class="btn">Jetzt Fahrzeug bewerten <span class="arr">→</span></a>
+        <span class="micro"><span class="pulse"></span> Antwort meist am selben Tag</span>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <span class="ph-tag">Bildplatz · Fahrzeug / Lifestyle</span>
+      <div class="hero-card">
+        <div>
+          <div class="k">Letzter Ankauf</div>
+          <div class="v">8.450 €</div>
+          <div class="sub">VW Tiguan · ausgezahlt in 24 Std.</div>
+        </div>
+        <div class="chip">✓ Sofort bar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAR ============ -->
+<section class="trust" id="ablauf">
+  <div class="wrap">
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="6" rx="7.5" ry="3"></ellipse>
+            <path d="M4.5 6v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"></path>
+            <path d="M4.5 12v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Sofortige Auszahlung</div><div class="sub">Bar oder per Echtzeit-Überweisung</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M8 12.5l2.5 2.5L16 9.5"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Faire Preise</div><div class="sub">Marktgerecht &amp; transparent bewertet</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"></path>
+            <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </span>
+        <div><div class="lab">Ingolstadt &amp; Umgebung</div><div class="sub">Wir kommen zu dir vor Ort</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3.5 2"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Kein Aufwand für dich</div><div class="sub">Abmeldung &amp; Abholung inklusive</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEWERTUNG (WIZARD) ============ -->
+<section class="block" id="bewerter">
+  <div class="wrap">
+    <div class="sec-head reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+      <span class="eyebrow">Sofort-Bewertung</span>
+      <h2>Was ist mein Auto wert?</h2>
+      <p>In vier Schritten zur unverbindlichen Schätzung — ohne Anmeldung, ohne Datenbank. Für ein verbindliches Festangebot melden wir uns persönlich bei dir.</p>
+    </div>
+
+    <div class="wizard reveal" id="wizard">
+      <div class="wz-top">
+        <div class="wz-stepno">Schritt <span id="wzStepNo">1</span> von 4</div>
+        <div class="wz-prog"><div class="wz-prog-fill" id="wzProg"></div></div>
+      </div>
+
+      <!-- 1: Segment -->
+      <div class="wz-pane active" data-pane="0">
+        <div class="wz-title">Welche Fahrzeugklasse?</div>
+        <div class="wz-sub">Wähle das Segment, das am besten passt.</div>
+        <div class="select-wrap">
+          <select id="wzSegment">
+            <option value="" disabled selected>Bitte wählen …</option>
+            <option value="kleinwagen">Kleinwagen</option>
+            <option value="kompakt">Kompaktklasse</option>
+            <option value="mittelklasse">Mittelklasse</option>
+            <option value="suv">SUV / Geländewagen</option>
+            <option value="van">Van / Kombi</option>
+            <option value="premium">Premium / Oberklasse</option>
+            <option value="transporter">Transporter</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2: Erstzulassung -->
+      <div class="wz-pane" data-pane="1">
+        <div class="wz-title">Erstzulassung</div>
+        <div class="wz-sub">In welchem Jahr wurde das Fahrzeug erstmals zugelassen?</div>
+        <div class="select-wrap">
+          <select id="wzYear"><option value="" disabled selected>Jahr wählen …</option></select>
+        </div>
+      </div>
+
+      <!-- 3: Kilometerstand -->
+      <div class="wz-pane" data-pane="2">
+        <div class="wz-title">Kilometerstand</div>
+        <div class="wz-sub">Aktueller Stand laut Tacho.</div>
+        <div class="km-field">
+          <input class="input km-input" id="wzKm" inputmode="numeric" placeholder="z. B. 90.000" autocomplete="off">
+          <span class="km-unit">km</span>
+        </div>
+      </div>
+
+      <!-- 4: Zustand -->
+      <div class="wz-pane" data-pane="3">
+        <div class="wz-title">Zustand</div>
+        <div class="wz-sub">Wie ist der Gesamtzustand des Fahrzeugs?</div>
+        <div class="cond-grid">
+          <label class="cond">
+            <input type="radio" name="wzCond" value="sehr_gut">
+            <span class="ct"><span class="dotmark"></span>Sehr gut</span>
+            <span class="cs">Scheckheft, keine Mängel</span>
+          </label>
+          <label class="cond">
+            <input type="radio" name="wzCond" value="gut">
+            <span class="ct"><span class="dotmark"></span>Gut</span>
+            <span class="cs">Gepflegt, normaler Zustand</span>
+          </label>
+          <label class="cond">
+            <input type="radio" name="wzCond" value="gebrauchsspuren">
+            <span class="ct"><span class="dotmark"></span>Gebrauchsspuren</span>
+            <span class="cs">Sichtbarer Verschleiß</span>
+          </label>
+          <label class="cond">
+            <input type="radio" name="wzCond" value="defekt">
+            <span class="ct"><span class="dotmark"></span>Reparaturbedarf</span>
+            <span class="cs">Defekt oder Unfallschaden</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="wz-actions" id="wzActions">
+        <button class="wz-back" id="wzBack" type="button" disabled>← Zurück</button>
+        <button class="btn wz-next" id="wzNext" type="button" disabled>Weiter →</button>
+      </div>
+
+      <!-- Ergebnis -->
+      <div class="wz-pane wz-result-pane" data-pane="result">
+        <div class="rl-eyebrow" style="color:var(--mist);font-family:var(--font-display);font-size:11px;letter-spacing:.18em;text-transform:uppercase">Unverbindliche Schätzung</div>
+        <div class="wz-veh" id="wzVeh">—</div>
+        <div class="wz-range">ca. <span id="wzRange">0 – 0</span><span class="cur">€</span></div>
+        <div class="wz-disclaimer">Dies ist eine grobe, <strong style="color:#fff">unverbindliche Schätzung und kein verbindliches Angebot</strong>. Der finale Ankaufspreis wird nach persönlicher Besichtigung festgelegt.</div>
+        <button class="btn wz-cta" id="wzCta" type="button">Jetzt unverbindliches Festangebot anfordern →</button>
+        <button class="wz-restart" id="wzRestart" type="button">Neu berechnen</button>
+      </div>
+
+      <!-- Lead-Formular -->
+      <div class="wz-pane" data-pane="lead">
+        <form id="leadForm" novalidate>
+          <div class="wz-title">Festangebot anfordern</div>
+          <div class="wz-sub">Sende uns deine Eckdaten per WhatsApp — wir melden uns mit deinem persönlichen Angebot.</div>
+          <div class="lead-grid">
+            <div class="lead-field">
+              <label for="leadName">Name</label>
+              <input class="input" id="leadName" type="text" placeholder="Vor- &amp; Nachname" autocomplete="name">
+            </div>
+            <div class="lead-field">
+              <label for="leadPhone">Telefon</label>
+              <input class="input" id="leadPhone" type="tel" placeholder="z. B. 0151 …" autocomplete="tel">
+            </div>
+            <div class="lead-field full">
+              <label for="leadEmail">E-Mail <span class="opt">optional</span></label>
+              <input class="input" id="leadEmail" type="email" placeholder="name@beispiel.de" autocomplete="email">
+            </div>
+            <div class="lead-field full">
+              <label for="leadMsg">Nachricht <span class="opt">optional</span></label>
+              <input class="input" id="leadMsg" type="text" placeholder="Wunschtermin, Anmerkungen …">
+            </div>
+          </div>
+          <label class="dsgvo">
+            <input type="checkbox" id="leadConsent">
+            <span>Ich stimme zu, dass auto-in meine Angaben zur Bearbeitung meiner Anfrage und Kontaktaufnahme verwendet. Es erfolgt keine Weitergabe an Dritte.</span>
+          </label>
+          <div class="lead-err" id="leadErr"></div>
+          <button class="btn lead-submit" type="submit">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19l1.3-3.2A7.5 7.5 0 1 1 8.2 18.7L4 19z"></path>
+              <path d="M8.8 9.2c-.2 1 .3 2.2 1.3 3.3s2.3 1.6 3.3 1.4c.5-.1.8-.6.9-1.1l-1.6-.8-.7.7a4.2 4.2 0 0 1-1.6-1.6l.7-.7-.8-1.6c-.5.1-1 .4-1.2.9z"></path>
+            </svg>
+            Anfrage per WhatsApp senden
+          </button>
+          <button class="wz-restart" id="leadBack" type="button">← Zurück zur Schätzung</button>
+        </form>
+      </div>
+
+      <!-- Danke -->
+      <div class="wz-pane wz-thanks" data-pane="thanks">
+        <div class="thanks-ic">✓</div>
+        <div class="wz-title">Vielen Dank!</div>
+        <div class="wz-sub" style="margin-bottom:8px">Du wirst zu WhatsApp weitergeleitet — deine Nachricht ist bereits vorbereitet. Wir melden uns nach Erhalt mit deinem persönlichen Angebot.</div>
+        <a href="#kontakt" class="btn wz-cta" style="max-width:280px">Direkt Kontakt aufnehmen →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KFZ-STEUER-RECHNER ============ -->
+<section class="block" id="steuer" style="background:var(--fog);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Kostenloser Service</span>
+      <h2>Kfz-Steuer-Rechner</h2>
+      <p>Berechne die voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.</p>
+    </div>
+
+    <div class="tx-card reveal">
+      <div class="tx-grid">
+        <div class="tx-form">
+          <div class="tx-field">
+            <label>Kraftstoffart</label>
+            <div class="tx-seg">
+              <label><input type="radio" name="txFuel" value="benzin" checked>Benzin (Otto)</label>
+              <label><input type="radio" name="txFuel" value="diesel">Diesel</label>
+            </div>
+          </div>
+          <div class="tx-field">
+            <label for="txHubraum">Hubraum (cm³)</label>
+            <input class="tx-input" id="txHubraum" inputmode="numeric" placeholder="z. B. 1498">
+          </div>
+          <div class="tx-field">
+            <label for="txCo2">CO₂-Ausstoß (g/km)</label>
+            <input class="tx-input" id="txCo2" inputmode="numeric" placeholder="z. B. 120">
+            <div class="tx-hint">Findest du im Fahrzeugschein, Feld V.7.</div>
+          </div>
+          <div class="tx-field">
+            <label for="txDate">Datum der Erstzulassung</label>
+            <input class="tx-date" id="txDate" type="date">
+          </div>
+        </div>
+
+        <div class="tx-result">
+          <div id="txLocked">
+            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer</div>
+            <p class="tx-locked-p">Fülle die Felder aus, um die voraussichtliche Steuer zu berechnen.</p>
+          </div>
+          <div id="txLive" style="display:none">
+            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer (ca.)</div>
+            <div class="tx-amount"><span id="txAmount">0</span><span class="per">€ / Jahr</span></div>
+            <div class="tx-break">
+              <div class="tx-row"><span>Hubraum-Anteil</span><b id="txHubRow">0,00 €</b></div>
+              <div class="tx-row"><span>CO₂-Anteil</span><b id="txCo2Row">0,00 €</b></div>
+            </div>
+            <div id="txHint" class="tx-note" style="display:none"></div>
+            <p class="tx-note">Unverbindliche Berechnung. Maßgeblich ist der Steuerbescheid des Hauptzollamts.</p>
+          </div>
+          <div class="tx-cta">
+            <a href="#bewerter">Auto verkaufen statt weiter Steuer zahlen? Jetzt Wert ermitteln →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="block" id="bewertungen">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+      <span class="eyebrow">Bewertungen</span>
+      <h2>Das sagen unsere Kunden</h2>
+    </div>
+
+    <div class="rev-grid">
+      <div class="rev-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>„Anruf am Vormittag, am Nachmittag stand das Geld auf dem Konto. Der Preis lag sogar etwas über dem, was mir online angeboten wurde. Absolut unkompliziert.“</p>
+        <div class="rev-meta">
+          <div class="rev-av">MK</div>
+          <div><div class="nm">Markus K.</div><div class="dt">vor 2 Wochen</div></div>
+        </div>
+      </div>
+      <div class="rev-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>„Mein alter Diesel mit hohem Kilometerstand — andere wollten ihn kaum nehmen. Hier faires Angebot, Abmeldung wurde direkt erledigt. Sehr zu empfehlen.“</p>
+        <div class="rev-meta">
+          <div class="rev-av">SB</div>
+          <div><div class="nm">Sandra B.</div><div class="dt">vor 1 Monat</div></div>
+        </div>
+      </div>
+      <div class="rev-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>„Termin vor Ort in Ingolstadt, freundlich und ehrlich beraten. Kein Drücken am Preis, keine versteckten Kosten. So muss Autoverkauf sein.“</p>
+        <div class="rev-meta">
+          <div class="rev-av">TD</div>
+          <div><div class="nm">Thomas D.</div><div class="dt">vor 1 Monat</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rev-summary reveal">
+      <div class="gscore">4,9</div>
+      <div class="gmeta">
+        <div class="gstars">★★★★★</div>
+        <div class="gt">basierend auf 87 Bewertungen</div>
+      </div>
+      <div class="gdiv"></div>
+      <div class="gword"><span class="gicon">G</span> Google Rezensionen</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final" id="kontakt">
+  <div class="wrap final-grid">
+    <div class="final-copy reveal">
+      <span class="eyebrow" style="color:var(--mist)">Bereit, wenn du es bist</span>
+      <h2>Bereit? Wir machen<br>dir ein Angebot.</h2>
+      <p>Schreib uns kurz auf WhatsApp oder ruf direkt an — meist hast du dein Angebot noch am selben Tag.</p>
+      <a href="tel:+490000000000" class="btn btn-ghost-light final-call">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.5 4h3l1.4 4-2 1.3a11 11 0 0 0 5.3 5.3l1.3-2 4 1.4v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4.5 6.2 2 2 0 0 1 6.5 4z"></path>
+        </svg>
+        Jetzt anrufen
+      </a>
+      <div class="final-trust"><span class="pulse" style="background:#fff"></span> Persönliche Antwort, kein Bot</div>
+    </div>
+
+    <form class="wa-card reveal" id="waForm" novalidate>
+      <div class="wa-head">
+        <span class="wa-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19l1.3-3.2A7.5 7.5 0 1 1 8.2 18.7L4 19z"></path>
+            <path d="M8.8 9.2c-.2 1 .3 2.2 1.3 3.3s2.3 1.6 3.3 1.4c.5-.1.8-.6.9-1.1l-1.6-.8-.7.7a4.2 4.2 0 0 1-1.6-1.6l.7-.7-.8-1.6c-.5.1-1 .4-1.2.9z"></path>
+          </svg>
+        </span>
+        <div>
+          <div class="wa-title">Per WhatsApp anfragen</div>
+          <div class="wa-sub">In 30 Sekunden ausgefüllt — wir melden uns.</div>
+        </div>
+      </div>
+
+      <div class="wa-field">
+        <label for="waName">Name</label>
+        <input class="wa-input" id="waName" type="text" placeholder="Vor- &amp; Nachname" autocomplete="name">
+      </div>
+      <div class="wa-field">
+        <label for="waVehicle">Fahrzeug</label>
+        <input class="wa-input" id="waVehicle" type="text" placeholder="z. B. VW Golf oder HSN/TSN">
+      </div>
+      <div class="wa-field">
+        <label for="waMsg">Nachricht <span class="opt">optional</span></label>
+        <textarea class="wa-area" id="waMsg" rows="2" placeholder="Kilometerstand, Baujahr, Zustand …"></textarea>
+      </div>
+
+      <button type="submit" class="btn wa-submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19l1.3-3.2A7.5 7.5 0 1 1 8.2 18.7L4 19z"></path>
+          <path d="M8.8 9.2c-.2 1 .3 2.2 1.3 3.3s2.3 1.6 3.3 1.4c.5-.1.8-.6.9-1.1l-1.6-.8-.7.7a4.2 4.2 0 0 1-1.6-1.6l.7-.7-.8-1.6c-.5.1-1 .4-1.2.9z"></path>
+        </svg>
+        Auf WhatsApp senden
+      </button>
+      <p class="wa-note">Du wirst zu WhatsApp weitergeleitet — deine Nachricht ist bereits vorbereitet.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="fb">auto<span class="dash">-</span>in</div>
+      <div class="foot-loc">Fahrzeugankauf · Ingolstadt &amp; Umgebung</div>
+    </div>
+    <div class="foot-links">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <div class="foot-legal">© 2026 auto-in</div>
+  </div>
+</footer>
+
+<script src="js/auto-in.js"></script>
+</body>
+</html>

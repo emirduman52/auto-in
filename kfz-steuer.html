@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kfz-Steuer-Rechner — auto-in Ingolstadt</title>
+<meta name="description" content="Kostenloser Kfz-Steuer-Rechner: voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">auto<span class="dash">-</span>in<span class="dot"></span></a>
+    <nav class="nav-links">
+      <a href="index.html#bewerter">Bewertung</a>
+      <a href="index.html#bewertungen">Kunden</a>
+      <a href="kfz-steuer.html">Kfz-Steuer</a>
+      <a href="index.html#kontakt" class="btn nav-cta">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============ KFZ-STEUER-RECHNER ============ -->
+<section class="block" id="steuer">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Kostenloser Service</span>
+      <h2>Kfz-Steuer-Rechner</h2>
+      <p>Berechne die voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.</p>
+    </div>
+
+    <div class="tx-card reveal">
+      <div class="tx-grid">
+        <div class="tx-form">
+          <div class="tx-field">
+            <label>Kraftstoffart</label>
+            <div class="tx-seg">
+              <label><input type="radio" name="txFuel" value="benzin" checked>Benzin (Otto)</label>
+              <label><input type="radio" name="txFuel" value="diesel">Diesel</label>
+            </div>
+          </div>
+          <div class="tx-field">
+            <label for="txHubraum">Hubraum (cm³)</label>
+            <input class="tx-input" id="txHubraum" inputmode="numeric" placeholder="z. B. 1498">
+          </div>
+          <div class="tx-field">
+            <label for="txCo2">CO₂-Ausstoß (g/km)</label>
+            <input class="tx-input" id="txCo2" inputmode="numeric" placeholder="z. B. 120">
+            <div class="tx-hint">Findest du im Fahrzeugschein, Feld V.7.</div>
+          </div>
+          <div class="tx-field">
+            <label for="txDate">Datum der Erstzulassung</label>
+            <input class="tx-date" id="txDate" type="date">
+          </div>
+        </div>
+
+        <div class="tx-result">
+          <div id="txLocked">
+            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer</div>
+            <p class="tx-locked-p">Fülle die Felder aus, um die voraussichtliche Steuer zu berechnen.</p>
+          </div>
+          <div id="txLive" style="display:none">
+            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer (ca.)</div>
+            <div class="tx-amount"><span id="txAmount">0</span><span class="per">€ / Jahr</span></div>
+            <div class="tx-break">
+              <div class="tx-row"><span>Hubraum-Anteil</span><b id="txHubRow">0,00 €</b></div>
+              <div class="tx-row"><span>CO₂-Anteil</span><b id="txCo2Row">0,00 €</b></div>
+            </div>
+            <div id="txHint" class="tx-note" style="display:none"></div>
+            <p class="tx-note">Unverbindliche Berechnung. Maßgeblich ist der Steuerbescheid des Hauptzollamts.</p>
+          </div>
+          <div class="tx-cta">
+            <a href="index.html#bewerter">Auto verkaufen statt weiter Steuer zahlen? Jetzt Wert ermitteln →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="fb">auto<span class="dash">-</span>in</div>
+      <div class="foot-loc">Fahrzeugankauf · Ingolstadt &amp; Umgebung</div>
+    </div>
+    <div class="foot-links">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </div>
+    <div class="foot-legal">© 2026 auto-in</div>
+  </div>
+</footer>
+
+<script src="js/auto-in.js"></script>
+</body>
+</html>

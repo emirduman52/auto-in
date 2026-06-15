@@ -17,8 +17,8 @@
     <a href="#top" class="brand">auto<span class="dash">-</span>in<span class="dot"></span></a>
     <nav class="nav-links">
       <a href="#bewerter">Bewertung</a>
-      <a href="#steuer">Kfz-Steuer</a>
       <a href="#bewertungen">Kunden</a>
+      <a href="kfz-steuer.html">Kfz-Steuer</a>
       <a href="#kontakt" class="btn nav-cta">Kontakt</a>
     </nav>
   </div>
@@ -240,64 +240,6 @@
         <div class="wz-title">Vielen Dank!</div>
         <div class="wz-sub" style="margin-bottom:8px">Du wirst zu WhatsApp weitergeleitet — deine Nachricht ist bereits vorbereitet. Wir melden uns nach Erhalt mit deinem persönlichen Angebot.</div>
         <a href="#kontakt" class="btn wz-cta" style="max-width:280px">Direkt Kontakt aufnehmen →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ KFZ-STEUER-RECHNER ============ -->
-<section class="block" id="steuer" style="background:var(--fog);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Kostenloser Service</span>
-      <h2>Kfz-Steuer-Rechner</h2>
-      <p>Berechne die voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.</p>
-    </div>
-
-    <div class="tx-card reveal">
-      <div class="tx-grid">
-        <div class="tx-form">
-          <div class="tx-field">
-            <label>Kraftstoffart</label>
-            <div class="tx-seg">
-              <label><input type="radio" name="txFuel" value="benzin" checked>Benzin (Otto)</label>
-              <label><input type="radio" name="txFuel" value="diesel">Diesel</label>
-            </div>
-          </div>
-          <div class="tx-field">
-            <label for="txHubraum">Hubraum (cm³)</label>
-            <input class="tx-input" id="txHubraum" inputmode="numeric" placeholder="z. B. 1498">
-          </div>
-          <div class="tx-field">
-            <label for="txCo2">CO₂-Ausstoß (g/km)</label>
-            <input class="tx-input" id="txCo2" inputmode="numeric" placeholder="z. B. 120">
-            <div class="tx-hint">Findest du im Fahrzeugschein, Feld V.7.</div>
-          </div>
-          <div class="tx-field">
-            <label for="txDate">Datum der Erstzulassung</label>
-            <input class="tx-date" id="txDate" type="date">
-          </div>
-        </div>
-
-        <div class="tx-result">
-          <div id="txLocked">
-            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer</div>
-            <p class="tx-locked-p">Fülle die Felder aus, um die voraussichtliche Steuer zu berechnen.</p>
-          </div>
-          <div id="txLive" style="display:none">
-            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer (ca.)</div>
-            <div class="tx-amount"><span id="txAmount">0</span><span class="per">€ / Jahr</span></div>
-            <div class="tx-break">
-              <div class="tx-row"><span>Hubraum-Anteil</span><b id="txHubRow">0,00 €</b></div>
-              <div class="tx-row"><span>CO₂-Anteil</span><b id="txCo2Row">0,00 €</b></div>
-            </div>
-            <div id="txHint" class="tx-note" style="display:none"></div>
-            <p class="tx-note">Unverbindliche Berechnung. Maßgeblich ist der Steuerbescheid des Hauptzollamts.</p>
-          </div>
-          <div class="tx-cta">
-            <a href="#bewerter">Auto verkaufen statt weiter Steuer zahlen? Jetzt Wert ermitteln →</a>
-          </div>
-        </div>
       </div>
     </div>
   </div>

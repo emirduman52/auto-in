@@ -58,6 +58,21 @@
     gebrauchsspuren: "Gebrauchsspuren", defekt: "Reparaturbedarf / Defekt"
   };
 
+  // Statt einer konkreten Euro-Zahl zeigt der Wizard nur eine grobe
+  // Größenordnung. Das vermeidet falsche Erwartungen — der verbindliche
+  // Preis kommt erst nach der persönlichen Besichtigung.
+  // "bis" = Obergrenze (in €) für diese Stufe, "text" = angezeigte Einordnung.
+  // Frei anpassbar: Schwellen und Wortlaut hier ändern.
+  var GROESSENORDNUNGEN = [
+    { bis:  1500,    text: "im niedrigen vierstelligen Bereich" },
+    { bis:  4000,    text: "im unteren vierstelligen Bereich" },
+    { bis:  7000,    text: "im mittleren vierstelligen Bereich" },
+    { bis: 10000,    text: "im oberen vierstelligen Bereich" },
+    { bis: 20000,    text: "im unteren fünfstelligen Bereich" },
+    { bis: 35000,    text: "im mittleren fünfstelligen Bereich" },
+    { bis: Infinity, text: "im oberen fünfstelligen Bereich" }
+  ];
+
   // Hinweis: Die Lead-Abgabe erfolgt per WhatsApp (siehe WHATSAPP_NUMBER weiter unten).
   // Eine E-Mail-Adresse wird nicht mehr benötigt.
 
@@ -120,11 +135,21 @@
     return { low: round(wert * (1 - SPANNE)), high: round(wert * (1 + SPANNE)) };
   }
 
+  // grobe Größenordnung statt konkreter Zahl (siehe GROESSENORDNUNGEN)
+  function groessenordnung(low, high) {
+    var mid = (low + high) / 2;
+    for (var i = 0; i < GROESSENORDNUNGEN.length; i++) {
+      if (mid < GROESSENORDNUNGEN[i].bis) return GROESSENORDNUNGEN[i].text;
+    }
+    return GROESSENORDNUNGEN[GROESSENORDNUNGEN.length - 1].text;
+  }
+
   var wizard = $("#wizard");
   if (wizard) {
     var QUESTIONS = 4;
     var state = { segment: "", jahr: "", km: 0, zustand: "", step: 0 };
     var lastEst = { low: 0, high: 0 };
+    var lastBand = "";
 
     var panes   = $$(".wz-pane", wizard);
     var wzStepNo = $("#wzStepNo"), wzProg = $("#wzProg");
@@ -165,8 +190,9 @@
 
     function computeResult() {
       lastEst = schaetzwert(state.segment, +state.jahr, state.km, state.zustand);
+      lastBand = groessenordnung(lastEst.low, lastEst.high);
       wzVeh.textContent = SEGMENT_LABEL[state.segment] + " · EZ " + state.jahr + " · " + fmt(state.km) + " km";
-      wzRange.textContent = fmt(lastEst.low) + " – " + fmt(lastEst.high);
+      wzRange.textContent = lastBand;
       wzActions.style.display = "none";
       wzProg.style.width = "100%";
       showPane("result");
@@ -237,7 +263,7 @@
         "Erstzulassung: " + state.jahr,
         "Kilometerstand: " + fmt(state.km) + " km",
         "Zustand: " + (ZUSTAND_LABEL[state.zustand] || "-"),
-        "Online-Schätzung: ca. " + fmt(lastEst.low) + " – " + fmt(lastEst.high) + " €", "",
+        "Online-Einordnung: " + lastBand, "",
         "Name: " + name
       ];
       if (phone) lines.push("Telefon: " + phone);

@@ -398,6 +398,8 @@
   .wz-veh{font-family:var(--font-display);font-weight:600;font-size:15.5px;color:#fff;margin-top:8px}
   .wz-range{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(38px,6.4vw,60px);color:#fff;margin-top:14px;line-height:1}
   .wz-range .cur{color:var(--mist);font-size:.5em;font-weight:600;margin-left:4px}
+  .wz-range-text{font-size:clamp(22px,3.4vw,32px);line-height:1.2;letter-spacing:-.01em}
+  .wz-range-text #wzRange{white-space:nowrap}
   .wz-disclaimer{margin-top:24px;font-size:13px;color:var(--mist);line-height:1.6;padding:16px 18px;border:1px solid rgba(255,255,255,.14);border-radius:var(--r-sm);background:rgba(255,255,255,.03)}
   .wz-cta{margin-top:24px;width:100%;justify-content:center;background:#fff;color:var(--ink);border-color:#fff}
   .wz-cta:hover{background:#eaeaec}

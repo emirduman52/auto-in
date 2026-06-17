@@ -371,13 +371,31 @@
 
   var waForm = $("#waForm");
   if (waForm) {
+    var waErr = $("#waErr");
     waForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var lines = ["Hallo auto-in, ich interessiere mich für den Verkauf meines Fahrzeugs."];
-      var n = $("#waName").value.trim(), v = $("#waVehicle").value.trim(), m = $("#waMsg").value.trim();
-      if (n) lines.push("Name: " + n);
-      if (v) lines.push("Fahrzeug: " + v);
-      if (m) lines.push("Details: " + m);
+      var v = function (id) { return $(id).value.trim(); };
+      var name = v("#waName"), phone = v("#waPhone"), vehicle = v("#waVehicle");
+      var year = v("#waYear"), km = v("#waKm"), cond = $("#waCond").value, msg = v("#waMsg");
+
+      // Pflichtfelder, damit nicht nur vage Infos ankommen
+      if (!name)    { waErr.textContent = "Bitte gib deinen Namen an.";        return; }
+      if (!vehicle) { waErr.textContent = "Bitte Marke & Modell angeben.";     return; }
+      if (!year)    { waErr.textContent = "Bitte die Erstzulassung angeben.";  return; }
+      if (!km)      { waErr.textContent = "Bitte den Kilometerstand angeben."; return; }
+      waErr.textContent = "";
+
+      var lines = [
+        "Hallo auto-in, ich möchte mein Fahrzeug verkaufen.", "",
+        "Name: " + name
+      ];
+      if (phone) lines.push("Telefon: " + phone);
+      lines.push("Fahrzeug: " + vehicle);
+      lines.push("Erstzulassung: " + year);
+      lines.push("Kilometerstand: " + km + " km");
+      if (cond) lines.push("Zustand: " + cond);
+      if (msg)  lines.push("Nachricht: " + msg);
+
       window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join(NL)), "_blank", "noopener");
     });
   }

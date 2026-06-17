@@ -351,11 +351,16 @@
 
   .wa-card{background:#111214;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:32px 30px;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
   .wa-head{display:flex;align-items:center;gap:14px;margin-bottom:24px}
-  .wa-ic{flex:none;width:46px;height:46px;border-radius:13px;border:1px solid rgba(255,255,255,.18);display:grid;place-items:center;color:#fff}
-  .wa-ic svg{width:23px;height:23px}
+  .wa-ic{flex:none;width:46px;height:46px;border-radius:13px;border:1px solid rgba(37,211,102,.35);background:rgba(37,211,102,.12);display:grid;place-items:center;color:var(--wa)}
+  .wa-ic svg{width:24px;height:24px}
   .wa-title{font-family:var(--font-display);font-weight:600;font-size:16.5px;color:#fff;letter-spacing:-.01em}
   .wa-sub{font-size:13px;color:var(--mist);margin-top:2px}
   .wa-field{margin-bottom:15px}
+  .wa-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .wa-row .wa-field{margin-bottom:15px}
+  .wa-err{color:#ff9b9b;font-size:13px;margin:2px 0 12px;min-height:0}
+  .wa-err:empty{margin:0}
+  .wa-card .select-wrap select{font-size:16px;padding:13px 15px}
   .wa-field label{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:600;font-size:13px;color:#fff;margin-bottom:8px}
   .wa-field label .opt{font-weight:500;font-size:11.5px;color:var(--slate);letter-spacing:0}
   .wa-input,.wa-area{width:100%;font-family:var(--font-body);font-size:16px;background:#0e0f10;border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:var(--r-sm);padding:13px 15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}

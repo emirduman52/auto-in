@@ -303,33 +303,32 @@
   .rl-cta{margin-top:22px;width:100%;background:#fff;color:var(--ink);border-color:#fff}
   .rl-cta:hover{background:#eaeaec}
 
-  /* ---------- Bewertung: Ablauf + Tool nebeneinander ---------- */
-  .bewerter-grid{display:grid;grid-template-columns:0.82fr 1px 1.18fr;gap:46px;align-items:stretch}
-  .bewerter-sep{background:var(--line-2);width:1px}
+  /* ---------- Bewertung: Ablauf + Tool nebeneinander (dunkle Sektion) ---------- */
+  .bewerter-grid{display:grid;grid-template-columns:0.82fr 1px 1.18fr;gap:46px;align-items:start}
+  .bewerter-sep{background:rgba(255,255,255,.12);width:1px}
 
-  .ablauf-col{align-self:center}
-  .ablauf-h{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;font-size:clamp(24px,2.6vw,31px);line-height:1.05;margin-top:14px;color:var(--ink)}
+  .ablauf-col{align-self:start}
+  .ablauf-h{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;font-size:clamp(24px,2.6vw,31px);line-height:1.05;margin-top:14px;color:#fff}
   .steps-v{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:24px}
   .step-v{display:flex;gap:16px;align-items:flex-start;position:relative}
   .step-v .step-no{
     flex:none;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.02em;
     width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
-    background:var(--ink);color:#fff;position:relative;z-index:1;
+    background:#fff;color:var(--ink);position:relative;z-index:1;
   }
-  .step-v::after{content:"";position:absolute;left:19.25px;top:40px;bottom:-24px;width:1.5px;background:var(--line-2)}
+  .step-v::after{content:"";position:absolute;left:19.25px;top:40px;bottom:-24px;width:1.5px;background:rgba(255,255,255,.18)}
   .step-v:last-child::after{display:none}
-  .step-title{font-family:var(--font-display);font-weight:600;font-size:16.5px;letter-spacing:-.01em;color:var(--ink)}
-  .step-tx p{margin-top:5px;color:var(--steel);font-size:14px;line-height:1.5}
+  .step-title{font-family:var(--font-display);font-weight:600;font-size:16.5px;letter-spacing:-.01em;color:#fff}
+  .step-tx p{margin-top:5px;color:var(--mist);font-size:14px;line-height:1.5}
 
   .bw-head{margin-bottom:28px}
-  .bw-head h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(26px,3.2vw,38px);line-height:1.02;margin-top:14px;color:var(--ink)}
-  .bw-head p{margin-top:14px;color:var(--steel);font-size:15.5px;max-width:46ch}
+  .bw-head h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(26px,3.2vw,38px);line-height:1.02;margin-top:14px;color:#fff}
+  .bw-head p{margin-top:14px;color:var(--mist);font-size:15.5px;max-width:46ch}
   .bewerter-tool .wizard{max-width:none;margin:0}
 
   @media (max-width:900px){
     .bewerter-grid{grid-template-columns:1fr;gap:40px}
     .bewerter-sep{width:auto;height:1px}
-    .ablauf-col{align-self:stretch}
   }
 
   /* ---------- Reviews ---------- */

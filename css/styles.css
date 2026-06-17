@@ -69,6 +69,7 @@
   }
   .nav-links a:not(.nav-cta):hover{color:var(--ink)}
   .nav-links .nav-cta{display:none}
+  .nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#fff}
 
   /* ---------- Buttons ---------- */
   .btn{
@@ -539,7 +540,8 @@
     .final-call{width:100%;justify-content:center}
     .rev-summary{gap:14px;padding:20px 18px}
     .gdiv{display:none}
-    .foot{flex-direction:column;align-items:flex-start;gap:18px}
+    .foot{flex-direction:column;align-items:flex-start;gap:24px}
+    .foot-legal{width:100%;padding-top:22px;border-top:1px solid rgba(255,255,255,.08)}
   }
   @media (max-width:520px){
     .trust-grid{grid-template-columns:1fr}

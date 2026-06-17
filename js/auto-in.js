@@ -375,7 +375,7 @@
     waForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var v = function (id) { return $(id).value.trim(); };
-      var name = v("#waName"), phone = v("#waPhone"), vehicle = v("#waVehicle");
+      var name = v("#waName"), vehicle = v("#waVehicle");
       var year = v("#waYear"), km = v("#waKm"), cond = $("#waCond").value, msg = v("#waMsg");
 
       // Pflichtfelder, damit nicht nur vage Infos ankommen
@@ -389,7 +389,6 @@
         "Hallo auto-in, ich möchte mein Fahrzeug verkaufen.", "",
         "Name: " + name
       ];
-      if (phone) lines.push("Telefon: " + phone);
       lines.push("Fahrzeug: " + vehicle);
       lines.push("Erstzulassung: " + year);
       lines.push("Kilometerstand: " + km + " km");

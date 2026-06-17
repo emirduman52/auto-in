@@ -76,6 +76,20 @@
   // Hinweis: Die Lead-Abgabe erfolgt per WhatsApp (siehe WHATSAPP_NUMBER weiter unten).
   // Eine E-Mail-Adresse wird nicht mehr benötigt.
 
+  /* --- Hero: rotierende "Letzter Ankauf"-Beispiele ------------------- */
+  // Jeden Tag wird automatisch der nächste Eintrag angezeigt (loopt durch).
+  // Frei erweiterbar: Fahrzeug, Preis (in €) und Auszahlungs-Text.
+  var ANKAUF_BEISPIELE = [
+    { auto: "VW Tiguan",       preis:  8450, dauer: "ausgezahlt in 24 Std." },
+    { auto: "BMW 320d",        preis: 11900, dauer: "ausgezahlt in 24 Std." },
+    { auto: "Audi A4 Avant",   preis:  9700, dauer: "ausgezahlt am selben Tag" },
+    { auto: "Mercedes A 180",  preis:  7300, dauer: "ausgezahlt in 24 Std." },
+    { auto: "VW Golf VII",     preis:  6850, dauer: "ausgezahlt am selben Tag" },
+    { auto: "Škoda Octavia",   preis:  8200, dauer: "ausgezahlt in 24 Std." },
+    { auto: "Opel Astra",      preis:  4900, dauer: "ausgezahlt am selben Tag" },
+    { auto: "Ford Focus",      preis:  5600, dauer: "ausgezahlt in 24 Std." }
+  ];
+
   /* --- Aufgabe 2: Kfz-Steuer-Rechner --------------------------------- */
   /* WICHTIG: Diese Sätze/Freibeträge gegen die offizielle Quelle
      (Zoll / Bundesministerium der Finanzen) prüfen und bei jeder
@@ -397,6 +411,19 @@
 
       window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join(NL)), "_blank", "noopener");
     });
+  }
+
+
+  /* =============  Hero: täglich rotierender "Letzter Ankauf"  ========= */
+  var heroCard = $(".hero-card");
+  if (heroCard && ANKAUF_BEISPIELE.length) {
+    var hcV = $(".v", heroCard), hcSub = $(".sub", heroCard);
+    if (hcV && hcSub) {
+      var tagNr = Math.floor(Date.now() / 86400000); // ganze Tage seit 1970
+      var b = ANKAUF_BEISPIELE[tagNr % ANKAUF_BEISPIELE.length];
+      hcV.textContent = fmt(b.preis) + " €";
+      hcSub.textContent = b.auto + " · " + b.dauer;
+    }
   }
 
 

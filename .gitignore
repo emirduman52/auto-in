@@ -9,3 +9,6 @@
 # Logs / temp
 *.log
 node_modules/
+
+# Bild-Quelldateien (nur optimierte Versionen in assets/ werden eingecheckt)
+/ChatGPT Image*.png

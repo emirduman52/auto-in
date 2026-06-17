@@ -417,6 +417,8 @@
   .foot-links a{font-size:13.5px;color:var(--mist);transition:color .2s}
   .foot-links a:hover{color:#fff}
   .foot-legal{font-size:12px;color:var(--slate)}
+  .foot-legal a{color:var(--mist);transition:color .2s var(--ease)}
+  .foot-legal a:hover{color:#fff}
 
   /* ---------- Wizard (Sofort-Bewertung) ---------- */
   .wizard{max-width:700px;margin:0 auto;background:var(--graphite);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:38px;min-height:430px;display:flex;flex-direction:column;box-shadow:0 30px 70px -40px rgba(0,0,0,.7)}

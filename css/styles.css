@@ -303,6 +303,27 @@
   .rl-cta{margin-top:22px;width:100%;background:#fff;color:var(--ink);border-color:#fff}
   .rl-cta:hover{background:#eaeaec}
 
+  /* ---------- Ablauf / Phasenplan ---------- */
+  .steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .step{position:relative}
+  .step-no{
+    font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:.02em;
+    width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+    background:var(--ink);color:#fff;position:relative;z-index:1;margin-bottom:20px;
+  }
+  .step::after{content:"";position:absolute;top:24px;left:48px;right:-24px;height:1.5px;background:var(--line-2)}
+  .step:last-child::after{display:none}
+  .step-title{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--ink)}
+  .step p{margin-top:8px;color:var(--steel);font-size:14.5px;line-height:1.55}
+  @media (max-width:860px){
+    .steps{grid-template-columns:repeat(2,1fr);gap:34px 24px}
+    .step:nth-child(2n)::after{display:none}
+  }
+  @media (max-width:520px){
+    .steps{grid-template-columns:1fr;gap:26px}
+    .step::after{display:none}
+  }
+
   /* ---------- Reviews ---------- */
   .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   .rev-card{

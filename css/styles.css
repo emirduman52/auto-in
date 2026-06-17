@@ -303,25 +303,33 @@
   .rl-cta{margin-top:22px;width:100%;background:#fff;color:var(--ink);border-color:#fff}
   .rl-cta:hover{background:#eaeaec}
 
-  /* ---------- Ablauf / Phasenplan ---------- */
-  .steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-  .step{position:relative}
-  .step-no{
-    font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:.02em;
-    width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
-    background:var(--ink);color:#fff;position:relative;z-index:1;margin-bottom:20px;
+  /* ---------- Bewertung: Ablauf + Tool nebeneinander ---------- */
+  .bewerter-grid{display:grid;grid-template-columns:0.82fr 1px 1.18fr;gap:46px;align-items:stretch}
+  .bewerter-sep{background:var(--line-2);width:1px}
+
+  .ablauf-col{align-self:center}
+  .ablauf-h{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;font-size:clamp(24px,2.6vw,31px);line-height:1.05;margin-top:14px;color:var(--ink)}
+  .steps-v{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:24px}
+  .step-v{display:flex;gap:16px;align-items:flex-start;position:relative}
+  .step-v .step-no{
+    flex:none;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.02em;
+    width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+    background:var(--ink);color:#fff;position:relative;z-index:1;
   }
-  .step::after{content:"";position:absolute;top:24px;left:48px;right:-24px;height:1.5px;background:var(--line-2)}
-  .step:last-child::after{display:none}
-  .step-title{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--ink)}
-  .step p{margin-top:8px;color:var(--steel);font-size:14.5px;line-height:1.55}
-  @media (max-width:860px){
-    .steps{grid-template-columns:repeat(2,1fr);gap:34px 24px}
-    .step:nth-child(2n)::after{display:none}
-  }
-  @media (max-width:520px){
-    .steps{grid-template-columns:1fr;gap:26px}
-    .step::after{display:none}
+  .step-v::after{content:"";position:absolute;left:19.25px;top:40px;bottom:-24px;width:1.5px;background:var(--line-2)}
+  .step-v:last-child::after{display:none}
+  .step-title{font-family:var(--font-display);font-weight:600;font-size:16.5px;letter-spacing:-.01em;color:var(--ink)}
+  .step-tx p{margin-top:5px;color:var(--steel);font-size:14px;line-height:1.5}
+
+  .bw-head{margin-bottom:28px}
+  .bw-head h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(26px,3.2vw,38px);line-height:1.02;margin-top:14px;color:var(--ink)}
+  .bw-head p{margin-top:14px;color:var(--steel);font-size:15.5px;max-width:46ch}
+  .bewerter-tool .wizard{max-width:none;margin:0}
+
+  @media (max-width:900px){
+    .bewerter-grid{grid-template-columns:1fr;gap:40px}
+    .bewerter-sep{width:auto;height:1px}
+    .ablauf-col{align-self:stretch}
   }
 
   /* ---------- Reviews ---------- */

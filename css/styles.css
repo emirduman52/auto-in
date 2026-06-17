@@ -67,7 +67,7 @@
     font-size:14.5px;font-weight:500;color:var(--steel);
     transition:color .2s var(--ease);
   }
-  .nav-links a:hover{color:var(--ink)}
+  .nav-links a:not(.nav-cta):hover{color:var(--ink)}
   .nav-links .nav-cta{display:none}
 
   /* ---------- Buttons ---------- */
@@ -78,7 +78,7 @@
     padding:15px 26px;border-radius:999px;cursor:pointer;
     border:1px solid var(--ink);background:var(--ink);color:var(--white);
     transition:transform .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease), color .2s var(--ease);
-    will-change:transform;
+    will-change:transform;-webkit-tap-highlight-color:transparent;
   }
   .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(11,11,12,.55)}
   .btn:active{transform:translateY(0)}
@@ -381,6 +381,7 @@
   .final-copy h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(32px,4.6vw,54px);line-height:1.02;margin-top:16px}
   .final-copy p{margin-top:18px;color:var(--mist);font-size:17px;max-width:34ch}
   .final-call{margin-top:30px}
+  .final-call svg{width:19px;height:19px;flex:none}
   .final-trust{margin-top:22px;display:flex;align-items:center;gap:11px;font-size:13.5px;color:var(--mist)}
 
   .wa-card{background:#111214;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:32px 30px;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
@@ -532,7 +533,9 @@
     .tool-form,.tool-result{padding:24px 20px}
     .cond-grid{grid-template-columns:1fr}
     .final-grid{padding:52px 0}
+    .final .wrap{padding-left:24px;padding-right:24px}
     .wa-card{padding:24px 20px}
+    .hero-card{display:none}
     .final-call{width:100%;justify-content:center}
     .rev-summary{gap:14px;padding:20px 18px}
     .gdiv{display:none}
@@ -543,7 +546,6 @@
     .trust-item{border-right:none;border-bottom:1px solid var(--line);padding:22px 20px}
     .trust-item:last-child{border-bottom:none}
     .rev-summary{flex-direction:column;border-radius:var(--r-lg);text-align:center}
-    .hero-card{flex-direction:column;align-items:flex-start;gap:12px}
   }
   @media (max-width:400px){
     .hero h1{font-size:34px}

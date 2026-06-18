@@ -381,7 +381,7 @@
   /* =====================  WhatsApp-Anfrage (Footer-CTA)  ============== */
   /* === HIER eure WhatsApp-Nummer eintragen: international, ohne + und
          ohne Leerzeichen. Beispiel Deutschland: 4917012345678 === */
-  var WHATSAPP_NUMBER = "490000000000";
+  var WHATSAPP_NUMBER = "4916095225588";
 
   var waForm = $("#waForm");
   if (waForm) {

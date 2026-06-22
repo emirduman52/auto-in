@@ -479,6 +479,17 @@
   }
 
 
+  /* =========  Rezensionen-Marquee: Karten für nahtlosen Lauf klonen  = */
+  var revTrack = $("#revTrack");
+  if (revTrack) {
+    $$(".rev-card", revTrack).forEach(function (c) {
+      var clone = c.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      revTrack.appendChild(clone);
+    });
+  }
+
+
   /* =====================  Scroll-Reveal  ============================= */
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e, i) {

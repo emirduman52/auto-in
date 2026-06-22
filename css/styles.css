@@ -389,6 +389,17 @@
     padding:30px 28px;transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
   }
   .rev-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(11,11,12,.35);border-color:var(--line-2)}
+
+  /* Rezensionen-Marquee (durchlaufender Slider) */
+  .rev-marquee{position:relative;overflow:hidden;width:100%;padding:8px 0}
+  .rev-marquee::before,.rev-marquee::after{content:"";position:absolute;top:0;bottom:0;width:12%;max-width:160px;z-index:2;pointer-events:none}
+  .rev-marquee::before{left:0;background:linear-gradient(to right,var(--paper),transparent)}
+  .rev-marquee::after{right:0;background:linear-gradient(to left,var(--paper),transparent)}
+  .rev-track{display:flex;gap:22px;width:max-content;will-change:transform;animation:revScroll 48s linear infinite}
+  .rev-marquee:hover .rev-track{animation-play-state:paused}
+  .rev-track .rev-card{flex:none;width:370px;margin:8px 0}
+  @keyframes revScroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 11px))}}
+  @media (prefers-reduced-motion:reduce){.rev-track{animation:none}.rev-marquee{overflow-x:auto}}
   .stars{display:flex;gap:3px;color:var(--ink);font-size:17px;letter-spacing:1px}
   .rev-card p{margin-top:18px;color:var(--steel);font-size:15px;line-height:1.6}
   .rev-meta{margin-top:24px;display:flex;align-items:center;gap:13px}
@@ -632,6 +643,7 @@
   @media (max-width:620px){
     .wrap{padding:0 18px}
     .mobile-menu{padding-top:92px}
+    .rev-track .rev-card{width:290px;padding:24px 22px}
     section.block{padding:60px 0}
     .sec-head{margin-bottom:34px}
     .hero{padding:40px 0 36px}

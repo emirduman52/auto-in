@@ -28,8 +28,8 @@
     --wa:#25d366;           /* WhatsApp-Grün */
     --wa-dark:#1ebe5a;      /* WhatsApp-Grün (Hover) */
 
-    --accent:#ffc400;       /* Akzent (Signalgelb) */
-    --accent-dark:#edb600;  /* Akzent (Hover) */
+    --accent:#ffeb00;       /* Akzent (Gelb) */
+    --accent-dark:#e6d400;  /* Akzent (Hover) */
     --accent-ink:#1c1c1c;   /* Textfarbe auf Akzent */
 
     --r-sm:10px;
@@ -140,7 +140,7 @@
   }
   .btn-ghost-light:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
   .btn-accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-  .btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--accent-ink);box-shadow:0 14px 30px -12px rgba(237,182,0,.6)}
+  .btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--accent-ink);box-shadow:0 14px 30px -12px rgba(230,212,0,.6)}
 
   /* ---------- Hero ---------- */
   .hero{padding:78px 0 64px;position:relative;overflow:hidden}

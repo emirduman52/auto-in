@@ -444,6 +444,41 @@
   }
 
 
+  /* =====================  Burger-Menü (mobil)  ======================= */
+  var navEl = $(".nav"), navLinks = $(".nav-links");
+  if (navEl && navLinks && !$(".nav-burger")) {
+    var burger = document.createElement("button");
+    burger.className = "nav-burger";
+    burger.type = "button";
+    burger.setAttribute("aria-label", "Menü öffnen");
+    burger.setAttribute("aria-expanded", "false");
+    burger.innerHTML = "<span></span><span></span><span></span>";
+    navEl.appendChild(burger);
+
+    var panel = document.createElement("div");
+    panel.className = "mobile-menu";
+    var inner = document.createElement("nav");
+    inner.className = "mobile-menu-inner";
+    $$("a", navLinks).forEach(function (a) { inner.appendChild(a.cloneNode(true)); });
+    panel.appendChild(inner);
+    document.body.appendChild(panel);
+
+    var setMenu = function (open) {
+      document.body.classList.toggle("menu-open", open);
+      burger.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      burger.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+    };
+    burger.addEventListener("click", function () {
+      setMenu(!document.body.classList.contains("menu-open"));
+    });
+    // Klick auf einen Link oder neben die Links schließt das Menü
+    $$("a", panel).forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
+    panel.addEventListener("click", function (e) { if (e.target === panel) setMenu(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+  }
+
+
   /* =====================  Scroll-Reveal  ============================= */
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e, i) {

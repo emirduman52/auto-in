@@ -435,6 +435,8 @@
   .final-actions{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
   .final-actions .btn{padding:17px 30px;font-size:16px}
   .final-actions svg{width:19px;height:19px}
+  .final-wa{background:var(--wa);border-color:var(--wa);color:#fff}
+  .final-wa:hover{background:var(--wa-dark);border-color:var(--wa-dark);color:#fff}
 
   /* ---------- Final CTA: WhatsApp-Formular ---------- */
   .final-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:60px;align-items:center;padding:100px 0;position:relative}

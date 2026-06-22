@@ -258,10 +258,11 @@
     var leadForm = $("#leadForm"), leadErr = $("#leadErr");
     leadForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name  = $("#leadName").value.trim();
-      var phone = $("#leadPhone").value.trim();
-      var email = $("#leadEmail").value.trim();
-      var msg   = $("#leadMsg").value.trim();
+      var name   = $("#leadName").value.trim();
+      var phone  = $("#leadPhone").value.trim();
+      var modell = $("#leadModell").value.trim();
+      var email  = $("#leadEmail").value.trim();
+      var msg    = $("#leadMsg").value.trim();
       var consent = $("#leadConsent").checked;
 
       if (!name) { leadErr.textContent = "Bitte gib deinen Namen an."; return; }
@@ -271,15 +272,14 @@
 
       // Lead-Abgabe per WhatsApp: Nachricht wird vorbefüllt, der Kunde
       // sendet aus seinem eigenen WhatsApp an WHATSAPP_NUMBER.
-      var lines = [
-        "Hallo auto-in, ich möchte ein unverbindliches Festangebot für mein Fahrzeug.", "",
-        "Segment: " + (SEGMENT_LABEL[state.segment] || "-"),
-        "Erstzulassung: " + state.jahr,
-        "Kilometerstand: " + fmt(state.km) + " km",
-        "Zustand: " + (ZUSTAND_LABEL[state.zustand] || "-"),
-        "Online-Einordnung: " + lastBand, "",
-        "Name: " + name
-      ];
+      var lines = ["Hallo auto-in, ich möchte ein unverbindliches Festangebot für mein Fahrzeug.", ""];
+      lines.push("Segment: " + (SEGMENT_LABEL[state.segment] || "-"));
+      if (modell) lines.push("Marke/Modell: " + modell);
+      lines.push("Erstzulassung: " + state.jahr);
+      lines.push("Kilometerstand: " + fmt(state.km) + " km");
+      lines.push("Zustand: " + (ZUSTAND_LABEL[state.zustand] || "-"));
+      lines.push("Online-Einordnung: " + lastBand, "");
+      lines.push("Name: " + name);
       if (phone) lines.push("Telefon: " + phone);
       if (email) lines.push("E-Mail: " + email);
       if (msg)   lines.push("Nachricht: " + msg);
@@ -378,42 +378,11 @@
   }
 
 
-  /* =====================  WhatsApp-Anfrage (Footer-CTA)  ============== */
-  /* === HIER eure WhatsApp-Nummer eintragen: international, ohne + und
-         ohne Leerzeichen. Beispiel Deutschland: 4917012345678 === */
+  /* === Kontaktdaten (für schwebende Buttons & finale CTA) ===
+         WhatsApp-Nummer international, ohne + und ohne Leerzeichen.
+         Telefonnummer mit +. === */
   var WHATSAPP_NUMBER = "4916095225588";
-  // Telefonnummer für den Anruf-Button (international, mit +).
   var CALL_NUMBER = "+4984195171533";
-
-  var waForm = $("#waForm");
-  if (waForm) {
-    var waErr = $("#waErr");
-    waForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var v = function (id) { return $(id).value.trim(); };
-      var name = v("#waName"), vehicle = v("#waVehicle");
-      var year = v("#waYear"), km = v("#waKm"), cond = $("#waCond").value, msg = v("#waMsg");
-
-      // Pflichtfelder, damit nicht nur vage Infos ankommen
-      if (!name)    { waErr.textContent = "Bitte gib deinen Namen an.";        return; }
-      if (!vehicle) { waErr.textContent = "Bitte Marke & Modell angeben.";     return; }
-      if (!year)    { waErr.textContent = "Bitte die Erstzulassung angeben.";  return; }
-      if (!km)      { waErr.textContent = "Bitte den Kilometerstand angeben."; return; }
-      waErr.textContent = "";
-
-      var lines = [
-        "Hallo auto-in, ich möchte mein Fahrzeug verkaufen.", "",
-        "Name: " + name
-      ];
-      lines.push("Fahrzeug: " + vehicle);
-      lines.push("Erstzulassung: " + year);
-      lines.push("Kilometerstand: " + km + " km");
-      if (cond) lines.push("Zustand: " + cond);
-      if (msg)  lines.push("Nachricht: " + msg);
-
-      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join(NL)), "_blank", "noopener");
-    });
-  }
 
 
   /* =============  Hero: täglich rotierender "Letzter Ankauf"  ========= */

@@ -58,6 +58,11 @@
     font-family:var(--font-display);
     font-size:12px;letter-spacing:.22em;text-transform:uppercase;
     color:var(--slate);font-weight:600;
+    display:inline-flex;align-items:center;gap:11px;
+  }
+  .eyebrow::before{
+    content:"";flex:none;width:24px;height:2px;
+    background:var(--accent);border-radius:2px;
   }
 
   /* ---------- Header ---------- */
@@ -225,7 +230,7 @@
 
   /* ---------- Bewerter (HSN/TSN tool) ---------- */
   #bewerter{background:var(--ink);color:var(--white)}
-  #bewerter .eyebrow{color:var(--mist)}
+  #bewerter .eyebrow{color:var(--accent)}
   #bewerter .sec-head h2{color:var(--white)}
   #bewerter .sec-head p{color:var(--mist)}
   .tool{
@@ -409,7 +414,7 @@
   .rev-track .rev-card{flex:none;width:370px;margin:8px 0}
   @keyframes revScroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 11px))}}
   @media (prefers-reduced-motion:reduce){.rev-track{animation:none}.rev-marquee{overflow-x:auto}}
-  .stars{display:flex;gap:3px;color:var(--ink);font-size:17px;letter-spacing:1px}
+  .stars{display:flex;gap:3px;color:var(--accent);font-size:17px;letter-spacing:1px;text-shadow:0 0 1px rgba(28,28,28,.35)}
   .rev-card p{margin-top:18px;color:var(--steel);font-size:15px;line-height:1.6}
   .rev-meta{margin-top:24px;display:flex;align-items:center;gap:13px}
   .rev-av{width:42px;height:42px;border-radius:50%;background:var(--fog);border:1px solid var(--line);
@@ -423,7 +428,7 @@
   }
   .gscore{font-family:var(--font-display);font-weight:700;font-size:30px;letter-spacing:-.02em}
   .gmeta{display:flex;flex-direction:column}
-  .gmeta .gstars{color:var(--ink);font-size:15px;letter-spacing:1px}
+  .gmeta .gstars{color:var(--accent);font-size:15px;letter-spacing:1px;text-shadow:0 0 1px rgba(28,28,28,.35)}
   .gmeta .gt{font-size:13px;color:var(--slate);margin-top:2px}
   .gdiv{width:1px;height:38px;background:var(--line-2)}
   .gword{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}

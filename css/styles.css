@@ -321,6 +321,15 @@
   .cond input:checked ~ .ct .dotmark::after{transform:scale(1)}
   .cond:has(input:checked){border-color:#fff;background:rgba(255,255,255,.06)}
 
+  /* Feld-Label & Checkbox-Chips im Wizard */
+  .wz-flabel{display:block;font-family:var(--font-display);font-weight:600;font-size:12.5px;color:#fff;margin:18px 0 9px}
+  .chk-grid{display:flex;flex-wrap:wrap;gap:9px}
+  .chk{position:relative;cursor:pointer}
+  .chk input{position:absolute;opacity:0;pointer-events:none}
+  .chk span{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:10px 15px;font-family:var(--font-display);font-weight:600;font-size:13.5px;color:#fff;transition:all .2s var(--ease)}
+  .chk:hover span{border-color:rgba(255,255,255,.45)}
+  .chk input:checked ~ span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
   /* result panel */
   .tool-result{
     padding:38px;background:linear-gradient(180deg,#101113,#0a0a0b);

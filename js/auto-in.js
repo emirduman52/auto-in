@@ -34,29 +34,12 @@
     transporter:  25000
   };
 
-  var SEGMENT_LABEL = {
-    kleinwagen:   "Kleinwagen",
-    kompakt:      "Kompaktklasse",
-    mittelklasse: "Mittelklasse",
-    suv:          "SUV / Geländewagen",
-    van:          "Van / Kombi",
-    premium:      "Premium / Oberklasse",
-    transporter:  "Transporter"
-  };
-
   // Wertverlust-Parameter (frei anpassbar)
   var ALTERS_ABSCHLAG_PRO_JAHR = 0.13;  // 13 % vom jeweiligen Restwert pro Jahr (exponentiell)
   var NORM_KM_PRO_JAHR         = 15000; // als "normal" angenommene Laufleistung je Jahr
   var KM_ABSCHLAG_PRO_10TKM    = 0.015; // 1,5 % Extra-Abschlag je 10.000 km über dem Normwert
   var KM_FAKTOR_MIN            = 0.55;  // Untergrenze des Kilometer-Faktors
   var SPANNE                   = 0.08;  // Ergebnis-Spanne: Schätzwert −8 % bis +8 %
-
-  // Zustands-Faktoren
-  var ZUSTAND_FAKTOR = { sehr_gut: 1.00, gut: 0.90, gebrauchsspuren: 0.78, defekt: 0.55 };
-  var ZUSTAND_LABEL  = {
-    sehr_gut: "Sehr gut", gut: "Gut",
-    gebrauchsspuren: "Gebrauchsspuren", defekt: "Reparaturbedarf / Defekt"
-  };
 
   // Statt einer konkreten Euro-Zahl zeigt der Wizard nur eine grobe
   // Größenordnung. Das vermeidet falsche Erwartungen — der verbindliche
@@ -128,8 +111,8 @@
 
   /* =========================  Aufgabe 1: WIZARD  ====================== */
 
-  function schaetzwert(segment, jahr, km, zustandKey) {
-    var basis = SEGMENT_BASISWERTE[segment];
+  function schaetzwert(segment, jahr, km, zustandFaktor) {
+    var basis = SEGMENT_BASISWERTE[segment] || 12000;
     var alter = Math.max(0, NOW_YEAR - jahr);
 
     // exponentieller Alters-Abschlag: Restwert sinkt jährlich um ALTERS_ABSCHLAG_PRO_JAHR
@@ -140,9 +123,7 @@
     var mehrKm  = Math.max(0, km - normKm);
     var kmFaktor = Math.max(KM_FAKTOR_MIN, 1 - (mehrKm / 10000) * KM_ABSCHLAG_PRO_10TKM);
 
-    var zustandFaktor = ZUSTAND_FAKTOR[zustandKey] || 1;
-
-    var wert = basis * altersFaktor * kmFaktor * zustandFaktor;
+    var wert = basis * altersFaktor * kmFaktor * (zustandFaktor || 1);
     wert = Math.max(250, wert);
 
     var round = function (n) { return Math.round(n / 50) * 50; }; // auf 50 € runden
@@ -160,129 +141,155 @@
 
   var wizard = $("#wizard");
   if (wizard) {
-    var QUESTIONS = 4;
-    var state = { segment: "", jahr: "", km: 0, zustand: "", step: 0 };
-    var lastEst = { low: 0, high: 0 };
+    var STEPS = 6;
+    var step = 0;
     var lastBand = "";
 
-    var panes   = $$(".wz-pane", wizard);
+    var panes    = $$(".wz-pane", wizard);
     var wzStepNo = $("#wzStepNo"), wzProg = $("#wzProg");
     var wzActions = $("#wzActions"), wzBack = $("#wzBack"), wzNext = $("#wzNext");
-    var wzSegment = $("#wzSegment"), wzYear = $("#wzYear"), wzKm = $("#wzKm");
-    var wzVeh = $("#wzVeh"), wzRange = $("#wzRange");
+    var wzYear = $("#wzYear"), wzKm = $("#wzKm"), wzVeh = $("#wzVeh"), wzRange = $("#wzRange");
 
     // Jahr-Dropdown füllen
-    for (var y = NOW_YEAR; y >= 1995; y--) {
+    for (var y = NOW_YEAR; y >= 1990; y--) {
       var o = document.createElement("option");
       o.value = y; o.textContent = y;
       wzYear.appendChild(o);
     }
 
+    // Hilfsfunktionen zum Auslesen
+    var val   = function (id) { var el = $(id); return el ? el.value.trim() : ""; };
+    var radio = function (name) { var el = $("input[name=" + name + "]:checked", wizard); return el ? el.value : ""; };
+    var checks = function (name) { return $$("input[name=" + name + "]:checked", wizard).map(function (c) { return c.value; }); };
+    var kmNum = function () { return parseInt((wzKm.value || "").replace(/[^0-9]/g, ""), 10) || 0; };
+
     function showPane(key) {
-      panes.forEach(function (p) {
-        p.classList.toggle("active", p.getAttribute("data-pane") === String(key));
-      });
+      panes.forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-pane") === String(key)); });
     }
 
+    // Pflichtfelder je Slide
     function stepValid(i) {
-      if (i === 0) return !!state.segment;
-      if (i === 1) return !!state.jahr;
-      if (i === 2) return state.km > 0;
-      if (i === 3) return !!state.zustand;
-      return true;
+      if (i === 0) return !!val("#wzMarke") && !!val("#wzModell") && !!$("#wzYear").value && !!$("#wzTyp").value;
+      if (i === 1) return kmNum() > 0;
+      if (i === 2) return !!radio("wzUnfall");
+      if (i === 5) return !!val("#wzPlz") && !!radio("wzAbwicklung");
+      return true; // Slides 4 & 5 (Historie, Ausstattung) optional
     }
 
     function renderQuestion() {
-      showPane(state.step);
-      wzStepNo.textContent = state.step + 1;
-      wzProg.style.width = ((state.step + 1) / QUESTIONS * 100) + "%";
+      showPane(step);
+      wzStepNo.textContent = step + 1;
+      wzProg.style.width = ((step + 1) / STEPS * 100) + "%";
       wzActions.style.display = "flex";
-      wzBack.disabled = state.step === 0;
-      wzNext.disabled = !stepValid(state.step);
-      wzNext.textContent = state.step === QUESTIONS - 1 ? "Schätzwert anzeigen →" : "Weiter →";
+      wzBack.disabled = step === 0;
+      wzNext.disabled = !stepValid(step);
+      wzNext.textContent = step === STEPS - 1 ? "Einschätzung anzeigen →" : "Weiter →";
+    }
+
+    // Kilometerstand live formatieren
+    wzKm.addEventListener("input", function () {
+      var digits = wzKm.value.replace(/[^0-9]/g, "").slice(0, 7);
+      wzKm.value = digits ? parseInt(digits, 10).toLocaleString("de-DE") : "";
+    });
+    // Alle Eingaben → Weiter-Button live prüfen
+    var recheck = function () { wzNext.disabled = !stepValid(step); };
+    wizard.addEventListener("input", recheck);
+    wizard.addEventListener("change", recheck);
+
+    // Zustands-Faktor aus den Angaben ableiten (für die grobe Schätzung)
+    function zustandFaktor() {
+      var zf = 1;
+      if (radio("wzUnfall") === "ja") zf *= (radio("wzRepariert") === "ja" ? 0.85 : 0.62);
+      var m = checks("wzMaengel");
+      if (m.indexOf("Motorschaden") >= 0) zf *= 0.50;
+      if (m.indexOf("Getriebeproblem") >= 0) zf *= 0.70;
+      if (m.indexOf("Warnleuchten aktiv") >= 0) zf *= 0.90;
+      if (m.indexOf("Sonstige Probleme") >= 0 || val("#wzMaengelText")) zf *= 0.92;
+      var sh = val("#wzScheckheft");
+      if (sh === "Ja, lückenlos") zf *= 1.04;
+      else if (sh === "Nein") zf *= 0.96;
+      return Math.max(0.35, Math.min(1.05, zf));
+    }
+
+    // Alle Angaben strukturiert sammeln (für Zusammenfassung & Nachricht)
+    function angaben() {
+      var a = [];
+      var add = function (label, v) { if (v) a.push(label + ": " + v); };
+      var typEl = $("#wzTyp");
+      add("Marke", val("#wzMarke"));
+      add("Modell", val("#wzModell"));
+      add("Erstzulassung", $("#wzYear").value);
+      add("Fahrzeugtyp", typEl.value ? typEl.options[typEl.selectedIndex].text : "");
+      add("Getriebe", radio("wzGetriebe"));
+      add("Kraftstoff", val("#wzKraftstoff"));
+      add("Motorisierung", val("#wzLeistung"));
+      add("Kilometerstand", kmNum() ? fmt(kmNum()) + " km" : "");
+      add("Vorbesitzer", val("#wzVorbesitzer"));
+      add("Besitzdauer", val("#wzBesitz"));
+      add("Unfallschaden", radio("wzUnfall") ? (radio("wzUnfall") === "ja" ? "Ja" : "Nein") : "");
+      if (radio("wzUnfall") === "ja" && radio("wzRepariert")) add("Repariert", radio("wzRepariert") === "ja" ? "Ja" : "Nein");
+      var maeng = checks("wzMaengel"); if (val("#wzMaengelText")) maeng = maeng.concat([val("#wzMaengelText")]);
+      add("Mängel", maeng.join(", "));
+      add("Scheckheft", val("#wzScheckheft"));
+      add("HU/TÜV bis", val("#wzHu"));
+      add("Letzter Service", val("#wzService"));
+      add("Ausstattung", checks("wzAusstattung").join(", "));
+      add("Bereifung", val("#wzReifen"));
+      add("Preisvorstellung", val("#wzPreis"));
+      add("Standort/PLZ", val("#wzPlz"));
+      add("Abwicklung", radio("wzAbwicklung"));
+      return a;
     }
 
     function computeResult() {
-      lastEst = schaetzwert(state.segment, +state.jahr, state.km, state.zustand);
-      lastBand = groessenordnung(lastEst.low, lastEst.high);
-      wzVeh.textContent = SEGMENT_LABEL[state.segment] + " · EZ " + state.jahr + " · " + fmt(state.km) + " km";
+      var est = schaetzwert($("#wzTyp").value, +$("#wzYear").value, kmNum(), zustandFaktor());
+      lastBand = groessenordnung(est.low, est.high);
+      wzVeh.textContent = val("#wzMarke") + " " + val("#wzModell") + " · EZ " + $("#wzYear").value + " · " + fmt(kmNum()) + " km";
       wzRange.textContent = lastBand;
       wzActions.style.display = "none";
       wzProg.style.width = "100%";
       showPane("result");
     }
 
-    // --- Eingaben an State binden ---
-    wzSegment.addEventListener("change", function () {
-      state.segment = wzSegment.value; wzNext.disabled = !stepValid(state.step);
-    });
-    wzYear.addEventListener("change", function () {
-      state.jahr = wzYear.value; wzNext.disabled = !stepValid(state.step);
-    });
-    wzKm.addEventListener("input", function () {
-      var digits = wzKm.value.replace(/[^0-9]/g, "").slice(0, 7);
-      state.km = digits ? parseInt(digits, 10) : 0;
-      wzKm.value = digits ? state.km.toLocaleString("de-DE") : "";
-      wzNext.disabled = !stepValid(state.step);
-    });
-    $$("input[name=wzCond]", wizard).forEach(function (r) {
-      r.addEventListener("change", function () {
-        state.zustand = r.value; wzNext.disabled = !stepValid(state.step);
-      });
-    });
-
     // --- Navigation ---
     wzNext.addEventListener("click", function () {
-      if (!stepValid(state.step)) return;
-      if (state.step < QUESTIONS - 1) { state.step++; renderQuestion(); }
+      if (!stepValid(step)) return;
+      if (step < STEPS - 1) { step++; renderQuestion(); }
       else { computeResult(); }
     });
     wzBack.addEventListener("click", function () {
-      if (state.step > 0) { state.step--; renderQuestion(); }
+      if (step > 0) { step--; renderQuestion(); }
     });
 
-    // --- Ergebnis → Lead-Formular ---
-    $("#wzCta").addEventListener("click", function () { showPane("lead"); });
-    $("#wzRestart").addEventListener("click", restart);
-    $("#leadBack").addEventListener("click", function () { showPane("result"); });
+    $("#wzRestart").addEventListener("click", function () {
+      $$("input, select, textarea", wizard).forEach(function (el) {
+        if (el.type === "checkbox" || el.type === "radio") el.checked = false;
+        else if (el.tagName === "SELECT") el.selectedIndex = 0;
+        else el.value = "";
+      });
+      leadErr.textContent = "";
+      step = 0; renderQuestion();
+    });
 
-    function restart() {
-      state = { segment: "", jahr: "", km: 0, zustand: "", step: 0 };
-      wzSegment.value = ""; wzYear.value = wzYear.options[0].value;
-      state.jahr = ""; wzYear.selectedIndex = 0; wzKm.value = "";
-      $$("input[name=wzCond]", wizard).forEach(function (r) { r.checked = false; });
-      renderQuestion();
-    }
-
-    // --- Lead-Formular absenden ---
+    // --- Anfrage absenden (Ergebnis-Slide) ---
     var leadForm = $("#leadForm"), leadErr = $("#leadErr");
     leadForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name   = $("#leadName").value.trim();
-      var phone  = $("#leadPhone").value.trim();
-      var modell = $("#leadModell").value.trim();
-      var email  = $("#leadEmail").value.trim();
-      var msg    = $("#leadMsg").value.trim();
+      var name  = val("#leadName"), phone = val("#leadPhone"), email = val("#leadEmail");
       var consent = $("#leadConsent").checked;
 
-      if (!name) { leadErr.textContent = "Bitte gib deinen Namen an."; return; }
+      if (!name)  { leadErr.textContent = "Bitte gib deinen Namen an."; return; }
+      if (!phone) { leadErr.textContent = "Bitte gib deine Telefonnummer an."; return; }
       if (email && !/^\S+@\S+\.\S+$/.test(email)) { leadErr.textContent = "Bitte eine gültige E-Mail-Adresse angeben."; return; }
       if (!consent) { leadErr.textContent = "Bitte stimme der Kontaktaufnahme zu (DSGVO)."; return; }
       leadErr.textContent = "";
 
-      // Lead-Abgabe per WhatsApp: Nachricht wird vorbefüllt, der Kunde
-      // sendet aus seinem eigenen WhatsApp an WHATSAPP_NUMBER.
       var lines = ["Hallo auto-in, ich möchte ein unverbindliches Festangebot für mein Fahrzeug.", ""];
-      lines.push("Segment: " + (SEGMENT_LABEL[state.segment] || "-"));
-      if (modell) lines.push("Marke/Modell: " + modell);
-      lines.push("Erstzulassung: " + state.jahr);
-      lines.push("Kilometerstand: " + fmt(state.km) + " km");
-      lines.push("Zustand: " + (ZUSTAND_LABEL[state.zustand] || "-"));
+      angaben().forEach(function (l) { lines.push(l); });
       lines.push("Online-Einordnung: " + lastBand, "");
       lines.push("Name: " + name);
-      if (phone) lines.push("Telefon: " + phone);
+      lines.push("Telefon: " + phone);
       if (email) lines.push("E-Mail: " + email);
-      if (msg)   lines.push("Nachricht: " + msg);
 
       window.open(
         "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join(NL)),

@@ -162,77 +162,208 @@
         <div class="bw-head">
           <span class="eyebrow">Sofort-Bewertung</span>
           <h2>Was ist mein Auto wert?</h2>
-          <p>In vier Schritten zur unverbindlichen Schätzung — ohne Anmeldung. Für ein verbindliches Festangebot melden wir uns persönlich.</p>
+          <p>In wenigen Schritten zur unverbindlichen Einschätzung — ohne Anmeldung. Für ein verbindliches Festangebot melden wir uns persönlich.</p>
         </div>
 
         <div class="wizard" id="wizard">
       <div class="wz-top">
-        <div class="wz-stepno">Schritt <span id="wzStepNo">1</span> von 4</div>
+        <div class="wz-stepno">Schritt <span id="wzStepNo">1</span> von 6</div>
         <div class="wz-prog"><div class="wz-prog-fill" id="wzProg"></div></div>
       </div>
 
-      <!-- 1: Segment -->
+      <!-- Slide 1: Fahrzeugbasis -->
       <div class="wz-pane active" data-pane="0">
-        <div class="wz-title">Welche Fahrzeugklasse?</div>
-        <div class="wz-sub">Wähle das Segment, das am besten passt.</div>
+        <div class="wz-title">Fahrzeugbasis</div>
+        <div class="wz-sub">Marke, Modell und die wichtigsten Eckdaten.</div>
+        <div class="lead-grid">
+          <div class="lead-field">
+            <label for="wzMarke">Marke</label>
+            <input class="input" id="wzMarke" type="text" placeholder="z. B. VW" autocomplete="off">
+          </div>
+          <div class="lead-field">
+            <label for="wzModell">Modell</label>
+            <input class="input" id="wzModell" type="text" placeholder="z. B. Golf" autocomplete="off">
+          </div>
+          <div class="lead-field">
+            <label for="wzYear">Erstzulassung</label>
+            <div class="select-wrap"><select id="wzYear"><option value="" disabled selected>Jahr …</option></select></div>
+          </div>
+          <div class="lead-field">
+            <label for="wzTyp">Fahrzeugtyp</label>
+            <div class="select-wrap">
+              <select id="wzTyp">
+                <option value="" disabled selected>Bitte wählen …</option>
+                <option value="kleinwagen">Kleinwagen</option>
+                <option value="kompakt">Kompaktklasse</option>
+                <option value="mittelklasse">Mittelklasse / Limousine</option>
+                <option value="suv">SUV / Geländewagen</option>
+                <option value="van">Kombi / Van</option>
+                <option value="premium">Premium / Oberklasse</option>
+                <option value="transporter">Transporter</option>
+              </select>
+            </div>
+          </div>
+          <div class="lead-field">
+            <label for="wzKraftstoff">Kraftstoff</label>
+            <div class="select-wrap">
+              <select id="wzKraftstoff">
+                <option value="" disabled selected>Bitte wählen …</option>
+                <option>Benzin</option>
+                <option>Diesel</option>
+                <option>Hybrid</option>
+                <option>Elektro</option>
+                <option>LPG / CNG</option>
+                <option>Sonstiges</option>
+              </select>
+            </div>
+          </div>
+          <div class="lead-field">
+            <label for="wzLeistung">Motorisierung <span class="opt">optional</span></label>
+            <input class="input" id="wzLeistung" type="text" placeholder="z. B. 1.5 TSI, 150 PS">
+          </div>
+        </div>
+        <label class="wz-flabel">Getriebe</label>
+        <div class="cond-grid">
+          <label class="cond"><input type="radio" name="wzGetriebe" value="Schaltgetriebe"><span class="ct"><span class="dotmark"></span>Schaltgetriebe</span></label>
+          <label class="cond"><input type="radio" name="wzGetriebe" value="Automatik"><span class="ct"><span class="dotmark"></span>Automatik</span></label>
+        </div>
+      </div>
+
+      <!-- Slide 2: Nutzung & Laufleistung -->
+      <div class="wz-pane" data-pane="1">
+        <div class="wz-title">Nutzung &amp; Laufleistung</div>
+        <div class="wz-sub">Kilometerstand und Besitzverhältnisse.</div>
+        <div class="lead-grid">
+          <div class="lead-field full">
+            <label for="wzKm">Kilometerstand</label>
+            <div class="km-field" style="max-width:none">
+              <input class="input km-input" id="wzKm" inputmode="numeric" placeholder="z. B. 90.000" autocomplete="off">
+              <span class="km-unit">km</span>
+            </div>
+          </div>
+          <div class="lead-field">
+            <label for="wzVorbesitzer">Vorbesitzer / Halter</label>
+            <div class="select-wrap">
+              <select id="wzVorbesitzer">
+                <option value="" disabled selected>Anzahl …</option>
+                <option>1 (Erstbesitz)</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5 oder mehr</option>
+              </select>
+            </div>
+          </div>
+          <div class="lead-field">
+            <label for="wzBesitz">Wie lange in deinem Besitz?</label>
+            <div class="select-wrap">
+              <select id="wzBesitz">
+                <option value="" disabled selected>Bitte wählen …</option>
+                <option>Unter 1 Jahr</option>
+                <option>1–3 Jahre</option>
+                <option>3–5 Jahre</option>
+                <option>5–10 Jahre</option>
+                <option>Über 10 Jahre</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Zustand -->
+      <div class="wz-pane" data-pane="2">
+        <div class="wz-title">Zustand</div>
+        <div class="wz-sub">Schäden und bekannte Probleme.</div>
+        <label class="wz-flabel" style="margin-top:0">Unfallschaden?</label>
+        <div class="cond-grid">
+          <label class="cond"><input type="radio" name="wzUnfall" value="nein"><span class="ct"><span class="dotmark"></span>Nein</span></label>
+          <label class="cond"><input type="radio" name="wzUnfall" value="ja"><span class="ct"><span class="dotmark"></span>Ja</span></label>
+        </div>
+        <label class="wz-flabel">Falls Unfall: fachgerecht repariert?</label>
+        <div class="cond-grid">
+          <label class="cond"><input type="radio" name="wzRepariert" value="ja"><span class="ct"><span class="dotmark"></span>Ja, repariert</span></label>
+          <label class="cond"><input type="radio" name="wzRepariert" value="nein"><span class="ct"><span class="dotmark"></span>Nein / unrepariert</span></label>
+        </div>
+        <label class="wz-flabel">Bekannte Mängel / technische Probleme</label>
+        <div class="chk-grid">
+          <label class="chk"><input type="checkbox" name="wzMaengel" value="Motorschaden"><span>Motorschaden</span></label>
+          <label class="chk"><input type="checkbox" name="wzMaengel" value="Getriebeproblem"><span>Getriebeproblem</span></label>
+          <label class="chk"><input type="checkbox" name="wzMaengel" value="Warnleuchten aktiv"><span>Warnleuchten</span></label>
+          <label class="chk"><input type="checkbox" name="wzMaengel" value="Sonstige Probleme"><span>Sonstige</span></label>
+          <label class="chk"><input type="checkbox" name="wzMaengel" value="Keine bekannten Mängel"><span>Keine bekannt</span></label>
+        </div>
+        <input class="input" id="wzMaengelText" type="text" placeholder="Weitere Mängel / Anmerkungen (optional)" style="margin-top:12px">
+      </div>
+
+      <!-- Slide 4: Historie & Nachweise -->
+      <div class="wz-pane" data-pane="3">
+        <div class="wz-title">Historie &amp; Nachweise</div>
+        <div class="wz-sub">Pflege und Prüfungen — alles optional.</div>
+        <div class="lead-grid">
+          <div class="lead-field">
+            <label for="wzScheckheft">Scheckheft gepflegt?</label>
+            <div class="select-wrap">
+              <select id="wzScheckheft">
+                <option value="" disabled selected>Bitte wählen …</option>
+                <option>Ja, lückenlos</option>
+                <option>Teilweise</option>
+                <option>Nein</option>
+              </select>
+            </div>
+          </div>
+          <div class="lead-field">
+            <label for="wzHu">HU/TÜV gültig bis</label>
+            <input class="input" id="wzHu" type="month">
+          </div>
+          <div class="lead-field full">
+            <label for="wzService">Letzter Service / größere Reparaturen <span class="opt">optional</span></label>
+            <input class="input" id="wzService" type="text" placeholder="z. B. Inspektion 03/2025, neue Bremsen">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: Ausstattung -->
+      <div class="wz-pane" data-pane="4">
+        <div class="wz-title">Ausstattung</div>
+        <div class="wz-sub">Was ist an Bord? (Mehrfachauswahl)</div>
+        <div class="chk-grid">
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Navigation"><span>Navi</span></label>
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Lederausstattung"><span>Leder</span></label>
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Klimaautomatik"><span>Klima</span></label>
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Sitzheizung"><span>Sitzheizung</span></label>
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Anhängerkupplung"><span>AHK</span></label>
+          <label class="chk"><input type="checkbox" name="wzAusstattung" value="Panoramadach"><span>Panoramadach</span></label>
+        </div>
+        <label class="wz-flabel">Bereifung</label>
         <div class="select-wrap">
-          <select id="wzSegment">
+          <select id="wzReifen">
             <option value="" disabled selected>Bitte wählen …</option>
-            <option value="kleinwagen">Kleinwagen</option>
-            <option value="kompakt">Kompaktklasse</option>
-            <option value="mittelklasse">Mittelklasse</option>
-            <option value="suv">SUV / Geländewagen</option>
-            <option value="van">Van / Kombi</option>
-            <option value="premium">Premium / Oberklasse</option>
-            <option value="transporter">Transporter</option>
+            <option>Sommerreifen</option>
+            <option>Winterreifen</option>
+            <option>Allwetterreifen</option>
+            <option>Sommer + Winter (2 Sätze)</option>
           </select>
         </div>
       </div>
 
-      <!-- 2: Erstzulassung -->
-      <div class="wz-pane" data-pane="1">
-        <div class="wz-title">Erstzulassung</div>
-        <div class="wz-sub">In welchem Jahr wurde das Fahrzeug erstmals zugelassen?</div>
-        <div class="select-wrap">
-          <select id="wzYear"><option value="" disabled selected>Jahr wählen …</option></select>
+      <!-- Slide 6: Preis & Abwicklung -->
+      <div class="wz-pane" data-pane="5">
+        <div class="wz-title">Preis &amp; Abwicklung</div>
+        <div class="wz-sub">Fast geschafft.</div>
+        <div class="lead-grid">
+          <div class="lead-field">
+            <label for="wzPreis">Preisvorstellung <span class="opt">optional</span></label>
+            <input class="input" id="wzPreis" inputmode="numeric" placeholder="z. B. 9.000 €">
+          </div>
+          <div class="lead-field">
+            <label for="wzPlz">Standort / PLZ</label>
+            <input class="input" id="wzPlz" type="text" placeholder="z. B. 85055" autocomplete="postal-code">
+          </div>
         </div>
-      </div>
-
-      <!-- 3: Kilometerstand -->
-      <div class="wz-pane" data-pane="2">
-        <div class="wz-title">Kilometerstand</div>
-        <div class="wz-sub">Aktueller Stand laut Tacho.</div>
-        <div class="km-field">
-          <input class="input km-input" id="wzKm" inputmode="numeric" placeholder="z. B. 90.000" autocomplete="off">
-          <span class="km-unit">km</span>
-        </div>
-      </div>
-
-      <!-- 4: Zustand -->
-      <div class="wz-pane" data-pane="3">
-        <div class="wz-title">Zustand</div>
-        <div class="wz-sub">Wie ist der Gesamtzustand des Fahrzeugs?</div>
+        <label class="wz-flabel">Abwicklung</label>
         <div class="cond-grid">
-          <label class="cond">
-            <input type="radio" name="wzCond" value="sehr_gut">
-            <span class="ct"><span class="dotmark"></span>Sehr gut</span>
-            <span class="cs">Scheckheft, keine Mängel</span>
-          </label>
-          <label class="cond">
-            <input type="radio" name="wzCond" value="gut">
-            <span class="ct"><span class="dotmark"></span>Gut</span>
-            <span class="cs">Gepflegt, normaler Zustand</span>
-          </label>
-          <label class="cond">
-            <input type="radio" name="wzCond" value="gebrauchsspuren">
-            <span class="ct"><span class="dotmark"></span>Gebrauchsspuren</span>
-            <span class="cs">Sichtbarer Verschleiß</span>
-          </label>
-          <label class="cond">
-            <input type="radio" name="wzCond" value="defekt">
-            <span class="ct"><span class="dotmark"></span>Reparaturbedarf</span>
-            <span class="cs">Defekt oder Unfallschaden</span>
-          </label>
+          <label class="cond"><input type="radio" name="wzAbwicklung" value="Abholung gewünscht"><span class="ct"><span class="dotmark"></span>Bitte abholen</span></label>
+          <label class="cond"><input type="radio" name="wzAbwicklung" value="Bringe ich vorbei"><span class="ct"><span class="dotmark"></span>Bringe ich vorbei</span></label>
         </div>
       </div>
 
@@ -242,21 +373,15 @@
         <button class="btn btn-accent wz-next" id="wzNext" type="button" disabled>Weiter →</button>
       </div>
 
-      <!-- Ergebnis -->
+      <!-- Ergebnis + Absenden -->
       <div class="wz-pane wz-result-pane" data-pane="result">
         <div class="rl-eyebrow" style="color:var(--mist);font-family:var(--font-display);font-size:11px;letter-spacing:.18em;text-transform:uppercase">Grobe Einordnung</div>
         <div class="wz-veh" id="wzVeh">—</div>
-        <div class="wz-range wz-range-text">Dein Fahrzeug liegt voraussichtlich <span id="wzRange">—</span>.</div>
+        <div class="wz-range wz-range-text" style="font-size:clamp(20px,2.8vw,27px)">Dein Fahrzeug liegt voraussichtlich <span id="wzRange">—</span>.</div>
         <div class="wz-disclaimer">Das ist nur eine grobe Orientierung, <strong style="color:#fff">kein verbindliches Angebot</strong>. Den konkreten Ankaufspreis nennen wir dir nach kurzer persönlicher Besichtigung — meist noch am selben Tag.</div>
-        <button class="btn wz-cta" id="wzCta" type="button">Jetzt unverbindliches Festangebot anfordern →</button>
-        <button class="wz-restart" id="wzRestart" type="button">Neu berechnen</button>
-      </div>
 
-      <!-- Lead-Formular -->
-      <div class="wz-pane" data-pane="lead">
-        <form id="leadForm" novalidate>
-          <div class="wz-title">Festangebot anfordern</div>
-          <div class="wz-sub">Sende uns deine Eckdaten per WhatsApp — wir melden uns mit deinem persönlichen Angebot.</div>
+        <form id="leadForm" novalidate style="margin-top:6px">
+          <label class="wz-flabel" style="margin-top:2px;font-size:14px">Anfrage absenden — wir melden uns persönlich</label>
           <div class="lead-grid">
             <div class="lead-field">
               <label for="leadName">Name</label>
@@ -267,16 +392,8 @@
               <input class="input" id="leadPhone" type="tel" placeholder="z. B. 0151 …" autocomplete="tel">
             </div>
             <div class="lead-field full">
-              <label for="leadModell">Marke &amp; Modell <span class="opt">optional</span></label>
-              <input class="input" id="leadModell" type="text" placeholder="z. B. VW Golf 1.5 TSI">
-            </div>
-            <div class="lead-field full">
               <label for="leadEmail">E-Mail <span class="opt">optional</span></label>
               <input class="input" id="leadEmail" type="email" placeholder="name@beispiel.de" autocomplete="email">
-            </div>
-            <div class="lead-field full">
-              <label for="leadMsg">Nachricht <span class="opt">optional</span></label>
-              <input class="input" id="leadMsg" type="text" placeholder="Wunschtermin, Anmerkungen …">
             </div>
           </div>
           <label class="dsgvo">
@@ -288,9 +405,9 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
             </svg>
-            Anfrage per WhatsApp senden
+            Alle Angaben per WhatsApp senden
           </button>
-          <button class="wz-restart" id="leadBack" type="button">← Zurück zur Schätzung</button>
+          <button class="wz-restart" id="wzRestart" type="button">← Neu starten</button>
         </form>
       </div>
 

@@ -468,6 +468,7 @@
   .final-hours b{color:#fff;font-weight:600}
 
   /* ---------- Standort / Karte ---------- */
+  .sec-divider{border:0;height:1px;background:var(--line);margin:0}
   .map-card{
     position:relative;display:block;margin-top:40px;border-radius:var(--r-md);
     overflow:hidden;border:1px solid var(--line);

@@ -256,8 +256,8 @@
     function anchorWizard() {
       var headerEl = document.querySelector("header");
       var off = (headerEl ? headerEl.offsetHeight : 0) + 14;
-      var target = window.pageYOffset + wizard.getBoundingClientRect().top - off;
-      if (Math.abs(target - window.pageYOffset) > 4) {
+      var target = window.scrollY + wizard.getBoundingClientRect().top - off;
+      if (Math.abs(target - window.scrollY) > 4) {
         window.scrollTo({ top: target, behavior: "smooth" });
       }
     }
@@ -283,15 +283,17 @@
 
     // --- Anfrage absenden (Ergebnis-Slide) ---
     var leadForm = $("#leadForm"), leadErr = $("#leadErr");
-    leadForm.addEventListener("submit", function (e) {
-      e.preventDefault();
+
+    // Validiert die Kontaktfelder und baut die Nachricht (alle Angaben + Einordnung).
+    // Gibt { name, lines } zurück oder null bei Fehler.
+    function buildLead() {
       var name  = val("#leadName"), phone = val("#leadPhone"), email = val("#leadEmail");
       var consent = $("#leadConsent").checked;
 
-      if (!name)  { leadErr.textContent = "Bitte gib deinen Namen an."; return; }
-      if (!phone) { leadErr.textContent = "Bitte gib deine Telefonnummer an."; return; }
-      if (email && !/^\S+@\S+\.\S+$/.test(email)) { leadErr.textContent = "Bitte eine gültige E-Mail-Adresse angeben."; return; }
-      if (!consent) { leadErr.textContent = "Bitte stimme der Kontaktaufnahme zu (DSGVO)."; return; }
+      if (!name)  { leadErr.textContent = "Bitte gib deinen Namen an."; return null; }
+      if (!phone) { leadErr.textContent = "Bitte gib deine Telefonnummer an."; return null; }
+      if (email && !/^\S+@\S+\.\S+$/.test(email)) { leadErr.textContent = "Bitte eine gültige E-Mail-Adresse angeben."; return null; }
+      if (!consent) { leadErr.textContent = "Bitte stimme der Kontaktaufnahme zu (DSGVO)."; return null; }
       leadErr.textContent = "";
 
       var lines = ["Hallo auto-in, ich möchte ein unverbindliches Festangebot für mein Fahrzeug.", ""];
@@ -300,12 +302,39 @@
       lines.push("Name: " + name);
       lines.push("Telefon: " + phone);
       if (email) lines.push("E-Mail: " + email);
+      return { name: name, lines: lines };
+    }
 
+    // Passt den Danke-Text an den gewählten Kanal an
+    function setThanks(channel) {
+      var sub = $("#wzThanksSub");
+      if (!sub) return;
+      sub.textContent = channel === "mail"
+        ? "Dein E-Mail-Programm öffnet sich mit der bereits vorbereiteten Nachricht — schick sie einfach ab. Wir melden uns nach Erhalt mit deinem persönlichen Angebot."
+        : "Du wirst zu WhatsApp weitergeleitet — deine Nachricht ist bereits vorbereitet. Wir melden uns nach Erhalt mit deinem persönlichen Angebot.";
+    }
+
+    leadForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var d = buildLead();
+      if (!d) return;
       window.open(
-        "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join(NL)),
+        "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(d.lines.join(NL)),
         "_blank", "noopener"
       );
+      setThanks("whatsapp");
+      showPane("thanks");
+    });
 
+    var leadMail = $("#leadMail");
+    if (leadMail) leadMail.addEventListener("click", function () {
+      var d = buildLead();
+      if (!d) return;
+      var subject = "Fahrzeug-Anfrage – " + d.name;
+      window.location.href = "mailto:" + MAIL_TO +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(d.lines.join(NL));
+      setThanks("mail");
       showPane("thanks");
     });
 
@@ -400,6 +429,7 @@
          Telefonnummer mit +. === */
   var WHATSAPP_NUMBER = "4916095225588";
   var CALL_NUMBER = "+4984195171533";
+  var MAIL_TO = "info@auto-in.de";
 
 
   /* =============  Hero: täglich rotierender "Letzter Ankauf"  ========= */

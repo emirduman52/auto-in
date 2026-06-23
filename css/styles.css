@@ -157,6 +157,7 @@
     font-weight:700;letter-spacing:-.035em;line-height:.98;
     font-size:clamp(38px,8.4vw,86px);
     color:var(--ink);
+    margin-top:20px;
   }
   .hero h1 .muted{color:var(--mist)}
   .hero .lede{

@@ -260,6 +260,10 @@
   }
   .input::placeholder{color:#5b5e64;letter-spacing:.04em;font-weight:500}
   .input:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+  /* Native Datums-/Zeit-Inputs (iOS) auf Containerbreite zwingen */
+  input[type=month].input,input[type=date].input,input[type=time].input,input[type=week].input{
+    min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;
+  }
 
   .vehicle-feedback{
     margin-top:16px;display:flex;align-items:center;gap:13px;

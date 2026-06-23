@@ -252,13 +252,23 @@
     }
 
     // --- Navigation ---
+    // Wizard beim Schrittwechsel auf gleicher Höhe halten (verhindert Springen)
+    function anchorWizard() {
+      var headerEl = document.querySelector("header");
+      var off = (headerEl ? headerEl.offsetHeight : 0) + 14;
+      var target = window.pageYOffset + wizard.getBoundingClientRect().top - off;
+      if (Math.abs(target - window.pageYOffset) > 4) {
+        window.scrollTo({ top: target, behavior: "smooth" });
+      }
+    }
+
     wzNext.addEventListener("click", function () {
       if (!stepValid(step)) return;
-      if (step < STEPS - 1) { step++; renderQuestion(); }
-      else { computeResult(); }
+      if (step < STEPS - 1) { step++; renderQuestion(); anchorWizard(); }
+      else { computeResult(); anchorWizard(); }
     });
     wzBack.addEventListener("click", function () {
-      if (step > 0) { step--; renderQuestion(); }
+      if (step > 0) { step--; renderQuestion(); anchorWizard(); }
     });
 
     $("#wzRestart").addEventListener("click", function () {
@@ -268,7 +278,7 @@
         else el.value = "";
       });
       leadErr.textContent = "";
-      step = 0; renderQuestion();
+      step = 0; renderQuestion(); anchorWizard();
     });
 
     // --- Anfrage absenden (Ergebnis-Slide) ---

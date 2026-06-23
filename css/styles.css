@@ -469,6 +469,8 @@
 
   /* ---------- Standort / Karte ---------- */
   .sec-divider{border:0;height:1px;background:var(--line);margin:0}
+  .standort-hours{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--steel)}
+  .standort-hours svg{width:15px;height:15px;flex:none;color:var(--accent-dark)}
   .map-card{
     position:relative;display:block;margin-top:40px;border-radius:var(--r-md);
     overflow:hidden;border:1px solid var(--line);

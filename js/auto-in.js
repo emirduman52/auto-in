@@ -432,6 +432,28 @@
   var MAIL_TO = "info@auto-in.de";
 
 
+  /* ===============  Allgemeines Kontaktformular (mailto)  ============ */
+  var kontaktForm = $("#kontaktForm");
+  if (kontaktForm) {
+    var kv = function (id) { var el = $(id); return el ? el.value.trim() : ""; };
+    var ktErr = $("#ktErr");
+    kontaktForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = kv("#ktName"), email = kv("#ktEmail"), msg = kv("#ktMsg");
+      if (!name) { ktErr.textContent = "Bitte gib deinen Namen an."; return; }
+      if (!msg)  { ktErr.textContent = "Bitte schreib uns kurz dein Anliegen."; return; }
+      if (email && !/^\S+@\S+\.\S+$/.test(email)) { ktErr.textContent = "Bitte eine gültige E-Mail-Adresse angeben."; return; }
+      ktErr.textContent = "";
+
+      var lines = [msg, "", "— " + name];
+      if (email) lines.push(email);
+      window.location.href = "mailto:" + MAIL_TO +
+        "?subject=" + encodeURIComponent("Anfrage über die Website – " + name) +
+        "&body=" + encodeURIComponent(lines.join(NL));
+    });
+  }
+
+
   /* =============  Hero: täglich rotierender "Letzter Ankauf"  ========= */
   var heroCard = $(".hero-card");
   if (heroCard && ANKAUF_BEISPIELE.length) {

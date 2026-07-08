@@ -732,6 +732,8 @@
     .trust-item{border-right:none;border-bottom:1px solid var(--line);padding:22px 20px}
     .trust-item:last-child{border-bottom:none}
     .rev-summary{flex-direction:column;border-radius:var(--r-lg);text-align:center}
+    .map-overlay{padding:12px}
+    .map-btn{font-size:13px;padding:9px 14px}
   }
   @media (max-width:400px){
     .hero h1{font-size:34px}

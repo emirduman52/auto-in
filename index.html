@@ -30,8 +30,17 @@
     <a href="#top" class="brand">auto<span class="dash">-</span>in<span class="dot"></span></a>
     <nav class="nav-links">
       <a href="#bewerter">Bewertung</a>
+      <div class="nav-drop">
+        <a href="leistungen.html" class="nav-drop-t">Leistungen <span class="nav-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="leistungen.html#ankauf">Fahrzeugankauf</a>
+          <a href="leistungen.html#verkauf">Fahrzeugverkauf</a>
+          <a href="leistungen.html#inzahlungnahme">Inzahlungnahme</a>
+        </div>
+      </div>
       <a href="prozess.html">Wie läuft der Verkauf ab</a>
       <a href="kfz-steuer.html">Kfz-Steuer berechnen</a>
+      <a href="ueber-uns.html">Über uns</a>
       <a href="#faq">Häufig gestellte Fragen</a>
       <a href="#kontakt" class="btn nav-cta">Kontakt</a>
     </nav>
@@ -41,92 +50,28 @@
 <a id="top"></a>
 
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section class="hero" id="bewerter">
   <div class="wrap hero-grid">
     <div class="hero-copy reveal">
       <span class="eyebrow">Fahrzeugankauf · Ingolstadt &amp; Umgebung</span>
       <h1>Wir kaufen<br>dein Auto<span class="hl-dot">.</span><br><span class="muted">Schnell. Fair.<br>Unkompliziert.</span></h1>
       <p class="lede">Kostenlose Bewertung in 60 Sekunden, sofortige Auszahlung bei Abholung — den Rest erledigen wir.</p>
       <div class="hero-actions">
-        <a href="#bewerter" class="btn btn-accent">Jetzt Fahrzeug bewerten <span class="arr">→</span></a>
         <span class="micro"><span class="pulse"></span> Antwort meist am selben Tag</span>
       </div>
     </div>
 
-    <div class="hero-visual reveal">
-      <img class="hero-img" src="assets/hero-uebergabe.jpg" width="1400" height="788" alt="Faire Fahrzeugübergabe per Handschlag bei auto-in in Ingolstadt" fetchpriority="high">
-      <div class="hero-card">
-        <div>
-          <div class="k">Letzter Ankauf</div>
-          <div class="v">8.450 €</div>
-          <div class="sub">VW Tiguan · ausgezahlt in 24 Std.</div>
+    <div class="hero-form reveal">
+      <div class="hf-head">
+        <span class="eyebrow">Sofort-Bewertung</span>
+        <h2>Was ist mein Auto wert?</h2>
+        <div class="hf-partners">
+          <span class="hf-plabel">Ankaufstation &amp; Partner:</span>
+          <span class="pbadge"><b>mobile.de</b></span>
+          <span class="pbadge"><b>AutoScout24</b></span>
         </div>
-        <div class="chip">✓ Sofort bar</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TRUST BAR ============ -->
-<section class="trust" id="vorteile">
-  <div class="wrap">
-    <div class="trust-grid">
-      <div class="trust-item reveal">
-        <span class="t-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <ellipse cx="12" cy="6" rx="7.5" ry="3"></ellipse>
-            <path d="M4.5 6v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"></path>
-            <path d="M4.5 12v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"></path>
-          </svg>
-        </span>
-        <div><div class="lab">Sofortige Auszahlung</div><div class="sub">Bar oder per Echtzeit-Überweisung</div></div>
-      </div>
-      <div class="trust-item reveal">
-        <span class="t-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="M8 12.5l2.5 2.5L16 9.5"></path>
-          </svg>
-        </span>
-        <div><div class="lab">Faire Preise</div><div class="sub">Marktgerecht &amp; transparent bewertet</div></div>
-      </div>
-      <div class="trust-item reveal">
-        <span class="t-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="8.5"></circle>
-            <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"></path>
-            <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"></circle>
-          </svg>
-        </span>
-        <div><div class="lab">Ingolstadt &amp; Umgebung</div><div class="sub">Wir kommen zu dir vor Ort</div></div>
-      </div>
-      <div class="trust-item reveal">
-        <span class="t-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="M12 7v5l3.5 2"></path>
-          </svg>
-        </span>
-        <div><div class="lab">Kein Aufwand für dich</div><div class="sub">Abmeldung &amp; Abholung inklusive</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BEWERTUNG (WIZARD) ============ -->
-<section class="block" id="bewerter">
-  <div class="wrap">
-    <div class="bewerter-grid">
-
-      <!-- Sofort-Bewertung -->
-      <div class="bewerter-tool reveal">
-        <div class="bw-head">
-          <span class="eyebrow">Sofort-Bewertung</span>
-          <h2>Was ist mein Auto wert?</h2>
-          <p>In wenigen Schritten zur unverbindlichen Einschätzung — ohne Anmeldung. Für ein verbindliches Festangebot melden wir uns persönlich.</p>
-        </div>
-
-        <div class="wizard" id="wizard">
+      <div class="wizard" id="wizard">
       <div class="wz-top">
         <div class="wz-stepno">Schritt <span id="wzStepNo">1</span> von 6</div>
         <div class="wz-prog"><div class="wz-prog-fill" id="wzProg"></div></div>
@@ -387,6 +332,51 @@
         <a href="#kontakt" class="btn wz-cta" style="max-width:280px">Direkt Kontakt aufnehmen →</a>
       </div>
         </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAR ============ -->
+<section class="trust" id="vorteile">
+  <div class="wrap">
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="6" rx="7.5" ry="3"></ellipse>
+            <path d="M4.5 6v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"></path>
+            <path d="M4.5 12v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Sofortige Auszahlung</div><div class="sub">Bar oder per Echtzeit-Überweisung</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M8 12.5l2.5 2.5L16 9.5"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Faire Preise</div><div class="sub">Marktgerecht &amp; transparent bewertet</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"></path>
+            <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </span>
+        <div><div class="lab">Ingolstadt &amp; Umgebung</div><div class="sub">Wir kommen zu dir vor Ort</div></div>
+      </div>
+      <div class="trust-item reveal">
+        <span class="t-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3.5 2"></path>
+          </svg>
+        </span>
+        <div><div class="lab">Kein Aufwand für dich</div><div class="sub">Abmeldung &amp; Abholung inklusive</div></div>
       </div>
     </div>
   </div>
@@ -415,29 +405,7 @@
         <div class="gt">basierend auf 100+ Bewertungen</div>
       </div>
       <div class="gdiv"></div>
-      <a class="gword" href="https://share.google/ZEQKVIgAUrwh11DE1" target="_blank" rel="noopener"><span class="gicon">G</span> Google Rezensionen <span class="gext">↗</span></a>
-    </div>
-  </div>
-</section>
-
-<div class="wrap"><hr class="sec-divider"></div>
-
-<!-- ============ STANDORT ============ -->
-<section class="block" id="standort">
-  <div class="wrap">
-    <div class="sec-head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
-      <span class="eyebrow">Standort</span>
-      <h2>So findest du uns</h2>
-      <p class="standort-hours">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg>
-        Mo–Sa 09–20 Uhr · Sonntag geschlossen
-      </p>
-    </div>
-    <div class="map-card reveal">
-      <iframe class="map-frame" title="Standort von auto-in · Regensburger Str. 7, 85055 Ingolstadt" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2629.806134063298!2d11.43571897752675!3d48.76649840716746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479eff4a6dd6f7f5%3A0x28726b8ad124e06d!2sauto-in%20%7C%20KFZ%20Ankauf%20%26%20Verkauf!5e0!3m2!1sde!2sde!4v1783247364709!5m2!1sde!2sde" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      <div class="map-overlay">
-        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=auto-in%20KFZ%20Ankauf%20%26%20Verkauf%2C%20Regensburger%20Str.%207%2C%2085055%20Ingolstadt" target="_blank" rel="noopener">Route planen →</a>
-      </div>
+      <a class="gword" href="https://share.google/ZEQKVIgAUrwh11DE1" target="_blank" rel="noopener"><span class="gicon"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg></span><span class="ggl"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></span> Rezensionen <span class="gext">↗</span></a>
     </div>
   </div>
 </section>
@@ -535,19 +503,58 @@
 </section>
 
 <!-- ============ FOOTER ============ -->
+<!-- ============ STANDORT ============ -->
+<section class="block" id="standort">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+      <span class="eyebrow">Standort</span>
+      <h2>So findest du uns</h2>
+      <p class="standort-hours">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg>
+        Mo–Sa 09–20 Uhr · Sonntag geschlossen
+      </p>
+    </div>
+    <div class="map-card reveal">
+      <iframe class="map-frame" title="Standort von auto-in · Regensburger Str. 7, 85055 Ingolstadt" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2629.806134063298!2d11.43571897752675!3d48.76649840716746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479eff4a6dd6f7f5%3A0x28726b8ad124e06d!2sauto-in%20%7C%20KFZ%20Ankauf%20%26%20Verkauf!5e0!3m2!1sde!2sde!4v1783247364709!5m2!1sde!2sde" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="map-overlay">
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=auto-in%20KFZ%20Ankauf%20%26%20Verkauf%2C%20Regensburger%20Str.%207%2C%2085055%20Ingolstadt" target="_blank" rel="noopener">Route planen →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot">
-    <div>
+    <div class="foot-brand">
       <div class="fb">auto<span class="dash">-</span>in<span class="dot"></span></div>
-      <div class="foot-loc">Fahrzeugankauf · Ingolstadt &amp; Umgebung</div>
+      <div class="foot-loc">Fahrzeugankauf &amp; Verkauf · Ingolstadt &amp; Umgebung</div>
       <div class="foot-hours"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg><span><b>Mo–Sa 09–20 Uhr</b> · So geschlossen</span></div>
     </div>
-    <div class="foot-links">
+    <div class="foot-contact">
+      <div class="foot-h">Kontakt</div>
+      <address>auto<span class="dash">-</span>in · Inh. Bayram Baysal<br>Regensburger Str. 7<br>85055 Ingolstadt</address>
+      <a href="tel:+4984195171533">Tel. +49 841 95171533</a>
+      <a href="tel:+4916095225588">Mobil +49 160 95225588</a>
+      <a href="mailto:info@auto-in.de">info@auto-in.de</a>
+    </div>
+    <div class="foot-col">
+      <div class="foot-h">Menü</div>
+      <a href="#bewerter">Fahrzeugbewertung</a>
+      <a href="leistungen.html">Leistungen</a>
+      <a href="prozess.html">Ablauf</a>
+      <a href="ueber-uns.html">Über uns</a>
+      <a href="#faq">Häufige Fragen</a>
+    </div>
+    <div class="foot-col">
+      <div class="foot-h">Rechtliches</div>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
       <a href="#kontakt">Kontakt</a>
     </div>
-    <div class="foot-legal">© 2026 auto-in · Designed by <a href="https://amano.agency" target="_blank" rel="noopener">Amano Agency</a></div>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-legal">© 2026 auto-in · Alle Rechte vorbehalten</div>
+    <div class="foot-legal">Designed by <a href="https://amano.agency" target="_blank" rel="noopener">Amano Agency</a></div>
   </div>
 </footer>
 

@@ -67,8 +67,8 @@
         <h2>Was ist mein Auto wert?</h2>
         <div class="hf-partners">
           <span class="hf-plabel">Ankaufstation &amp; Partner:</span>
-          <span class="pbadge"><b>mobile.de</b></span>
-          <span class="pbadge"><b>AutoScout24</b></span>
+          <span class="pflag"><span class="pflag-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></span><b>mobile.de</b></span>
+          <span class="pflag"><span class="pflag-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></span><b>AutoScout24</b></span>
         </div>
       </div>
       <div class="wizard" id="wizard">
@@ -77,8 +77,19 @@
         <div class="wz-prog"><div class="wz-prog-fill" id="wzProg"></div></div>
       </div>
 
+      <!-- Intro-Gate: Felder werden erst nach Klick gezeigt -->
+      <div class="wz-pane wz-intro active" data-pane="intro">
+        <div class="wz-intro-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l1.6-4.7A2 2 0 0 1 8.5 5h7a2 2 0 0 1 1.9 1.3L19 11"/><path d="M4 11h16v5a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1H7.5v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg>
+        </div>
+        <div class="wz-title">Kostenlose Sofort-Bewertung</div>
+        <div class="wz-sub">In wenigen Schritten zu deiner unverbindlichen Einschätzung — kostenlos und ohne Registrierung.</div>
+        <button type="button" class="btn btn-accent wz-start-btn" id="wzStart">Starte mit deiner Bewertung →</button>
+        <div class="wz-intro-note">Dauert nur ca. 1 Minute</div>
+      </div>
+
       <!-- Slide 1: Fahrzeugbasis -->
-      <div class="wz-pane active" data-pane="0">
+      <div class="wz-pane" data-pane="0">
         <div class="wz-title">Fahrzeugbasis</div>
         <div class="wz-sub">Marke, Modell und die wichtigsten Eckdaten.</div>
         <div class="lead-grid">

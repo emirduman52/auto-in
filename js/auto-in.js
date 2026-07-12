@@ -146,6 +146,7 @@
     var lastBand = "";
 
     var panes    = $$(".wz-pane", wizard);
+    var wzTop    = $(".wz-top", wizard);
     var wzStepNo = $("#wzStepNo"), wzProg = $("#wzProg");
     var wzActions = $("#wzActions"), wzBack = $("#wzBack"), wzNext = $("#wzNext");
     var wzYear = $("#wzYear"), wzKm = $("#wzKm"), wzVeh = $("#wzVeh"), wzRange = $("#wzRange");
@@ -338,7 +339,22 @@
       showPane("thanks");
     });
 
-    renderQuestion();
+    // --- Intro-Gate: Felder erst nach Klick zeigen ---
+    var wzStart = $("#wzStart");
+    if (wzStart) {
+      wzStart.addEventListener("click", function () {
+        if (wzTop) wzTop.style.display = "";
+        step = 0;
+        renderQuestion();
+        anchorWizard();
+      });
+      // Startzustand: nur Intro sichtbar, Schrittleiste & Buttons ausgeblendet
+      showPane("intro");
+      if (wzTop) wzTop.style.display = "none";
+      wzActions.style.display = "none";
+    } else {
+      renderQuestion();
+    }
   }
 
 
@@ -497,7 +513,28 @@
     panel.className = "mobile-menu";
     var inner = document.createElement("nav");
     inner.className = "mobile-menu-inner";
-    $$("a", navLinks).forEach(function (a) { inner.appendChild(a.cloneNode(true)); });
+    // Direkte Kinder durchgehen: Links klonen, Dropdown als aufklappbaren Punkt bauen
+    Array.prototype.forEach.call(navLinks.children, function (child) {
+      if (child.classList && child.classList.contains("nav-drop")) {
+        var top = $(".nav-drop-t", child), sub = $(".nav-drop-menu", child);
+        var label = top ? top.firstChild.textContent.trim() : "Leistungen";
+        var wrap = document.createElement("div");
+        wrap.className = "mm-drop";
+        var tog = document.createElement("button");
+        tog.type = "button";
+        tog.className = "mm-drop-t";
+        tog.innerHTML = label + '<span class="mm-caret" aria-hidden="true">▾</span>';
+        var menu = document.createElement("div");
+        menu.className = "mm-drop-menu";
+        if (sub) $$("a", sub).forEach(function (a) { menu.appendChild(a.cloneNode(true)); });
+        tog.addEventListener("click", function () { wrap.classList.toggle("open"); });
+        wrap.appendChild(tog);
+        wrap.appendChild(menu);
+        inner.appendChild(wrap);
+      } else if (child.tagName === "A") {
+        inner.appendChild(child.cloneNode(true));
+      }
+    });
     panel.appendChild(inner);
     document.body.appendChild(panel);
 

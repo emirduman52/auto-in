@@ -140,6 +140,12 @@
   .nav-links .nav-cta{display:inline-flex}
   .nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#fff}
 
+  /* FAQ-Label: kurz im Nav, lang im Burger-Menü */
+  .lbl-full{display:none}
+  .lbl-short{display:inline}
+  .mobile-menu .lbl-full{display:inline}
+  .mobile-menu .lbl-short{display:none}
+
   /* ---------- Buttons ---------- */
   .btn{
     font-family:var(--font-display);

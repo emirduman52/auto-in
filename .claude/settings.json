@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(perl -0pe 's{</head>}{<style>.reveal{opacity:1!important;transform:none!important}.fcta-btn.pulse{animation:none!important}</style></head>}' index.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --window-size=520,1400 --screenshot=/private/tmp/claude-501/-Users-emirduman-Desktop-auto-in/32a37ffa-b084-4eda-bb10-b252a66395f4/scratchpad/cta2.png file://__TRACKED_VAR__/_shot.html)",
+      "Bash(rm -f _shot.html)",
+      "Bash(python3 -c \"from PIL import Image; im=Image.open\\('cta2.png'\\); print\\(im.size\\); im.crop\\(\\(0,1700,im.size[0],2250\\)\\).save\\('cta2_crop.png'\\)\")"
+    ]
+  }
+}

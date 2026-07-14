@@ -21,15 +21,15 @@
     --mist:#a7aab1;         /* light gray text */
     --line:#d3d9e2;         /* hairline (auf E6EAF0) */
     --line-2:#c2cad6;
-    --fog:#e6eaf0;          /* helle Fläche / Sekundär-Buttons */
-    --paper:#e6eaf0;        /* Seiten-Hintergrund */
+    --fog:#eeedf4;          /* helle Fläche / Sekundär-Buttons */
+    --paper:#eeedf4;        /* Seiten-Hintergrund */
     --white:#ffffff;        /* Felder & Oberflächen */
 
     --wa:#25d366;           /* WhatsApp-Grün */
     --wa-dark:#1ebe5a;      /* WhatsApp-Grün (Hover) */
 
-    --accent:#fa3d00;       /* Akzent / primäre Buttons (Orange-Rot) */
-    --accent-dark:#d63400;  /* Akzent (Hover) */
+    --accent:#5b6ba6;       /* Akzent / primäre Buttons (Slate-Blau) */
+    --accent-dark:#48568a;  /* Akzent (Hover) */
     --accent-ink:#ffffff;   /* Textfarbe auf Akzent */
 
     --r-sm:10px;
@@ -150,7 +150,7 @@
     transition:transform .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease), color .2s var(--ease);
     will-change:transform;-webkit-tap-highlight-color:transparent;
   }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(250,61,0,.45)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(91,107,166,.45)}
   .btn:active{transform:translateY(0)}
   .btn .arr{transition:transform .25s var(--ease)}
   .btn:hover .arr{transform:translateX(4px)}
@@ -158,9 +158,9 @@
   .btn-ghost,.btn-ghost-light{
     background:var(--fog);color:var(--ink);border-color:var(--line-2);
   }
-  .btn-ghost:hover,.btn-ghost-light:hover{background:#dbe1ea;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover,.btn-ghost-light:hover{background:#e2e0ee;color:var(--ink);border-color:var(--line-2)}
   .btn-accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-  .btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--accent-ink);box-shadow:0 14px 30px -12px rgba(250,61,0,.5)}
+  .btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--accent-ink);box-shadow:0 14px 30px -12px rgba(91,107,166,.5)}
 
   /* ---------- Hero ---------- */
   .hero{padding:78px 0 64px;position:relative;overflow:hidden}
@@ -192,14 +192,14 @@
     padding:30px 30px 32px;box-shadow:0 30px 70px -40px rgba(11,11,12,.35);
   }
   .he-top{display:flex;align-items:center;gap:14px}
-  .he-ic{flex:none;width:46px;height:46px;border-radius:13px;background:rgba(250,61,0,.1);color:var(--accent);display:grid;place-items:center}
+  .he-ic{flex:none;width:46px;height:46px;border-radius:13px;background:rgba(91,107,166,.1);color:var(--accent);display:grid;place-items:center}
   .he-ic svg{width:24px;height:24px}
   .he-eyebrow{font-family:var(--font-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
   .he-title{font-family:var(--font-display);font-weight:700;font-size:clamp(21px,2.4vw,26px);letter-spacing:-.02em;color:var(--ink);margin-top:3px}
   .he-text{margin-top:16px;font-size:14.5px;color:var(--steel);line-height:1.6}
   .he-list{list-style:none;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
   .he-list li{font-size:14px;color:var(--slate);display:flex;align-items:center;gap:10px}
-  .he-list li::before{content:"✓";flex:none;width:18px;height:18px;border-radius:50%;background:rgba(250,61,0,.12);color:var(--accent);font-weight:700;font-size:11px;display:grid;place-items:center;font-family:var(--font-display)}
+  .he-list li::before{content:"✓";flex:none;width:18px;height:18px;border-radius:50%;background:rgba(91,107,166,.12);color:var(--accent);font-weight:700;font-size:11px;display:grid;place-items:center;font-family:var(--font-display)}
   .he-btn{margin-top:26px;width:100%;justify-content:center;padding:16px 24px;font-size:16px}
 
   /* hero: Bewertungsformular direkt im Hero */
@@ -279,7 +279,7 @@
     outline:none;
   }
   .input::placeholder{color:var(--slate);letter-spacing:.04em;font-weight:500}
-  .input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(250,61,0,.14)}
+  .input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,107,166,.14)}
   /* Native Datums-/Zeit-Inputs (iOS) auf Containerbreite zwingen */
   input[type=month].input,input[type=date].input,input[type=time].input,input[type=week].input{
     min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;
@@ -348,7 +348,7 @@
   .cond .dotmark::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .2s var(--ease)}
   .cond input:checked ~ .ct .dotmark{background:var(--accent);border-color:var(--accent)}
   .cond input:checked ~ .ct .dotmark::after{transform:scale(1)}
-  .cond:has(input:checked){border-color:var(--accent);background:rgba(250,61,0,.06)}
+  .cond:has(input:checked){border-color:var(--accent);background:rgba(91,107,166,.06)}
 
   /* Feld-Label & Checkbox-Chips im Wizard */
   .wz-flabel{display:block;font-family:var(--font-display);font-weight:600;font-size:12.5px;color:var(--ink);margin:18px 0 9px}
@@ -452,7 +452,7 @@
   }
   .gscore{font-family:var(--font-display);font-weight:700;font-size:30px;letter-spacing:-.02em}
   .gmeta{display:flex;flex-direction:column}
-  .gmeta .gstars{color:var(--accent);font-size:15px;letter-spacing:1px;text-shadow:0 0 1px rgba(28,28,28,.35)}
+  .gmeta .gstars{color:#fbbc04;font-size:15px;letter-spacing:1px;text-shadow:0 0 1px rgba(28,28,28,.35)}
   .gmeta .gt{font-size:13px;color:var(--slate);margin-top:2px}
   .gdiv{width:1px;height:38px;background:var(--line-2)}
   .gword{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;color:var(--ink)}
@@ -573,23 +573,32 @@
   .foot-legal a{color:var(--steel);transition:color .2s var(--ease)}
   .foot-legal a:hover{color:var(--ink)}
 
-  /* ---------- Schwebende Kontakt-Buttons ---------- */
-  .float-contact{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;flex-direction:column;gap:12px}
-  .fc-btn{
-    width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#fff;
-    box-shadow:0 12px 28px -8px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent;
-    transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+  /* ---------- Feste Kontakt-CTAs unter dem Formular ---------- */
+  .form-cta{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+  .fcta-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;
+    padding:16px 24px;border-radius:999px;color:#fff;
+    border:1px solid transparent;-webkit-tap-highlight-color:transparent;
+    transition:transform .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
   }
-  .fc-btn:hover{transform:translateY(-3px);box-shadow:0 16px 34px -8px rgba(0,0,0,.55)}
-  .fc-btn:active{transform:translateY(-1px)}
-  .fc-btn svg{width:27px;height:27px}
-  .fc-wa{background:var(--wa)}
-  .fc-wa:hover{background:var(--wa-dark)}
-  .fc-call{background:var(--ink)}
-  .fc-call svg{width:25px;height:25px}
-  @media (max-width:620px){
-    .float-contact{right:14px;bottom:14px;gap:10px}
-    .fc-btn{width:50px;height:50px}
+  .fcta-btn svg{width:21px;height:21px;flex:none}
+  .fcta-btn:hover{transform:translateY(-2px)}
+  .fcta-btn:active{transform:translateY(0)}
+  .fcta-call{background:var(--accent);border-color:var(--accent)}
+  .fcta-call:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+  .fcta-wa{background:var(--wa);border-color:var(--wa)}
+  .fcta-wa:hover{background:var(--wa-dark);border-color:var(--wa-dark)}
+
+  /* Pulsierender Effekt */
+  .fcta-btn.fcta-pulse{animation:ctaPulse 2s var(--ease) infinite}
+  @keyframes ctaPulse{
+    0%{box-shadow:0 0 0 0 rgba(91,107,166,.55)}
+    70%{box-shadow:0 0 0 14px rgba(91,107,166,0)}
+    100%{box-shadow:0 0 0 0 rgba(91,107,166,0)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .fcta-btn.fcta-pulse{animation:none}
   }
 
   /* ---------- Rechtstexte (Impressum / Datenschutz) ---------- */
@@ -639,7 +648,7 @@
   .wz-pane{display:none}
   .wz-pane.active{display:block;animation:rise .45s var(--ease)}
   .wz-intro.active{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;flex:1}
-  .wz-intro-ic{width:60px;height:60px;border-radius:16px;background:rgba(250,61,0,.1);color:var(--accent);display:grid;place-items:center;margin-bottom:22px}
+  .wz-intro-ic{width:60px;height:60px;border-radius:16px;background:rgba(91,107,166,.1);color:var(--accent);display:grid;place-items:center;margin-bottom:22px}
   .wz-intro-ic svg{width:30px;height:30px}
   .wz-start-btn{margin-top:28px;padding:16px 30px;font-size:16px}
   .wz-intro-note{margin-top:16px;font-size:12.5px;color:var(--slate);letter-spacing:.02em}
@@ -676,7 +685,7 @@
   .lead-submit{margin-top:8px;width:100%;justify-content:center;background:var(--wa);color:#fff;border-color:var(--wa)}
   .lead-submit:hover{background:var(--wa-dark);border-color:var(--wa-dark)}
   .lead-mail{margin-top:10px;width:100%;justify-content:center;background:var(--fog);color:var(--ink);border-color:var(--line-2)}
-  .lead-mail:hover{background:#dbe1ea;border-color:var(--line-2)}
+  .lead-mail:hover{background:#e2e0ee;border-color:var(--line-2)}
   .lead-mail svg{color:var(--accent)}
   .wz-thanks{text-align:center}
   .wz-thanks.active{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}

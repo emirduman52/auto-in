@@ -519,7 +519,7 @@
 
   /* ---------- Fahrzeugbestand (mobile.de iFrame) ---------- */
   .fzb-wrap{max-width:1180px}
-  .fzb-frame-shell{margin-top:26px;border-radius:var(--r-lg);overflow:hidden;background:var(--white);border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4)}
+  .fzb-frame-shell{max-width:1000px;margin:26px auto 0;border-radius:var(--r-lg);overflow:hidden;background:var(--white);border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4)}
   .fzb-frame{display:block;width:100%;height:clamp(680px,88vh,1240px);border:0}
   .fzb-hint{margin-top:16px;font-size:13.5px;color:var(--slate)}
   .fzb-hint a{color:var(--accent);font-weight:500}

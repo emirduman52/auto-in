@@ -89,6 +89,10 @@
     font-size:14.5px;font-weight:500;color:var(--steel);
     transition:color .2s var(--ease);
   }
+  /* Kurzes Nav-Label auf Desktop, langes im Burger-Menü */
+  .nav-sm{display:none}
+  .nav-links a .nav-sm{display:inline}
+  .nav-links a .nav-lg{display:none}
 
   /* Dropdown "Leistungen" (Desktop) */
   .nav-drop{position:relative;display:inline-flex;align-items:center}

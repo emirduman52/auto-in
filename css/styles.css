@@ -79,7 +79,7 @@
     font-size:23px;letter-spacing:-.02em;color:var(--ink);
     display:flex;align-items:center;gap:2px;
   }
-  .brand .dash{color:var(--mist)}
+  .brand .dash{color:var(--ink)}
   .brand .dot{
     width:7px;height:7px;border-radius:50%;background:var(--accent);
     margin-left:8px;margin-bottom:2px;align-self:flex-end;
@@ -554,7 +554,7 @@
   footer{background:var(--white);color:var(--slate);border-top:1px solid var(--line)}
   .foot{padding:56px 0 0;display:grid;grid-template-columns:1.5fr 1.1fr 1fr 1fr;gap:36px 28px;align-items:start}
   .foot .fb{font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--ink);letter-spacing:-.02em;display:flex;align-items:center;gap:2px}
-  .foot .fb .dash{color:var(--mist)}
+  .foot .fb .dash{color:var(--ink)}
   .foot .fb .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:7px;margin-bottom:3px;align-self:flex-end}
   .foot-loc{font-size:13.5px;color:var(--slate);margin-top:12px;max-width:30ch;line-height:1.5}
   .foot-hours{font-size:13px;color:var(--slate);margin-top:10px;display:flex;align-items:center;gap:8px}
@@ -626,6 +626,13 @@
   .proc-step p{color:var(--steel);font-size:15px;line-height:1.6;margin:0}
   .lst-item{scroll-margin-top:96px;padding-top:6px}
   .lst-item .cta-row{margin-top:20px}
+  .lst-head{display:flex;align-items:center;gap:14px;margin-top:48px;margin-bottom:14px}
+  .lst-head h2{margin:0}
+  .lst-ic{flex:none;width:46px;height:46px;border-radius:13px;background:rgba(91,107,166,.1);color:var(--accent);display:grid;place-items:center}
+  .lst-ic svg{width:24px;height:24px}
+  .lst-list{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:9px}
+  .lst-list li{margin:0;font-size:15.5px;color:var(--steel);line-height:1.55;display:flex;align-items:flex-start;gap:11px}
+  .lst-list li::before{content:"✓";flex:none;width:20px;height:20px;margin-top:1px;border-radius:50%;background:rgba(91,107,166,.12);color:var(--accent);font-weight:700;font-size:11px;display:grid;place-items:center;font-family:var(--font-display)}
   .legal .cta-row{margin-top:36px;text-align:center}
   .legal .cta-row .btn{font-size:15px;text-decoration:none;color:var(--accent-ink)}
   .legal .cta-row .btn:hover{color:var(--accent-ink)}

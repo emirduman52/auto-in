@@ -279,7 +279,7 @@
         else el.value = "";
       });
       leadErr.textContent = "";
-      step = 0; renderQuestion(); anchorWizard();
+      step = 0; resetIntro(); anchorWizard();
     });
 
     // --- Anfrage absenden (Ergebnis-Slide) ---
@@ -341,17 +341,38 @@
 
     // --- Intro-Gate: Felder erst nach Klick zeigen ---
     var wzStart = $("#wzStart");
+    var wzBasisSub = $("#wzBasisSub");
+
+    // Intro-Gate zurücksetzen (auch beim Neu-Starten genutzt)
+    function resetIntro() {
+      showPane("intro");
+      if (wzTop) wzTop.style.display = "none";
+      wzActions.style.display = "none";
+      if (wzStart) wzStart.disabled = !(val("#wzMarke") && val("#wzModell"));
+    }
+
     if (wzStart) {
+      // Start-Button erst freigeben, wenn Marke & Modell ausgefüllt sind
+      var introValid = function () {
+        wzStart.disabled = !(val("#wzMarke") && val("#wzModell"));
+      };
+      $("#wzMarke").addEventListener("input", introValid);
+      $("#wzModell").addEventListener("input", introValid);
+
       wzStart.addEventListener("click", function () {
+        if (wzStart.disabled) return;
+        // Eingegebenes Fahrzeug im nächsten Schritt anzeigen
+        if (wzBasisSub) {
+          var fz = (val("#wzMarke") + " " + val("#wzModell")).trim();
+          wzBasisSub.textContent = fz ? fz + " — jetzt die wichtigsten Eckdaten." : "Die wichtigsten Eckdaten zu deinem Fahrzeug.";
+        }
         if (wzTop) wzTop.style.display = "";
         step = 0;
         renderQuestion();
         anchorWizard();
       });
       // Startzustand: nur Intro sichtbar, Schrittleiste & Buttons ausgeblendet
-      showPane("intro");
-      if (wzTop) wzTop.style.display = "none";
-      wzActions.style.display = "none";
+      resetIntro();
     } else {
       renderQuestion();
     }

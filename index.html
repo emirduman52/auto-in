@@ -80,16 +80,8 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l1.6-4.7A2 2 0 0 1 8.5 5h7a2 2 0 0 1 1.9 1.3L19 11"/><path d="M4 11h16v5a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1H7.5v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg>
         </div>
         <div class="wz-title">Kostenlose Sofort-Bewertung</div>
-        <div class="wz-sub">In wenigen Schritten zu deiner unverbindlichen Einschätzung — kostenlos und ohne Registrierung.</div>
-        <button type="button" class="btn btn-accent wz-start-btn" id="wzStart">Starte mit deiner Bewertung →</button>
-        <div class="wz-intro-note">Dauert nur ca. 1 Minute</div>
-      </div>
-
-      <!-- Slide 1: Fahrzeugbasis -->
-      <div class="wz-pane" data-pane="0">
-        <div class="wz-title">Fahrzeugbasis</div>
-        <div class="wz-sub">Marke, Modell und die wichtigsten Eckdaten.</div>
-        <div class="lead-grid">
+        <div class="wz-sub">Starte mit Marke und Modell — den Rest füllst du in wenigen Schritten aus. Kostenlos und ohne Registrierung.</div>
+        <div class="lead-grid wz-intro-fields">
           <div class="lead-field">
             <label for="wzMarke">Marke</label>
             <input class="input" id="wzMarke" type="text" placeholder="z. B. VW" autocomplete="off">
@@ -98,6 +90,16 @@
             <label for="wzModell">Modell</label>
             <input class="input" id="wzModell" type="text" placeholder="z. B. Golf" autocomplete="off">
           </div>
+        </div>
+        <button type="button" class="btn btn-accent wz-start-btn" id="wzStart" disabled>Starte mit deiner Bewertung →</button>
+        <div class="wz-intro-note">Dauert nur ca. 1 Minute</div>
+      </div>
+
+      <!-- Slide 1: Fahrzeugbasis -->
+      <div class="wz-pane" data-pane="0">
+        <div class="wz-title">Fahrzeugbasis</div>
+        <div class="wz-sub" id="wzBasisSub">Die wichtigsten Eckdaten zu deinem Fahrzeug.</div>
+        <div class="lead-grid">
           <div class="lead-field">
             <label for="wzYear">Erstzulassung</label>
             <div class="select-wrap"><select id="wzYear"><option value="" disabled selected>Jahr …</option></select></div>

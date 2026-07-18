@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kfz-Steuer-Rechner — auto-in Ingolstadt</title>
-<meta name="description" content="Kostenloser Kfz-Steuer-Rechner: voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.">
-<link rel="canonical" href="https://auto-in.de/kfz-steuer.html">
+<title>Fahrzeugbestand — auto-in Ingolstadt</title>
+<meta name="description" content="Aktueller Fahrzeugbestand von auto-in in Ingolstadt — geprüfte Gebrauchtwagen aller Marken, direkt online ansehen.">
+<link rel="canonical" href="https://auto-in.de/fahrzeugbestand.html">
 <meta name="theme-color" content="#eeedf4">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="auto-in">
-<meta property="og:title" content="Kfz-Steuer-Rechner — auto-in Ingolstadt">
-<meta property="og:description" content="Berechne die voraussichtliche jährliche Kfz-Steuer für Pkw — direkt im Browser, ohne Anmeldung.">
-<meta property="og:url" content="https://auto-in.de/kfz-steuer.html">
+<meta property="og:title" content="Fahrzeugbestand — auto-in Ingolstadt">
+<meta property="og:description" content="Aktueller Fahrzeugbestand von auto-in in Ingolstadt — geprüfte Gebrauchtwagen aller Marken.">
+<meta property="og:url" content="https://auto-in.de/fahrzeugbestand.html">
 <meta property="og:image" content="https://auto-in.de/assets/hero-uebergabe.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="assets/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -44,63 +44,23 @@
   </div>
 </header>
 
-<a id="top"></a>
+<!-- ============ FAHRZEUGBESTAND ============ -->
+<section class="legal">
+  <div class="wrap legal-wrap fzb-wrap">
+    <span class="eyebrow">Fahrzeugbestand</span>
+    <h1>Unser aktueller Fahrzeugbestand</h1>
+    <p class="updated" style="font-size:16px;color:var(--steel);max-width:64ch;line-height:1.6">Alle Fahrzeuge, die wir derzeit anbieten — geprüft, ehrlich beschrieben und mit gepflegter Historie. Direkt hier durchstöbern; für eine Probefahrt oder Fragen zu einem Fahrzeug melde dich einfach bei uns.</p>
 
-<!-- ============ KFZ-STEUER-RECHNER ============ -->
-<section class="block" id="steuer">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Kostenloser Service</span>
-      <h2>Kfz-Steuer-Rechner</h2>
-      <p>Berechne die voraussichtliche jährliche Kfz-Steuer für Pkw in Deutschland — direkt im Browser, ohne Anmeldung.</p>
+    <div class="fzb-frame-shell">
+      <iframe class="fzb-frame" src="https://home.mobile.de/home/index.html?partnerHead=false&amp;customerId=24976547" title="Fahrzeugbestand von auto-in bei mobile.de" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <p class="fzb-hint">Kein passendes Fahrzeug dabei? Wir erweitern unseren Bestand laufend — <a href="index.html#kontakt">sprich uns an</a>, wir suchen dir dein Wunschfahrzeug.</p>
+
+    <div class="cta-row">
+      <a href="index.html#kontakt" class="btn btn-accent">Kontakt aufnehmen →</a>
     </div>
 
-    <div class="tx-card reveal">
-      <div class="tx-grid">
-        <div class="tx-form">
-          <div class="tx-field">
-            <label>Kraftstoffart</label>
-            <div class="tx-seg">
-              <label><input type="radio" name="txFuel" value="benzin" checked>Benzin (Otto)</label>
-              <label><input type="radio" name="txFuel" value="diesel">Diesel</label>
-            </div>
-          </div>
-          <div class="tx-field">
-            <label for="txHubraum">Hubraum (cm³)</label>
-            <input class="tx-input" id="txHubraum" inputmode="numeric" placeholder="z. B. 1498">
-          </div>
-          <div class="tx-field">
-            <label for="txCo2">CO₂-Ausstoß (g/km)</label>
-            <input class="tx-input" id="txCo2" inputmode="numeric" placeholder="z. B. 120">
-            <div class="tx-hint">Findest du im Fahrzeugschein, Feld V.7.</div>
-          </div>
-          <div class="tx-field">
-            <label for="txDate">Datum der Erstzulassung</label>
-            <input class="tx-date" id="txDate" type="date">
-          </div>
-        </div>
-
-        <div class="tx-result">
-          <div id="txLocked">
-            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer</div>
-            <p class="tx-locked-p">Fülle die Felder aus, um die voraussichtliche Steuer zu berechnen.</p>
-          </div>
-          <div id="txLive" style="display:none">
-            <div class="tx-r-eyebrow">Jährliche Kfz-Steuer (ca.)</div>
-            <div class="tx-amount"><span id="txAmount">0</span><span class="per">€ / Jahr</span></div>
-            <div class="tx-break">
-              <div class="tx-row"><span>Hubraum-Anteil</span><b id="txHubRow">0,00 €</b></div>
-              <div class="tx-row"><span>CO₂-Anteil</span><b id="txCo2Row">0,00 €</b></div>
-            </div>
-            <div id="txHint" class="tx-note" style="display:none"></div>
-            <p class="tx-note">Unverbindliche Berechnung. Maßgeblich ist der Steuerbescheid des Hauptzollamts.</p>
-          </div>
-          <div class="tx-cta">
-            <a href="index.html#bewerter">Auto verkaufen statt weiter Steuer zahlen? Jetzt Wert ermitteln →</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <a href="index.html" class="back">← Zurück zur Startseite</a>
   </div>
 </section>
 

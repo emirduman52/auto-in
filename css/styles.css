@@ -90,9 +90,8 @@
     transition:color .2s var(--ease);
   }
   /* Kurzes Nav-Label auf Desktop, langes im Burger-Menü */
-  .nav-sm{display:none}
-  .nav-links a .nav-sm{display:inline}
-  .nav-links a .nav-lg{display:none}
+  .nav-lg{display:none}
+  .nav-sm{display:inline}
 
   /* Dropdown "Leistungen" (Desktop) */
   .nav-drop{position:relative;display:inline-flex;align-items:center}

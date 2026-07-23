@@ -215,6 +215,7 @@
   .pflag b{color:var(--ink);font-weight:700}
   .pflag-ck{flex:none;width:17px;height:17px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center}
   .pflag-ck svg{width:11px;height:11px}
+  .pflag-logo{height:26px;width:auto;display:inline-block;flex:none}
 
   /* ---------- Partner-Leiste ---------- */
   .partners{background:var(--paper);border-bottom:1px solid var(--line)}

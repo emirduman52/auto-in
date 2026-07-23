@@ -12,3 +12,10 @@ node_modules/
 
 # Bild-Quelldateien (nur optimierte Versionen in assets/ werden eingecheckt)
 /ChatGPT Image*.png
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

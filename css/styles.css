@@ -666,7 +666,7 @@
   .faq-item .faq-a a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 
   /* ---------- Wizard (Sofort-Bewertung) ---------- */
-  .wizard{max-width:700px;margin:0 auto;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:38px;min-height:430px;display:flex;flex-direction:column;box-shadow:0 30px 70px -40px rgba(11,11,12,.25)}
+  .wizard{max-width:700px;margin:0 auto;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:38px;min-height:430px;display:flex;flex-direction:column;box-shadow:0 30px 70px -40px rgba(11,11,12,.25);scroll-margin-top:90px}
   .wz-top{margin-bottom:30px}
   .wz-stepno{font-family:var(--font-display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin-bottom:12px}
   .wz-prog{height:4px;border-radius:99px;background:var(--line);overflow:hidden}

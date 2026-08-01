@@ -184,6 +184,8 @@
     font-size:clamp(16px,1.4vw,18.5px);color:var(--steel);font-weight:450;
   }
   .hero-actions{margin-top:34px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .hero-video{margin-top:34px;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4);background:var(--paper)}
+  .hero-video video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
   .hero-actions .micro{font-size:13.5px;color:var(--slate);display:flex;align-items:center;gap:8px}
   .pulse{width:8px;height:8px;border-radius:50%;background:var(--ink);position:relative}
   .pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--ink);opacity:.4;animation:pulse 2.2s var(--ease) infinite}
@@ -627,6 +629,11 @@
   .legal .addr{color:var(--steel);font-size:15.5px;line-height:1.8;margin-bottom:14px}
   .legal .back{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-family:var(--font-display);font-weight:600;font-size:14px;color:var(--slate);text-decoration:none}
   .legal .back:hover{color:var(--ink)}
+  .legal .eyebrow{display:flex;margin-bottom:20px}
+  .team-photo{margin:26px 0 8px;max-width:520px}
+  .team-photo img{display:block;width:100%;height:auto;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4)}
+  .team-photo figcaption{margin-top:12px;font-size:14px;color:var(--slate);font-family:var(--font-display)}
+  .team-photo figcaption b{color:var(--ink);font-weight:700}
 
   /* ---------- Prozess-Seite ---------- */
   .proc-steps{display:grid;gap:16px;margin-top:10px}
@@ -803,6 +810,9 @@
     .foot{grid-template-columns:1fr 1fr;gap:32px 24px}
     .foot-brand{grid-column:1/-1}
     .foot-bottom{flex-direction:column;align-items:flex-start;gap:10px}
+    .team-photo{max-width:100%;margin-top:22px}
+    .team-photo img{width:100%;height:auto;max-height:72vh;object-fit:cover;object-position:center 38%}
+    .legal .eyebrow{margin-bottom:16px}
   }
   @media (max-width:520px){
     .trust-grid{grid-template-columns:1fr}

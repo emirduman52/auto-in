@@ -184,8 +184,6 @@
     font-size:clamp(16px,1.4vw,18.5px);color:var(--steel);font-weight:450;
   }
   .hero-actions{margin-top:34px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .hero-video{margin-top:34px;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4);background:var(--paper)}
-  .hero-video video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
   .hero-actions .micro{font-size:13.5px;color:var(--slate);display:flex;align-items:center;gap:8px}
   .pulse{width:8px;height:8px;border-radius:50%;background:var(--ink);position:relative}
   .pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--ink);opacity:.4;animation:pulse 2.2s var(--ease) infinite}

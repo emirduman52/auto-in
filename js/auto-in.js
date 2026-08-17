@@ -73,6 +73,31 @@
     { auto: "Ford Focus",      preis:  5600, dauer: "ausgezahlt in 24 Std." }
   ];
 
+  /* --- Wizard: Marken-Vorschlagsliste -------------------------------- */
+  // Vorschläge für das Feld "Marke". Freitext bleibt erlaubt (z. B. Exoten,
+  // Wohnmobile) — die Liste verhindert nur Tippfehler wie "BMA" statt "BMW".
+  // Frei erweiterbar: einfach in alphabetischer Reihenfolge ergänzen.
+  var FAHRZEUG_MARKEN = [
+    "Alfa Romeo", "Audi", "BMW", "Chevrolet", "Chrysler", "Citroën", "Cupra",
+    "Dacia", "Daihatsu", "Dodge", "DS", "Fiat", "Ford", "Honda", "Hyundai",
+    "Jaguar", "Jeep", "Kia", "Lancia", "Land Rover", "Lexus", "Mazda",
+    "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Peugeot",
+    "Polestar", "Porsche", "Renault", "Saab", "Seat", "Škoda", "Smart",
+    "SsangYong", "Subaru", "Suzuki", "Tesla", "Toyota", "Volvo", "VW"
+  ];
+
+  // Häufige Schreibweisen, die auf die offizielle Marke gemappt werden.
+  // Links die Eingabe (klein geschrieben), rechts die Zielschreibweise.
+  // Frei erweiterbar.
+  var MARKEN_ALIASE = {
+    "volkswagen": "VW", "vw.": "VW", "v.w.": "VW",
+    "mercedes": "Mercedes-Benz", "merzedes": "Mercedes-Benz",
+    "mercedes benz": "Mercedes-Benz", "benz": "Mercedes-Benz", "mb": "Mercedes-Benz",
+    "skoda": "Škoda", "citroen": "Citroën",
+    "landrover": "Land Rover", "range rover": "Land Rover",
+    "alfa": "Alfa Romeo", "vauxhall": "Opel", "seat cupra": "Cupra"
+  };
+
   /* --- Aufgabe 2: Kfz-Steuer-Rechner --------------------------------- */
   /* WICHTIG: Diese Sätze/Freibeträge gegen die offizielle Quelle
      (Zoll / Bundesministerium der Finanzen) prüfen und bei jeder
@@ -156,6 +181,192 @@
       var o = document.createElement("option");
       o.value = y; o.textContent = y;
       wzYear.appendChild(o);
+    }
+
+    /* --- Marke: Vorschlagsliste + grüne Bestätigung ------------------
+       Das Feld bleibt ein Textfeld (Freitext für Exoten möglich), zeigt
+       aber beim Tippen passende Marken aus FAHRZEUG_MARKEN an. Sobald die
+       Eingabe eine bekannte Marke ist, erscheint der grüne Haken und die
+       Schreibweise wird auf die offizielle Form gesetzt (z. B. "vw" -> "VW").
+       ------------------------------------------------------------------- */
+    var wzMarke = $("#wzMarke");
+    var wzCombo = $("#wzMarkeCombo");
+    var wzMarkeList = $("#wzMarkeList");
+
+    // wird unten mit der echten Prüfung belegt (auch von resetIntro genutzt)
+    var markeCheckAktualisieren = function () {};
+
+    if (wzMarke && wzCombo && wzMarkeList) {
+      // Vergleichsform: klein, ohne Akzente, ohne Sonder-/Leerzeichen
+      var markeKey = function (s) {
+        return String(s).toLowerCase()
+          .replace(/š/g, "s").replace(/ë/g, "e").replace(/ö/g, "o")
+          .replace(/[^a-z0-9]/g, "");
+      };
+
+      // Nachschlagetabelle: Markenliste + Aliase -> offizielle Schreibweise
+      var MARKEN_LOOKUP = {};
+      FAHRZEUG_MARKEN.forEach(function (m) { MARKEN_LOOKUP[markeKey(m)] = m; });
+      Object.keys(MARKEN_ALIASE).forEach(function (a) {
+        MARKEN_LOOKUP[markeKey(a)] = MARKEN_ALIASE[a];
+      });
+
+      var comboOffen = false;
+      var aktiverIdx = -1;   // per Tastatur hervorgehobener Vorschlag
+      var sichtbar   = [];   // aktuell angezeigte Marken
+      var stille     = false; // true = Wert wird per Skript gesetzt, nicht getippt
+
+      // Wert setzen und die Start-Button-Prüfung (hängt am input-Event)
+      // anstossen, ohne dass sich die Vorschlagsliste wieder öffnet.
+      function setzeWert(v) {
+        wzMarke.value = v;
+        stille = true;
+        wzMarke.dispatchEvent(new Event("input", { bubbles: true }));
+        stille = false;
+      }
+
+      // Offizielle Marke zur Eingabe finden (oder null)
+      function erkannteMarke(text) {
+        var k = markeKey(text);
+        return k && MARKEN_LOOKUP[k] ? MARKEN_LOOKUP[k] : null;
+      }
+
+      // Grünen Haken ein-/ausblenden
+      function pruefeMarke() {
+        wzCombo.classList.toggle("is-ok", !!erkannteMarke(wzMarke.value));
+      }
+      markeCheckAktualisieren = pruefeMarke;
+
+      function schliesse() {
+        comboOffen = false;
+        aktiverIdx = -1;
+        wzCombo.classList.remove("open");
+        wzMarke.setAttribute("aria-expanded", "false");
+      }
+
+      // Treffer sortieren: erst "beginnt mit", dann "enthält"
+      function finde(text) {
+        var k = markeKey(text);
+        if (!k) return FAHRZEUG_MARKEN.slice();
+        var vorn = [], drin = [];
+        FAHRZEUG_MARKEN.forEach(function (m) {
+          var mk = markeKey(m);
+          if (mk.indexOf(k) === 0) vorn.push(m);
+          else if (mk.indexOf(k) > -1) drin.push(m);
+        });
+        // Alias-Treffer (z. B. "volkswagen") mit aufnehmen
+        var alias = MARKEN_LOOKUP[k];
+        if (alias && vorn.indexOf(alias) < 0 && drin.indexOf(alias) < 0) vorn.unshift(alias);
+        return vorn.concat(drin);
+      }
+
+      function zeichneListe(text) {
+        sichtbar = finde(text);
+        wzMarkeList.innerHTML = "";
+        if (!sichtbar.length) {
+          var leer = document.createElement("li");
+          leer.className = "combo-empty";
+          leer.textContent = "Keine passende Marke – du kannst sie frei eintippen.";
+          wzMarkeList.appendChild(leer);
+          return;
+        }
+        sichtbar.forEach(function (m, i) {
+          var li = document.createElement("li");
+          li.className = "combo-opt";
+          li.setAttribute("role", "option");
+          li.dataset.idx = i;
+          li.textContent = m;
+          wzMarkeList.appendChild(li);
+        });
+      }
+
+      function oeffne() {
+        zeichneListe(wzMarke.value);
+        comboOffen = true;
+        // .hero ist overflow:hidden — bei wenig Platz nach oben aufklappen
+        var r = wzMarke.getBoundingClientRect();
+        var platzUnten = window.innerHeight - r.bottom;
+        wzCombo.classList.toggle("up", platzUnten < 250 && r.top > platzUnten);
+        wzCombo.classList.add("open");
+        wzMarke.setAttribute("aria-expanded", "true");
+      }
+
+      // Tastatur-Hervorhebung setzen und in den Sichtbereich scrollen
+      function markiere(idx) {
+        var opts = $$(".combo-opt", wzMarkeList);
+        if (!opts.length) return;
+        aktiverIdx = (idx + opts.length) % opts.length;
+        opts.forEach(function (o, i) { o.classList.toggle("active", i === aktiverIdx); });
+        var akt = opts[aktiverIdx];
+        var oben = akt.offsetTop, unten = oben + akt.offsetHeight;
+        if (oben < wzMarkeList.scrollTop) wzMarkeList.scrollTop = oben - 6;
+        else if (unten > wzMarkeList.scrollTop + wzMarkeList.clientHeight) {
+          wzMarkeList.scrollTop = unten - wzMarkeList.clientHeight + 6;
+        }
+      }
+
+      // Marke übernehmen (Klick oder Enter)
+      function waehle(marke) {
+        schliesse();
+        setzeWert(marke);
+        pruefeMarke();
+        var modell = $("#wzModell");
+        if (modell) modell.focus(); // direkt weiter zum Modell
+      }
+
+      wzMarke.addEventListener("focus", oeffne);
+      wzMarke.addEventListener("click", function () { if (!comboOffen) oeffne(); });
+
+      wzMarke.addEventListener("input", function () {
+        pruefeMarke();
+        if (stille) return; // per Skript gesetzt: Liste nicht wieder öffnen
+        if (!comboOffen) oeffne(); else zeichneListe(wzMarke.value);
+        aktiverIdx = -1;
+      });
+
+      wzMarke.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          if (!comboOffen) { oeffne(); markiere(0); return; }
+          markiere(e.key === "ArrowDown" ? aktiverIdx + 1 : aktiverIdx - 1);
+        } else if (e.key === "Enter") {
+          if (comboOffen && aktiverIdx > -1 && sichtbar[aktiverIdx]) {
+            e.preventDefault();
+            waehle(sichtbar[aktiverIdx]);
+          } else {
+            schliesse();
+          }
+        } else if (e.key === "Escape") {
+          schliesse();
+        } else if (e.key === "Tab") {
+          schliesse();
+        }
+      });
+
+      // pointerdown statt click: verhindert, dass blur die Liste vorher schließt
+      wzMarkeList.addEventListener("pointerdown", function (e) {
+        var opt = e.target.closest(".combo-opt");
+        if (!opt) return;
+        e.preventDefault();
+        waehle(sichtbar[parseInt(opt.dataset.idx, 10)]);
+      });
+
+      // Verlassen: Liste zu, erkannte Marke auf offizielle Schreibweise setzen
+      wzMarke.addEventListener("blur", function () {
+        schliesse();
+        var eingabe = wzMarke.value.trim();
+        var treffer = erkannteMarke(eingabe);
+        var neu = treffer || eingabe;   // Unbekanntes bleibt stehen
+        if (neu !== wzMarke.value) setzeWert(neu);
+        pruefeMarke();
+      });
+
+      // Klick außerhalb schließt die Liste
+      document.addEventListener("pointerdown", function (e) {
+        if (comboOffen && !wzCombo.contains(e.target)) schliesse();
+      });
+
+      pruefeMarke();
     }
 
     // Hilfsfunktionen zum Auslesen
@@ -349,6 +560,7 @@
       if (wzTop) wzTop.style.display = "none";
       wzActions.style.display = "none";
       if (wzStart) wzStart.disabled = !(val("#wzMarke") && val("#wzModell"));
+      markeCheckAktualisieren(); // grünen Haken zum (geleerten) Feld setzen
     }
 
     if (wzStart) {

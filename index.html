@@ -82,7 +82,15 @@
         <div class="lead-grid wz-intro-fields">
           <div class="lead-field">
             <label for="wzMarke">Marke</label>
-            <input class="input" id="wzMarke" type="text" placeholder="z. B. VW" autocomplete="off">
+            <!-- Vorschlagsliste wird in js/auto-in.js aus FAHRZEUG_MARKEN gefüllt -->
+            <div class="combo" id="wzMarkeCombo">
+              <input class="input" id="wzMarke" type="text" placeholder="z. B. VW" autocomplete="off"
+                     role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="wzMarkeList">
+              <span class="combo-check" id="wzMarkeCheck" title="Marke erkannt" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"/></svg>
+              </span>
+              <ul class="combo-list" id="wzMarkeList" role="listbox" aria-label="Marken"></ul>
+            </div>
           </div>
           <div class="lead-field">
             <label for="wzModell">Modell</label>

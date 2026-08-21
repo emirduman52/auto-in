@@ -55,6 +55,12 @@
       </div>
       <figure class="hero-photo">
         <img src="assets/hero-uebergabe.jpg" alt="Fahrzeugübergabe per Handschlag bei auto-in in Ingolstadt" loading="lazy">
+        <!-- Diagonaler Übergang Textbox → Foto. Bewusst als gezeichnete weiße
+             Fläche über dem Bild (nicht als clip-path): so bleibt die Schräge
+             in jedem Wizard-Schritt stehen. Winkel = Punkt "0,26" anpassen. -->
+        <svg class="hero-photo-cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <polygon points="0,0 100,0 0,26" fill="#ffffff"/>
+        </svg>
       </figure>
     </div>
 

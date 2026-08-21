@@ -464,13 +464,30 @@
     }
 
     // --- Navigation ---
-    // Wizard beim Schrittwechsel auf gleicher Höhe halten (verhindert Springen)
+    // Beim Schrittwechsel nur so weit scrollen wie nötig.
+    // Vorher wurde der Wizard bei JEDEM Schritt an den Header geheftet — dabei
+    // rutschte das Hero-Panel (Bild + schräger Übergang) aus dem sichtbaren
+    // Bereich bzw. unter den Header. Jetzt gilt:
+    //   1. Wizard-Kopf unter dem Header  -> nach oben schieben
+    //   2. Wizard ragt unten aus dem Bild -> minimal nach unten schieben
+    //   3. Wizard passt komplett          -> gar nicht scrollen
     function anchorWizard() {
       var headerEl = document.querySelector("header");
-      var off = (headerEl ? headerEl.offsetHeight : 0) + 14;
-      var target = window.scrollY + wizard.getBoundingClientRect().top - off;
-      if (Math.abs(target - window.scrollY) > 4) {
-        window.scrollTo({ top: target, behavior: "smooth" });
+      var off = (headerEl ? headerEl.offsetHeight : 0) + 14; // Abstand unter dem Header
+      var r = wizard.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var y = window.scrollY;
+      var target = y;
+
+      if (r.top < off) {
+        target = y + r.top - off;
+      } else if (r.bottom > vh) {
+        // nie weiter runter, als bis der Wizard-Kopf am Header klebt
+        target = y + Math.min(r.bottom - vh + 14, r.top - off);
+      }
+
+      if (Math.abs(target - y) > 4) {
+        window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
       }
     }
 

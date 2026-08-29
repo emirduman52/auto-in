@@ -692,7 +692,7 @@
 
   /* === Kontaktdaten (für finale CTA) ===
          WhatsApp-Nummer international, ohne + und ohne Leerzeichen. === */
-  var WHATSAPP_NUMBER = "4916095225588";
+  var WHATSAPP_NUMBER = "4984195171533";
   var MAIL_TO = "info@auto-in.de";
 
 

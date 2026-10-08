@@ -810,4 +810,12 @@
   }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
   $$(".reveal").forEach(function (el) { io.observe(el); });
 
+  // Kontakt-Sektion wird per :target eingeblendet – danach sicher hinscrollen
+  function zeigeKontakt() {
+    if (location.hash !== "#kontakt") return;
+    var k = $("#kontakt");
+    if (k) requestAnimationFrame(function () { k.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  }
+  window.addEventListener("hashchange", zeigeKontakt);
+
 })();

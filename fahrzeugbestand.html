@@ -57,7 +57,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="updated" style="font-size:16px;color:var(--steel);max-width:64ch;line-height:1.6">Alle Fahrzeuge, die wir derzeit anbieten — geprüft, ehrlich beschrieben und mit gepflegter Historie. Direkt hier durchstöbern; für eine Probefahrt oder Fragen zu einem Fahrzeug melde dich einfach bei uns.</p>
 
     <div class="fzb-frame-shell">
-      <iframe class="fzb-frame" src="https://home.mobile.de/home/index.html?partnerHead=false&amp;customerId=24976547" title="Fahrzeugbestand von auto-in bei mobile.de" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="consent-ph cookieconsent-optout-marketing consent-ph-fzb">
+        <p>Unser Fahrzeugbestand wird von mobile.de geladen. Um ihn zu sehen, stimme bitte den Marketing-Cookies zu.</p>
+        <button type="button" class="btn consent-ph-btn" onclick="window.Cookiebot&&Cookiebot.renew()">Cookie-Einstellungen öffnen</button>
+      </div>
+      <iframe class="fzb-frame" data-cookieconsent="marketing" data-cookieblock-src="https://home.mobile.de/home/index.html?partnerHead=false&amp;customerId=24976547" title="Fahrzeugbestand von auto-in bei mobile.de" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
     <p class="fzb-hint">Kein passendes Fahrzeug dabei? Wir erweitern unseren Bestand laufend — <a href="index.html#kontakt">sprich uns an</a>, wir suchen dir dein Wunschfahrzeug.</p>
 
@@ -95,6 +99,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="foot-h">Rechtliches</div>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
+      <a href="#" onclick="window.Cookiebot&&Cookiebot.renew();return false;">Cookie-Einstellungen</a>
       <a href="index.html#kontakt">Kontakt</a>
     </div>
   </div>

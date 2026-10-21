@@ -548,6 +548,14 @@
   .map-card:hover{box-shadow:0 26px 50px -24px rgba(11,11,12,.45)}
   .map-card img{display:block;width:100%;height:clamp(280px,40vw,440px);object-fit:cover}
   .map-frame{display:block;width:100%;height:clamp(300px,42vw,460px);border:0}
+  /* Platzhalter fuer Inhalte, die Cookiebot bis zur Einwilligung blockiert */
+  iframe[data-cookieblock-src]:not([src]){display:none}
+  .consent-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;
+    padding:40px 24px;background:var(--paper);border:1px dashed var(--line);border-radius:var(--r-md);color:var(--steel)}
+  .consent-ph p{max-width:46ch;font-size:15px;line-height:1.6}
+  .consent-ph-btn{font-size:14.5px;padding:12px 20px}
+  .consent-ph-map{min-height:clamp(300px,42vw,460px);border:none;border-radius:0}
+  .consent-ph-fzb{min-height:420px;border:none;border-radius:0}
 
   /* ---------- Fahrzeugbestand (mobile.de iFrame) ---------- */
   .fzb-wrap{max-width:1180px}

@@ -200,7 +200,18 @@ async function loadList(env) {
 }
 
 async function loadAd(env, id) {
-  return mapDetailAd(await mobileGet(env, "/search-api/ad/" + id));
+  const ad = await mobileGet(env, "/search-api/ad/" + id);
+  return { ...mapDetailAd(ad), _debug: debugFields(ad) }; // TEMP: Feldnamen pruefen
+}
+// TEMP: Pfade/Werte zu Verbrauch, Emissionen, Beschreibung (keine Verkaeuferdaten)
+function debugFields(obj, prefix = "", out = {}) {
+  for (const [k, v] of Object.entries(obj || {})) {
+    const p = prefix ? prefix + "." + k : k;
+    if (p.startsWith("seller")) continue;
+    if (v && typeof v === "object") debugFields(v, p, out);
+    else if (/consum|co2|emission|efficien|wltp|envkv|descr|fuel|power|cost/i.test(p)) out[p] = typeof v === "string" ? v.slice(0, 400) : v;
+  }
+  return out;
 }
 
 function range(from, to) {

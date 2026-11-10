@@ -1,0 +1,5 @@
+# Kopieren nach .dev.vars und echte Werte eintragen (.dev.vars ist in .gitignore).
+# Produktiv als Cloudflare Secrets hinterlegen, nicht hier.
+MOBILE_API_USER=""
+MOBILE_API_PASSWORD=""
+MOBILE_CUSTOMER_NUMBER=""

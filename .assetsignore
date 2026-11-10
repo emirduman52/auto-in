@@ -1,0 +1,15 @@
+# Dateien, die NICHT als oeffentliche Website-Dateien ausgeliefert werden
+.git
+.gitignore
+.assetsignore
+.wrangler
+.dev.vars*
+.env*
+.claude
+.DS_Store
+node_modules
+worker
+scripts
+wrangler.jsonc
+README.md
+ChatGPT Image*.png

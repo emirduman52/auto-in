@@ -555,12 +555,101 @@
   .consent-ph p{max-width:46ch;font-size:15px;line-height:1.6}
   .consent-ph-btn{font-size:14.5px;padding:12px 20px}
   .consent-ph-map{min-height:clamp(300px,42vw,460px);border:none;border-radius:0}
-  .consent-ph-fzb{min-height:420px;border:none;border-radius:0}
 
-  /* ---------- Fahrzeugbestand (mobile.de iFrame) ---------- */
-  .fzb-wrap{max-width:1180px}
-  .fzb-frame-shell{max-width:1000px;margin:26px auto 0;border-radius:var(--r-lg);overflow:hidden;background:var(--white);border:1px solid var(--line);box-shadow:0 22px 46px -30px rgba(11,11,12,.4)}
-  .fzb-frame{display:block;width:100%;height:clamp(680px,88vh,1240px);border:0}
+  /* ---------- Fahrzeugbestand (eigene Darstellung, Daten via /api) ---------- */
+  .legal-wrap.fzb-wrap{max-width:var(--maxw)}
+  .fzb-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:30px}
+  .fzb-toolbar[hidden],.car-grid[hidden],.fzb-state[hidden]{display:none}
+  .fzb-count{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--steel)}
+  .fzb-controls{display:flex;flex-wrap:wrap;gap:10px}
+  .fzb-controls .select-wrap{min-width:190px}
+  .fzb-controls select{padding:12px 40px 12px 14px;font-size:15px}
+  .car-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:20px}
+  @media (min-width:640px){.car-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (min-width:1000px){.car-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}}
+  .car-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+    box-shadow:0 18px 40px -30px rgba(11,11,12,.35);transition:transform .3s var(--ease), box-shadow .3s var(--ease)}
+  .car-card:hover{transform:translateY(-3px);box-shadow:0 26px 50px -28px rgba(11,11,12,.45)}
+  .car-skel:hover{transform:none}
+  .car-media{display:block;aspect-ratio:4/3;background:var(--fog);overflow:hidden}
+  .car-media img{width:100%;height:100%;object-fit:cover}
+  .car-noimg{width:100%;height:100%;aspect-ratio:4/3;display:grid;place-items:center;background:var(--fog);color:var(--slate);font-family:var(--font-display);font-weight:600;font-size:14px}
+  .car-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:18px 18px 20px}
+  .legal .car-title{margin:0;font-size:18px;line-height:1.3;letter-spacing:-.01em}
+  .legal .car-title a{color:var(--ink);text-decoration:none}
+  .car-price{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--ink)}
+  .legal .car-specs{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:6px;font-size:13.5px;line-height:1.3}
+  .legal .car-specs li{margin:0;padding:5px 10px;border-radius:999px;background:var(--paper);color:var(--steel)}
+  .car-actions{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:6px}
+  .legal .car-actions .btn{width:100%;padding:14px 20px;font-size:15px;color:var(--accent-ink);text-decoration:none}
+  .legal .car-ext{align-self:center;padding:8px 4px;font-size:14px;font-weight:500;color:var(--accent);text-decoration:none}
+  .legal .car-ext:hover{text-decoration:underline}
+  /* Ladezustand */
+  .car-skel .car-media,.car-skel .car-body span{background:linear-gradient(90deg,var(--fog) 25%,#f7f6fb 50%,var(--fog) 75%);background-size:200% 100%;animation:car-skel 1.2s linear infinite}
+  .car-skel .car-body span{display:block;height:14px;width:90%;border-radius:7px}
+  .car-skel .car-body span:nth-child(1){width:70%;height:18px}
+  .car-skel .car-body span:nth-child(2){width:40%;height:22px}
+  @keyframes car-skel{to{background-position:-200% 0}}
+  @media (prefers-reduced-motion:reduce){.car-skel .car-media,.car-skel .car-body span{animation:none}}
+  /* Leer-/Fehlerzustand */
+  .fzb-state{margin-top:30px;padding:44px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg)}
+  .legal .fzb-state h2{margin:0 0 10px}
+  .legal .fzb-state p{max-width:48ch;margin-bottom:20px}
+  .legal .fzb-state .btn{color:var(--accent-ink);text-decoration:none}
+  .legal .fzb-state .btn-ghost{color:var(--ink)}
+
+  /* ---------- Fahrzeug-Detailseite ---------- */
+  .legal .fzd-back{margin:0 0 22px}
+  .fzd-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
+  @media (min-width:900px){.fzd-layout{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:36px;align-items:start}}
+  .fzd-layout.car-skel .car-media{border-radius:var(--r-lg)}
+  .gal{position:relative;min-width:0;border-radius:var(--r-lg);overflow:hidden;background:var(--fog)}
+  .gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+  .gal-track::-webkit-scrollbar{display:none}
+  .gal-track:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+  /* Bilder immer vollstaendig zeigen (contain), nie zuschneiden */
+  .gal-track img,.gal-track .car-noimg{flex:0 0 100%;width:100%;min-width:0;height:auto;aspect-ratio:4/3;object-fit:contain;scroll-snap-align:start}
+  .gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:none;border-radius:50%;
+    display:grid;place-items:center;background:rgba(255,255,255,.92);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;
+    box-shadow:0 6px 18px -8px rgba(0,0,0,.45)}
+  .gal-prev{left:12px}
+  .gal-next{right:12px}
+  @media (hover:none){.gal-btn{display:none}}
+  .gal-count{position:absolute;right:12px;bottom:12px;padding:4px 10px;border-radius:999px;background:rgba(11,11,12,.7);color:#fff;
+    font-family:var(--font-display);font-weight:600;font-size:12.5px}
+  .gal-track img{cursor:zoom-in}
+  /* Vollbild-Ansicht (Lightbox) */
+  .lb{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:rgba(11,11,12,.95)}
+  .lb[hidden]{display:none}
+  .lb-track{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior:contain;scrollbar-width:none}
+  .lb-track::-webkit-scrollbar{display:none}
+  .lb-track img,.lb-track .car-noimg{flex:0 0 100%;width:100%;min-width:0;height:100%;object-fit:contain;scroll-snap-align:center;background:transparent}
+  .lb-close{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;width:46px;height:46px;border:none;border-radius:50%;
+    display:grid;place-items:center;background:rgba(255,255,255,.16);color:#fff;font-size:30px;line-height:1;cursor:pointer}
+  .lb-close:hover,.lb-btn:hover{background:rgba(255,255,255,.28)}
+  .lb-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:50px;height:50px;border:none;border-radius:50%;
+    display:grid;place-items:center;background:rgba(255,255,255,.16);color:#fff;font-size:30px;line-height:1;cursor:pointer}
+  .lb-prev{left:16px}
+  .lb-next{right:16px}
+  @media (hover:none){.lb-btn{display:none}}
+  .lb-count{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,.14);color:#fff;font-family:var(--font-display);font-weight:600;font-size:13px}
+  .lb button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  .legal .fzd-info .eyebrow{margin-bottom:14px}
+  .legal .fzd-info h1{font-size:clamp(26px,3.4vw,36px);line-height:1.15}
+  .fzd-price{margin-top:14px;display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:30px}
+  .fzd-price small{font-size:13px;font-weight:500;letter-spacing:0;color:var(--slate)}
+  .fzd-specs,.fzd-env dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0 22px}
+  .fzd-specs div{background:var(--white);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 13px}
+  .fzd-env dl div{background:var(--paper);border-radius:var(--r-sm);padding:10px 13px}
+  .fzd-specs dt,.fzd-env dt{font-size:12px;color:var(--slate)}
+  .fzd-specs dd,.fzd-env dd{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink)}
+  .fzd-info .car-actions{max-width:440px}
+  .fzd-env,.fzd-desc{margin-top:32px;padding:22px 20px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg)}
+  .legal .fzd-env h2,.legal .fzd-desc h2{margin:0 0 12px;font-size:20px}
+  .fzd-env dl{margin:0}
+  .legal .fzd-desc p{margin:0;white-space:pre-line}
   .fzb-hint{margin-top:16px;font-size:13.5px;color:var(--slate)}
   .fzb-hint a{color:var(--accent);font-weight:500}
   .map-overlay{

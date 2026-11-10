@@ -618,6 +618,24 @@
   @media (hover:none){.gal-btn{display:none}}
   .gal-count{position:absolute;right:12px;bottom:12px;padding:4px 10px;border-radius:999px;background:rgba(11,11,12,.7);color:#fff;
     font-family:var(--font-display);font-weight:600;font-size:12.5px}
+  .gal-track img{cursor:zoom-in}
+  /* Vollbild-Ansicht (Lightbox) */
+  .lb{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:rgba(11,11,12,.95)}
+  .lb[hidden]{display:none}
+  .lb-track{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior:contain;scrollbar-width:none}
+  .lb-track::-webkit-scrollbar{display:none}
+  .lb-track img,.lb-track .car-noimg{flex:0 0 100%;width:100%;min-width:0;height:100%;object-fit:contain;scroll-snap-align:center;background:transparent}
+  .lb-close{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;width:46px;height:46px;border:none;border-radius:50%;
+    display:grid;place-items:center;background:rgba(255,255,255,.16);color:#fff;font-size:30px;line-height:1;cursor:pointer}
+  .lb-close:hover,.lb-btn:hover{background:rgba(255,255,255,.28)}
+  .lb-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:50px;height:50px;border:none;border-radius:50%;
+    display:grid;place-items:center;background:rgba(255,255,255,.16);color:#fff;font-size:30px;line-height:1;cursor:pointer}
+  .lb-prev{left:16px}
+  .lb-next{right:16px}
+  @media (hover:none){.lb-btn{display:none}}
+  .lb-count{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,.14);color:#fff;font-family:var(--font-display);font-weight:600;font-size:13px}
+  .lb button:focus-visible{outline:3px solid #fff;outline-offset:2px}
   .legal .fzd-info .eyebrow{margin-bottom:14px}
   .legal .fzd-info h1{font-size:clamp(26px,3.4vw,36px);line-height:1.15}
   .fzd-price{margin-top:14px;display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:30px}

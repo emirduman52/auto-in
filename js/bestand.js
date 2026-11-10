@@ -159,7 +159,8 @@
         u.stromverbrauch != null && ["Stromverbrauch kombiniert", fmt(u.stromverbrauch, 1) + " kWh/100 km"],
         u.co2 != null && ["CO₂-Emissionen kombiniert", fmt(u.co2) + " g/km"],
         u.co2Klasse && ["CO₂-Klasse", u.co2Klasse],
-        u.effizienzklasse && ["Energieeffizienzklasse", u.effizienzklasse]
+        u.effizienzklasse && ["Energieeffizienzklasse", u.effizienzklasse],
+        u.schadstoffklasse && ["Schadstoffklasse", u.schadstoffklasse]
       ].filter(Boolean);
       if (!rows.length) return "";
       return '<div class="fzd-env"><h2>Verbrauch &amp; Emissionen</h2><dl>' +

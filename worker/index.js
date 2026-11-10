@@ -50,7 +50,7 @@ async function route(url, env, ctx) {
   if (m) {
     // Nur Ziffern zulassen, damit keine beliebigen Pfade an mobile.de gehen
     if (!/^\d{1,15}$/.test(m[1])) return json({ error: "Ungültige Fahrzeug-ID." }, 400);
-    return cached(url, "/__cache/fahrzeug-dbg/" + m[1], ctx, () => loadAd(env, m[1]));
+    return cached(url, "/__cache/fahrzeug/" + m[1], ctx, () => loadAd(env, m[1]));
   }
 
   if (path === "/api/bild") return proxyImage(url);
@@ -200,18 +200,7 @@ async function loadList(env) {
 }
 
 async function loadAd(env, id) {
-  const ad = await mobileGet(env, "/search-api/ad/" + id);
-  return { ...mapDetailAd(ad), _debug: debugFields(ad) }; // TEMP: Feldnamen pruefen
-}
-// TEMP: Pfade/Werte zu Verbrauch, Emissionen, Beschreibung (keine Verkaeuferdaten)
-function debugFields(obj, prefix = "", out = {}) {
-  for (const [k, v] of Object.entries(obj || {})) {
-    const p = prefix ? prefix + "." + k : k;
-    if (p.startsWith("seller")) continue;
-    if (v && typeof v === "object") debugFields(v, p, out);
-    else if (/consum|co2|emission|efficien|wltp|envkv|descr|fuel|power|cost/i.test(p)) out[p] = typeof v === "string" ? v.slice(0, 400) : v;
-  }
-  return out;
+  return mapDetailAd(await mobileGet(env, "/search-api/ad/" + id));
 }
 
 function range(from, to) {
@@ -262,6 +251,8 @@ const CONDITION = { NEW: "Neufahrzeug", USED: "Gebrauchtfahrzeug" };
 const CATEGORY = {
   Cabrio: "Cabrio/Roadster", EstateCar: "Kombi", Limousine: "Limousine", OffRoad: "SUV/Geländewagen",
   SmallCar: "Kleinwagen", SportsCar: "Sportwagen/Coupé", Van: "Van/Minibus", OtherCar: "Andere",
+  Alcoves: "Wohnmobil (Alkoven)", Integrated: "Wohnmobil (integriert)", PartlyIntegrated: "Wohnmobil (teilintegriert)",
+  PartiallyIntegrated: "Wohnmobil (teilintegriert)", Caravan: "Wohnwagen", CamperVan: "Kastenwagen",
 };
 const COLOR = {
   BLACK: "Schwarz", WHITE: "Weiß", GREY: "Grau", SILVER: "Silber", BLUE: "Blau", RED: "Rot",
@@ -284,7 +275,20 @@ function prettyMake(v) {
   const s = String(v).replace(/_/g, " ");
   if (s !== s.toUpperCase()) return s; // schon lesbar
   if (MAKE_UPPER.has(s)) return s;
+  if (s === "CITROEN") return "Citroën";
   return s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, a, b) => a + b.toUpperCase());
+}
+
+// mobile.de-Markup: "\\" = Zeilenumbruch, "**fett**" -> Klartext
+function formatDescription(v) {
+  if (!v) return null;
+  return String(v).split("\\\\").join("\n").replace(/\*\*/g, "").replace(/\n{3,}/g, "\n\n").trim() || null;
+}
+
+// "EURO6" -> "Euro 6", "EURO6D_TEMP" -> "Euro 6d-TEMP"
+function formatEmissionClass(v) {
+  const m = String(v || "").match(/^EURO(\d)([A-Z]*)(?:_(TEMP))?$/);
+  return m ? "Euro " + m[1] + m[2].toLowerCase() + (m[3] ? "-TEMP" : "") : null;
 }
 
 // "202007" bzw. "2020-07" -> "07/2020"
@@ -383,7 +387,7 @@ function mapDetailAd(ad) {
     bilder: imageList(ad)
       .map((img) => ({ klein: imageUrl(img, CARD_SIZES), gross: imageUrl(img, LARGE_SIZES) }))
       .filter((b) => b.klein || b.gross),
-    beschreibung: pick(ad, "plainTextDescription") || null,
+    beschreibung: formatDescription(pick(ad, "description")) || pick(ad, "plainTextDescription") || null,
     kategorie: label(CATEGORY, pick(ad, "category")),
     farbe: label(COLOR, pick(ad, "exteriorColor")),
     hubraum: num(pick(ad, "cubicCapacity")),
@@ -393,11 +397,12 @@ function mapDetailAd(ad) {
     hu: formatRegistration(pick(ad, "nextInspection", "generalInspection")),
     // Pflichtangaben nach Pkw-EnVKV – nur was mobile.de liefert, nichts ergaenzt
     umwelt: {
-      verbrauch: num(pick(ad, "consumptionCombined", "consumptions.combined", "emissions.combined.consumption")),
-      stromverbrauch: num(pick(ad, "consumptionPowerCombined", "consumptions.powerCombined", "consumptions.power.combined")),
-      co2: num(pick(ad, "co2", "emissions.combined.co2", "co2Emission")),
+      verbrauch: num(pick(ad, "consumptions.fuel.combined", "consumptionCombined", "consumptions.combined")),
+      stromverbrauch: num(pick(ad, "consumptions.power.combined", "consumptionPowerCombined", "consumptions.powerCombined")),
+      co2: num(pick(ad, "emissions.combined.co2", "co2")),
       co2Klasse: pick(ad, "emissions.combined.co2Class", "co2Class"),
       effizienzklasse: pick(ad, "energyEfficiencyClass", "emissions.energyEfficiencyClass"),
+      schadstoffklasse: formatEmissionClass(pick(ad, "emissionClass")),
     },
   };
 }

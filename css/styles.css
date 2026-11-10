@@ -601,14 +601,15 @@
 
   /* ---------- Fahrzeug-Detailseite ---------- */
   .legal .fzd-back{margin:0 0 22px}
-  .fzd-layout{display:grid;gap:26px}
+  .fzd-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
   @media (min-width:900px){.fzd-layout{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:36px;align-items:start}}
   .fzd-layout.car-skel .car-media{border-radius:var(--r-lg)}
-  .gal{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--fog)}
+  .gal{position:relative;min-width:0;border-radius:var(--r-lg);overflow:hidden;background:var(--fog)}
   .gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
   .gal-track::-webkit-scrollbar{display:none}
   .gal-track:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
-  .gal-track img,.gal-track .car-noimg{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start}
+  /* Bilder immer vollstaendig zeigen (contain), nie zuschneiden */
+  .gal-track img,.gal-track .car-noimg{flex:0 0 100%;width:100%;min-width:0;height:auto;aspect-ratio:4/3;object-fit:contain;scroll-snap-align:start}
   .gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:none;border-radius:50%;
     display:grid;place-items:center;background:rgba(255,255,255,.92);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;
     box-shadow:0 6px 18px -8px rgba(0,0,0,.45)}

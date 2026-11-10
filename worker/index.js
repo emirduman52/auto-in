@@ -50,7 +50,7 @@ async function route(url, env, ctx) {
   if (m) {
     // Nur Ziffern zulassen, damit keine beliebigen Pfade an mobile.de gehen
     if (!/^\d{1,15}$/.test(m[1])) return json({ error: "Ungültige Fahrzeug-ID." }, 400);
-    return cached(url, "/__cache/fahrzeug/" + m[1], ctx, () => loadAd(env, m[1]));
+    return cached(url, "/__cache/fahrzeug-dbg/" + m[1], ctx, () => loadAd(env, m[1]));
   }
 
   if (path === "/api/bild") return proxyImage(url);

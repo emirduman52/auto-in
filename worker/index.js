@@ -21,6 +21,7 @@ const BROWSER_SECONDS = 5 * 60;         // Browser-Cache fuer API-Antworten
 const PAGE_SIZE = 100;                  // API-Maximum pro Seite
 const MAX_PAGES = 20;                   // 20 x 100 = 2000 (API-Gesamtlimit)
 const MAX_DETAIL_FETCHES = 40;          // Subrequest-Limit im Free-Plan (50) beachten
+const CACHE_VERSION = "v2";             // erhoehen, wenn sich das Mapping aendert
 
 export default {
   async fetch(request, env, ctx) {
@@ -43,14 +44,14 @@ async function route(url, env, ctx) {
   const path = url.pathname.replace(/\/+$/, "");
 
   if (path === "/api/fahrzeuge") {
-    return cached(url, "/__cache/fahrzeuge", ctx, () => loadList(env));
+    return cached(url, "/__cache/" + CACHE_VERSION + "/fahrzeuge", ctx, () => loadList(env));
   }
 
   const m = path.match(/^\/api\/fahrzeug\/([^/]+)$/);
   if (m) {
     // Nur Ziffern zulassen, damit keine beliebigen Pfade an mobile.de gehen
     if (!/^\d{1,15}$/.test(m[1])) return json({ error: "Ungültige Fahrzeug-ID." }, 400);
-    return cached(url, "/__cache/fahrzeug/" + m[1], ctx, () => loadAd(env, m[1]));
+    return cached(url, "/__cache/" + CACHE_VERSION + "/fahrzeug/" + m[1], ctx, () => loadAd(env, m[1]));
   }
 
   if (path === "/api/bild") return proxyImage(url);
@@ -279,6 +280,12 @@ function prettyMake(v) {
   return s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, a, b) => a + b.toUpperCase());
 }
 
+// mobile.de liefert Texte teils mit HTML-Entities ("B&amp;O")
+function decodeEntities(v) {
+  if (typeof v !== "string") return v;
+  return v.replace(/&(amp|lt|gt|quot|#39|apos);/g, (_, e) => ({ amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'", apos: "'" })[e]);
+}
+
 // mobile.de-Markup: "\\" = Zeilenumbruch, "**fett**" -> Klartext
 function formatDescription(v) {
   if (!v) return null;
@@ -354,7 +361,7 @@ function safeMobileUrl(u) {
 function mapListAd(ad) {
   const make = prettyMake(pick(ad, "make"));
   const model = pick(ad, "model");
-  const version = pick(ad, "modelDescription");
+  const version = decodeEntities(pick(ad, "modelDescription"));
   const kw = num(pick(ad, "power", "powerKw", "enginePower"));
   const reg = pick(ad, "firstRegistration", "firstRegistrationDate");
   const firstImg = imageList(ad)[0];
@@ -387,7 +394,7 @@ function mapDetailAd(ad) {
     bilder: imageList(ad)
       .map((img) => ({ klein: imageUrl(img, CARD_SIZES), gross: imageUrl(img, LARGE_SIZES) }))
       .filter((b) => b.klein || b.gross),
-    beschreibung: formatDescription(pick(ad, "description")) || pick(ad, "plainTextDescription") || null,
+    beschreibung: decodeEntities(formatDescription(pick(ad, "description")) || pick(ad, "plainTextDescription")) || null,
     kategorie: label(CATEGORY, pick(ad, "category")),
     farbe: label(COLOR, pick(ad, "exteriorColor")),
     hubraum: num(pick(ad, "cubicCapacity")),

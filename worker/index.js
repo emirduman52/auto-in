@@ -87,7 +87,9 @@ async function cached(url, keyPath, ctx, loader) {
     }
     console.error("mobile_api_failed", keyPath, err && err.message);
     if (hit) return clientResponse(hit, "STALE");
-    return json({ error: "Der Fahrzeugbestand ist gerade nicht erreichbar. Bitte versuche es später erneut." }, 503);
+    // Kurzer Fehlercode zur Diagnose (z. B. "mobile_401", "konfiguration") – ohne Details/Zugangsdaten
+    const code = err instanceof UpstreamError ? (err.status ? "mobile_" + err.status : "konfiguration") : "netzwerk";
+    return json({ error: "Der Fahrzeugbestand ist gerade nicht erreichbar. Bitte versuche es später erneut.", code }, 503);
   }
 }
 

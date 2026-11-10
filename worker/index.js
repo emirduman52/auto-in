@@ -88,7 +88,7 @@ async function cached(url, keyPath, ctx, loader) {
     console.error("mobile_api_failed", keyPath, err && err.message);
     if (hit) return clientResponse(hit, "STALE");
     // Kurzer Fehlercode zur Diagnose (z. B. "mobile_401", "konfiguration") – ohne Details/Zugangsdaten
-    const code = err instanceof UpstreamError ? (err.status ? "mobile_" + err.status : "konfiguration") : "netzwerk";
+    const code = err instanceof UpstreamError ? (err.code || "mobile_" + err.status) : "netzwerk";
     return json({ error: "Der Fahrzeugbestand ist gerade nicht erreichbar. Bitte versuche es später erneut.", code }, 503);
   }
 }
@@ -120,7 +120,7 @@ function json(data, status = 200, cacheState) {
 /* =======================  mobile.de-Zugriff  ======================== */
 class NotFoundError extends Error {}
 class UpstreamError extends Error {
-  constructor(status, message) { super(message); this.status = status; }
+  constructor(status, message, code) { super(message); this.status = status; this.code = code; }
 }
 
 function basicAuth(user, pass) {
@@ -132,7 +132,7 @@ function basicAuth(user, pass) {
 
 async function mobileGet(env, path, params) {
   if (!env.MOBILE_API_USER || !env.MOBILE_API_PASSWORD) {
-    throw new UpstreamError(0, "Secrets MOBILE_API_USER / MOBILE_API_PASSWORD fehlen");
+    throw new UpstreamError(0, "Secrets MOBILE_API_USER / MOBILE_API_PASSWORD fehlen", "konfiguration_zugang");
   }
   const qs = params ? "?" + new URLSearchParams(params).toString() : "";
   const res = await fetch(API_BASE + path + qs, {
@@ -155,7 +155,7 @@ async function mobileGet(env, path, params) {
 
 async function loadList(env) {
   const customer = String(env.MOBILE_CUSTOMER_NUMBER || "").trim();
-  if (!/^\d+$/.test(customer)) throw new UpstreamError(0, "Secret MOBILE_CUSTOMER_NUMBER fehlt oder ist ungueltig");
+  if (!/^\d+$/.test(customer)) throw new UpstreamError(0, "Secret MOBILE_CUSTOMER_NUMBER fehlt oder ist ungueltig", customer ? "konfiguration_kundennummer_ungueltig" : "konfiguration_kundennummer_fehlt");
 
   const base = {
     customerNumber: customer,

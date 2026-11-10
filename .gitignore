@@ -10,5 +10,12 @@
 *.log
 node_modules/
 
+# Cloudflare / Zugangsdaten (nie committen)
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
 # Bild-Quelldateien (nur optimierte Versionen in assets/ werden eingecheckt)
 /ChatGPT Image*.png

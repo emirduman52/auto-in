@@ -701,6 +701,12 @@
   if (kontaktForm) {
     var kv = function (id) { var el = $(id); return el ? el.value.trim() : ""; };
     var ktErr = $("#ktErr");
+    // Anfrage aus dem Fahrzeugbestand (index.html?fahrzeug=…#kontakt): Nachricht vorbefuellen
+    var wunschFzg = new URLSearchParams(location.search).get("fahrzeug");
+    var ktMsgEl = $("#ktMsg");
+    if (wunschFzg && ktMsgEl && !ktMsgEl.value) {
+      ktMsgEl.value = "Hallo, ich interessiere mich für folgendes Fahrzeug: " + wunschFzg.slice(0, 160) + NL + "Ist es noch verfügbar?";
+    }
     kontaktForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = kv("#ktName"), email = kv("#ktEmail"), msg = kv("#ktMsg");

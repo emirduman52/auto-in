@@ -210,12 +210,12 @@
     };
 
     var initDetail = function (f) {
-      document.title = f.titel + " — auto-in Ingolstadt";
       initGalerie();
       initLightbox(f);
     };
 
     var renderDetail = function (f) {
+      document.title = f.titel + " — auto-in Ingolstadt";
       fzd.setAttribute("aria-busy", "false");
       fzd.innerHTML = R.detail(f);
       initDetail(f);

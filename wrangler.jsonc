@@ -9,8 +9,9 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    // Nur /api/* und die Sitemap laufen durch den Worker, alles andere kommt direkt aus den Static Assets
-    "run_worker_first": ["/api/*", "/sitemap.xml"]
+    // Nur API, Sitemap und Fahrzeug-Detailseiten laufen durch den Worker,
+    // alles andere kommt direkt aus den Static Assets
+    "run_worker_first": ["/api/*", "/sitemap.xml", "/fahrzeuge/*", "/fahrzeug", "/fahrzeug.html"]
   }
   // Secrets (MOBILE_API_USER, MOBILE_API_PASSWORD, MOBILE_CUSTOMER_NUMBER)
   // werden NICHT hier eingetragen, sondern im Cloudflare-Dashboard bzw. lokal in .dev.vars

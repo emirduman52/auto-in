@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<base href="/">
 <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="3a8f2f6e-0bb7-48cb-b4e5-4815710e9fdd" data-blockingmode="auto" type="text/javascript"></script>
 <!-- Google Tag Manager -->
 <script data-cookieconsent="ignore">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -50,8 +51,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ FAHRZEUG-DETAIL ============ -->
 <section class="legal">
   <div class="wrap legal-wrap fzb-wrap">
-    <a href="fahrzeugbestand.html" class="back fzd-back">← Zurück zum Bestand</a>
-    <!-- Inhalt kommt ueber /api/fahrzeug/:id (js/bestand.js) -->
+    <a href="fahrzeugbestand" class="back fzd-back">← Zurück zum Bestand</a>
+    <!-- Inhalt rendert der Worker (/fahrzeuge/<name>-<id>); Rueckfall: js/bestand.js ueber /api/fahrzeug/:id -->
     <div class="fzd" id="fzd" aria-busy="true">
       <div class="fzd-layout car-skel" aria-hidden="true">
         <div class="car-media"></div>
@@ -98,6 +99,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script src="js/auto-in.js"></script>
+<script src="js/fz-render.js"></script>
 <script src="js/bestand.js"></script>
 </body>
 </html>

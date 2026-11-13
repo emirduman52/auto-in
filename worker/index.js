@@ -7,11 +7,16 @@
      GET /api/fahrzeuge        Fahrzeugliste (JSON)
      GET /api/fahrzeug/:id     Einzelfahrzeug mit Details (JSON)
      GET /api/bild?u=…         Bild-Proxy fuer Fahrzeugfotos (nur mobile.de-CDN)
+     GET /fahrzeuge/<name>-<id> Serverseitig gerenderte Detailseite (SEO)
+     GET /sitemap.xml          Sitemap inkl. aller Fahrzeuge
 
    Zugangsdaten kommen ausschliesslich aus Secrets (env), nie aus dem Code:
      MOBILE_API_USER, MOBILE_API_PASSWORD, MOBILE_CUSTOMER_NUMBER
    ===================================================================== */
 
+import "../js/fz-render.js"; // gemeinsame Darstellung mit dem Browser (setzt globalThis.FzRender)
+
+const R = globalThis.FzRender;
 const API_BASE = "https://services.mobile.de";
 const API_ACCEPT = "application/vnd.de.mobile.api+json";
 
@@ -26,7 +31,14 @@ const CACHE_VERSION = "v2";             // erhoehen, wenn sich das Mapping aende
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === "/sitemap.xml") return sitemap(url, env, ctx);
+    try {
+      if (url.pathname === "/sitemap.xml") return await sitemap(url, env, ctx);
+      if (url.pathname.startsWith("/fahrzeuge/")) return await detailPage(url, env, ctx);
+      if (url.pathname === "/fahrzeug" || url.pathname === "/fahrzeug.html") return await legacyDetail(url, env, ctx);
+    } catch (err) {
+      console.error("page_unexpected", url.pathname, err && err.message);
+      return env.ASSETS.fetch(request);
+    }
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     if (request.method !== "GET" && request.method !== "HEAD") {
@@ -78,7 +90,7 @@ async function sitemap(url, env, ctx) {
   const entry = (loc, lastmod) =>
     "<url><loc>" + escXml(SITE_ORIGIN + loc) + "</loc>" + (lastmod ? "<lastmod>" + escXml(lastmod) + "</lastmod>" : "") + "</url>";
   const urls = STATIC_PAGES.map((p) => entry(p))
-    .concat(fahrzeuge.filter((f) => /^\d{1,15}$/.test(f.id)).map((f) => entry("/fahrzeug?id=" + f.id, f.geaendert)));
+    .concat(fahrzeuge.filter((f) => /^\d{1,15}$/.test(f.id)).map((f) => entry(R.detailHref(f), f.geaendert)));
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join("\n") + "\n</urlset>\n";
   return new Response(xml, {
     headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=" + BROWSER_SECONDS },
@@ -87,6 +99,149 @@ async function sitemap(url, env, ctx) {
 
 function escXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+
+/* ==================  Fahrzeug-Detailseiten (SEO)  =================== */
+// /fahrzeuge/<name>-<id> wird serverseitig fertig gerendert: Titel, Meta-
+// Beschreibung, Canonical, Vorschau fuer WhatsApp & Co. (Open Graph) und
+// strukturierte Daten (schema.org/Car) fuer Google. Galerie und Lightbox
+// aktiviert danach js/bestand.js.
+async function loadDetail(url, env, ctx, id) {
+  const res = await cached(url, "/__cache/" + CACHE_VERSION + "/fahrzeug/" + id, ctx, () => loadAd(env, id));
+  return { status: res.status, fahrzeug: res.ok ? await res.json() : null };
+}
+
+async function legacyDetail(url, env, ctx) {
+  // Alte Adressen fahrzeug.html?id=… dauerhaft auf die neuen umleiten
+  const id = url.searchParams.get("id") || "";
+  if (!/^\d{1,15}$/.test(id)) return Response.redirect(url.origin + "/fahrzeugbestand", 301);
+  const { fahrzeug } = await loadDetail(url, env, ctx, id);
+  return Response.redirect(url.origin + (fahrzeug ? R.detailHref(fahrzeug) : "/fahrzeuge/" + id), 301);
+}
+
+async function detailPage(url, env, ctx) {
+  const m = url.pathname.match(/^\/fahrzeuge\/(?:[a-z0-9-]*-)?(\d{1,15})\/?$/);
+  if (!m) return template(url, env, 404, { titel: "Fahrzeug nicht gefunden", state: R.state("Fahrzeug nicht gefunden", "Der Link ist ungültig. Im Bestand findest du alle aktuellen Fahrzeuge.") });
+
+  const { status, fahrzeug: f } = await loadDetail(url, env, ctx, m[1]);
+  if (f) {
+    // Falscher oder veralteter Name in der Adresse -> auf die richtige Adresse
+    if (url.pathname !== R.detailHref(f)) return Response.redirect(url.origin + R.detailHref(f), 301);
+    return template(url, env, 200, { fahrzeug: f });
+  }
+  if (status === 404) {
+    // Verkauft: 410 sagt Google, dass die Seite dauerhaft weg ist
+    return template(url, env, 410, { titel: "Fahrzeug nicht mehr verfügbar", state: R.state("Dieses Fahrzeug ist nicht mehr verfügbar", "Vermutlich wurde es bereits verkauft. Schau dir gern unseren aktuellen Bestand an.") });
+  }
+  // mobile.de gerade nicht erreichbar: leere Vorlage, der Browser versucht es selbst (bestand.js)
+  return template(url, env, 503, {});
+}
+
+async function template(url, env, status, { fahrzeug: f, titel, state }) {
+  const tpl = await env.ASSETS.fetch(new Request(new URL("/fahrzeug", url.origin)));
+  const headers = new Headers(tpl.headers);
+  headers.set("content-type", "text/html; charset=utf-8");
+  headers.set("cache-control", status === 200 ? "public, max-age=" + BROWSER_SECONDS : "no-store");
+  headers.delete("etag");
+  headers.delete("content-length");
+  if (status === 503) headers.set("retry-after", "300");
+
+  let rw = new HTMLRewriter();
+  if (f) {
+    const seite = SITE_ORIGIN + R.detailHref(f);
+    const title = f.titel + " kaufen in Ingolstadt — auto-in";
+    const desc = metaDescription(f);
+    const bild = (R.bilderVon(f)[0] || {}).gross;
+    const head = [
+      '<link rel="canonical" href="' + R.esc(seite) + '">',
+      '<meta property="og:url" content="' + R.esc(seite) + '">',
+      '<script type="application/ld+json">' + jsonForScript(carSchema(f, seite)) + "</script>",
+    ].join("");
+    rw = rw
+      .on("title", { element: (el) => el.setInnerContent(title) })
+      .on('meta[name="description"]', { element: (el) => el.setAttribute("content", desc) })
+      .on('meta[property="og:type"]', { element: (el) => el.setAttribute("content", "product") })
+      .on('meta[property="og:title"]', { element: (el) => el.setAttribute("content", f.titel + " — " + R.preis(f)) })
+      .on('meta[property="og:description"]', { element: (el) => el.setAttribute("content", desc) })
+      .on('meta[property="og:image"]', { element: (el) => { if (bild) el.setAttribute("content", SITE_ORIGIN + bild); } })
+      .on("head", { element: (el) => el.append(head, { html: true }) })
+      .on("#fzd", {
+        element: (el) => {
+          el.setAttribute("aria-busy", "false");
+          el.setAttribute("data-ssr", "");
+          el.setInnerContent(R.detail(f), { html: true });
+          el.after('<script type="application/json" id="fzdData">' + jsonForScript(f) + "</script>", { html: true });
+        },
+      });
+  } else if (state) {
+    rw = rw
+      .on("title", { element: (el) => el.setInnerContent(titel + " — auto-in Ingolstadt") })
+      .on("head", { element: (el) => el.append('<meta name="robots" content="noindex">', { html: true }) })
+      .on("#fzd", {
+        element: (el) => {
+          el.setAttribute("aria-busy", "false");
+          el.setAttribute("data-ssr", "");
+          el.setInnerContent(state, { html: true });
+        },
+      });
+  } else {
+    rw = rw.on("head", { element: (el) => el.append('<meta name="robots" content="noindex">', { html: true }) });
+  }
+  return rw.transform(new Response(tpl.body, { status, headers }));
+}
+
+function metaDescription(f) {
+  const teile = [f.titel, f.ez && "EZ " + f.ez, f.km != null && R.fmt(f.km) + " km", f.kraftstoff, f.getriebe, R.preis(f)].filter(Boolean);
+  return teile.join(" · ") + " — jetzt bei auto-in in Ingolstadt ansehen und Probefahrt vereinbaren.";
+}
+
+// JSON sicher in <script> einbetten (kein "</script>" im Text moeglich)
+function jsonForScript(data) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+// schema.org/Car – nur Felder, die mobile.de tatsaechlich liefert
+function carSchema(f, seite) {
+  const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v != null && v !== "" && !(Array.isArray(v) && !v.length)));
+  const ez = /^(\d{4})(\d{2})$/.exec(f.ezSort || "");
+  return clean({
+    "@context": "https://schema.org",
+    "@type": "Car",
+    name: f.titel,
+    url: seite,
+    image: R.bilderVon(f).slice(0, 10).map((b) => SITE_ORIGIN + (b.gross || b.klein)),
+    description: f.beschreibung ? f.beschreibung.replace(/\s*\n\s*(\*\s*)?/g, " ").trim().slice(0, 1000) : metaDescription(f),
+    brand: f.marke ? { "@type": "Brand", name: f.marke } : null,
+    model: f.modell,
+    itemCondition: f.zustand === "Neufahrzeug" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
+    dateVehicleFirstRegistered: ez ? ez[1] + "-" + ez[2] : null,
+    mileageFromOdometer: f.km != null ? { "@type": "QuantitativeValue", value: f.km, unitCode: "KMT" } : null,
+    fuelType: f.kraftstoff,
+    vehicleTransmission: f.getriebe,
+    vehicleEngine: f.kw != null ? clean({
+      "@type": "EngineSpecification",
+      enginePower: { "@type": "QuantitativeValue", value: f.kw, unitCode: "KWT" },
+      engineDisplacement: f.hubraum != null ? { "@type": "QuantitativeValue", value: f.hubraum, unitCode: "CMQ" } : null,
+    }) : null,
+    color: f.farbe,
+    bodyType: f.kategorie,
+    seatingCapacity: f.sitze,
+    offers: f.preis != null ? {
+      "@type": "Offer",
+      price: f.preis,
+      priceCurrency: f.waehrung || "EUR",
+      availability: "https://schema.org/InStock",
+      url: seite,
+      seller: {
+        "@type": "AutoDealer",
+        name: "auto-in",
+        url: SITE_ORIGIN + "/",
+        telephone: "+49 841 95171533",
+        address: { "@type": "PostalAddress", streetAddress: "Regensburger Str. 7", postalCode: "85055", addressLocality: "Ingolstadt", addressCountry: "DE" },
+      },
+    } : null,
+  });
 }
 
 

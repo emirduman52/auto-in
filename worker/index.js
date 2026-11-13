@@ -115,7 +115,7 @@ async function loadDetail(url, env, ctx, id) {
 async function legacyDetail(url, env, ctx) {
   // Alte Adressen fahrzeug.html?id=… dauerhaft auf die neuen umleiten
   const id = url.searchParams.get("id") || "";
-  if (!/^\d{1,15}$/.test(id)) return Response.redirect(SITE_ORIGIN + "/fahrzeugbestand", 301);
+  if (!/^\d{1,15}$/.test(id)) return Response.redirect(url.origin + "/fahrzeugbestand", 301);
   const { fahrzeug } = await loadDetail(url, env, ctx, id);
   return Response.redirect(url.origin + (fahrzeug ? R.detailHref(fahrzeug) : "/fahrzeuge/" + id), 301);
 }
@@ -211,7 +211,7 @@ function carSchema(f, seite) {
     name: f.titel,
     url: seite,
     image: R.bilderVon(f).slice(0, 10).map((b) => SITE_ORIGIN + (b.gross || b.klein)),
-    description: f.beschreibung ? f.beschreibung.slice(0, 1000) : metaDescription(f),
+    description: f.beschreibung ? f.beschreibung.replace(/\s*\n\s*(\*\s*)?/g, " ").trim().slice(0, 1000) : metaDescription(f),
     brand: f.marke ? { "@type": "Brand", name: f.marke } : null,
     model: f.modell,
     itemCondition: f.zustand === "Neufahrzeug" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",

@@ -36,16 +36,21 @@ Kfz-Steuer-Sätze sowie die **WhatsApp-Nummer**) stehen oben in
 
 ## Fahrzeugbestand (mobile.de Search-API)
 
-Der Bestand auf `fahrzeugbestand.html` und `fahrzeug.html?id=…` wird nicht mehr
-per iFrame eingebunden, sondern über einen Cloudflare Worker
+Der Bestand auf `fahrzeugbestand.html` und den Detailseiten `/fahrzeuge/<name>-<id>`
+wird nicht mehr per iFrame eingebunden, sondern über einen Cloudflare Worker
 ([`worker/index.js`](worker/index.js)) aus der mobile.de Search-API geladen und
-mit eigenem Design dargestellt ([`js/bestand.js`](js/bestand.js)).
+mit eigenem Design dargestellt ([`js/bestand.js`](js/bestand.js)). Das HTML
+eines Fahrzeugs erzeugt [`js/fz-render.js`](js/fz-render.js), die Datei nutzen
+Browser und Worker gemeinsam.
 
 | Endpunkt | Inhalt |
 | --- | --- |
 | `GET /api/fahrzeuge` | Fahrzeugliste (schlankes JSON) |
 | `GET /api/fahrzeug/:id` | Einzelfahrzeug mit Details (nur Ziffern als ID) |
 | `GET /api/bild?u=…` | Bild-Proxy, nur für das mobile.de-CDN (`*.classistatic.de`) |
+| `GET /fahrzeuge/<name>-<id>` | Detailseite, serverseitig gerendert (Titel, Canonical, Open Graph, schema.org/Car). Falscher Name → 301, verkauft → 410 |
+| `GET /fahrzeug.html?id=…` | Alte Adresse, 301 auf die neue Detailseite |
+| `GET /sitemap.xml` | Sitemap mit festen Seiten und allen Fahrzeugen |
 
 ### Secrets
 

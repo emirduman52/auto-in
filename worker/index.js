@@ -26,6 +26,7 @@ const CACHE_VERSION = "v2";             // erhoehen, wenn sich das Mapping aende
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/sitemap.xml") return sitemap(url, env, ctx);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     if (request.method !== "GET" && request.method !== "HEAD") {
@@ -57,6 +58,35 @@ async function route(url, env, ctx) {
   if (path === "/api/bild") return proxyImage(url);
 
   return json({ error: "Nicht gefunden." }, 404);
+}
+
+
+/* ===========================  Sitemap  ============================== */
+// Feste Seiten + alle Fahrzeuge aus dem (gecachten) Bestand. Faellt mobile.de
+// aus, enthaelt die Sitemap trotzdem die festen Seiten.
+const SITE_ORIGIN = "https://kfzankauf-ingolstadt.de";
+const STATIC_PAGES = ["/", "/fahrzeugbestand", "/leistungen", "/prozess", "/kfz-steuer", "/ueber-uns", "/faq"];
+
+async function sitemap(url, env, ctx) {
+  let fahrzeuge = [];
+  try {
+    const res = await cached(url, "/__cache/" + CACHE_VERSION + "/fahrzeuge", ctx, () => loadList(env));
+    if (res.ok) fahrzeuge = (await res.json()).fahrzeuge || [];
+  } catch (err) {
+    console.error("sitemap_bestand_failed", err && err.message);
+  }
+  const entry = (loc, lastmod) =>
+    "<url><loc>" + escXml(SITE_ORIGIN + loc) + "</loc>" + (lastmod ? "<lastmod>" + escXml(lastmod) + "</lastmod>" : "") + "</url>";
+  const urls = STATIC_PAGES.map((p) => entry(p))
+    .concat(fahrzeuge.filter((f) => /^\d{1,15}$/.test(f.id)).map((f) => entry("/fahrzeug?id=" + f.id, f.geaendert)));
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join("\n") + "\n</urlset>\n";
+  return new Response(xml, {
+    headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=" + BROWSER_SECONDS },
+  });
+}
+
+function escXml(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 

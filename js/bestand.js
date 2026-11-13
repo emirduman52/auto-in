@@ -269,6 +269,10 @@
 
     var renderDetail = function (f) {
       document.title = f.titel + " — auto-in Ingolstadt";
+      var canon = document.createElement("link");
+      canon.rel = "canonical";
+      canon.href = "https://kfzankauf-ingolstadt.de/fahrzeug?id=" + encodeURIComponent(f.id);
+      document.head.appendChild(canon);
       fzd.setAttribute("aria-busy", "false");
       fzd.innerHTML =
         '<div class="fzd-layout">' + galerie(f) +
@@ -296,6 +300,13 @@
       fail("Fahrzeug nicht gefunden", "Der Link ist ungültig. Im Bestand findest du alle aktuellen Fahrzeuge.");
     } else {
       getJSON("/api/fahrzeug/" + id).then(renderDetail).catch(function (e) {
+        if (e.status === 404) {
+          // Verkaufte Fahrzeuge nicht im Google-Index halten
+          var noindex = document.createElement("meta");
+          noindex.name = "robots";
+          noindex.content = "noindex";
+          document.head.appendChild(noindex);
+        }
         if (e.status === 404) fail("Dieses Fahrzeug ist nicht mehr verfügbar", "Vermutlich wurde es bereits verkauft. Schau dir gern unseren aktuellen Bestand an.");
         else fail("Das Fahrzeug lädt gerade nicht", 'Bitte versuche es in ein paar Minuten erneut – oder ruf uns an: <a href="' + TEL_HREF + '">' + TEL + "</a>.");
       });

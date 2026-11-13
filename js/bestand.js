@@ -11,27 +11,8 @@
   var TEL = "+49 841 95171533";
   var TEL_HREF = "tel:+4984195171533";
 
-  var esc = function (s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  };
-  var fmt = function (n, digits) {
-    return Number(n).toLocaleString("de-DE", { maximumFractionDigits: digits || 0 });
-  };
-  var preis = function (f) {
-    if (f.preis == null) return "Preis auf Anfrage";
-    return fmt(f.preis) + (f.waehrung && f.waehrung !== "EUR" ? " " + f.waehrung : " €");
-  };
-  var leistung = function (f) { return f.kw != null ? fmt(f.kw) + " kW (" + fmt(f.ps) + " PS)" : null; };
-  var specs = function (f) {
-    return [f.ez && "EZ " + f.ez, f.km != null && fmt(f.km) + " km", f.kraftstoff, f.getriebe, leistung(f)].filter(Boolean);
-  };
-  var detailHref = function (f) { return "fahrzeug.html?id=" + encodeURIComponent(f.id); };
-  var anfrageHref = function (f) {
-    return "index.html?fahrzeug=" + encodeURIComponent(f.titel + " (Inserat " + f.id + ")") + "#kontakt";
-  };
-  var noImg = '<div class="car-noimg">Bild folgt</div>';
+  var R = window.FzRender;
+  var esc = R.esc, preis = R.preis, specs = R.specs, detailHref = R.detailHref, actions = R.actions, noImg = R.noImg;
 
   function getJSON(url) {
     return fetch(url, { headers: { Accept: "application/json" } }).then(function (r) {
@@ -52,13 +33,6 @@
         t.remove();
       }
     }, true);
-  }
-
-  function actions(f) {
-    return '<div class="car-actions">' +
-      '<a class="btn btn-accent" href="' + esc(anfrageHref(f)) + '">Anfrage senden</a>' +
-      (f.url ? '<a class="car-ext" href="' + esc(f.url) + '" target="_blank" rel="noopener">Auf mobile.de ansehen ↗</a>' : "") +
-      "</div>";
   }
 
 
@@ -142,51 +116,19 @@
   var fzd = $("#fzd");
   if (fzd) {
     imgFallback(fzd);
-    var id = new URLSearchParams(location.search).get("id") || "";
+    // Neue Adresse /fahrzeuge/<name>-<id>, alte fahrzeug.html?id=<id> als Rueckfall
+    var pm = location.pathname.match(/-?(\d{1,15})\/?$/);
+    var id = pm ? pm[1] : (new URLSearchParams(location.search).get("id") || "");
 
-    var fail = function (title, text) {
+    var fail = function (title, html) {
       fzd.setAttribute("aria-busy", "false");
-      fzd.innerHTML = '<div class="fzb-state"><h2>' + esc(title) + "</h2><p>" + text + "</p>" +
-        '<a class="btn btn-accent" href="fahrzeugbestand.html">Zum Fahrzeugbestand</a></div>';
-    };
-
-    var row = function (k, v) { return v == null || v === "" ? "" : "<div><dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd></div>"; };
-
-    var umwelt = function (u) {
-      if (!u) return "";
-      var rows = [
-        u.verbrauch != null && ["Kraftstoffverbrauch kombiniert", fmt(u.verbrauch, 1) + " l/100 km"],
-        u.stromverbrauch != null && ["Stromverbrauch kombiniert", fmt(u.stromverbrauch, 1) + " kWh/100 km"],
-        u.co2 != null && ["CO₂-Emissionen kombiniert", fmt(u.co2) + " g/km"],
-        u.co2Klasse && ["CO₂-Klasse", u.co2Klasse],
-        u.effizienzklasse && ["Energieeffizienzklasse", u.effizienzklasse],
-        u.schadstoffklasse && ["Schadstoffklasse", u.schadstoffklasse]
-      ].filter(Boolean);
-      if (!rows.length) return "";
-      return '<div class="fzd-env"><h2>Verbrauch &amp; Emissionen</h2><dl>' +
-        rows.map(function (r) { return row(r[0], r[1]); }).join("") + "</dl></div>";
-    };
-
-    var galerie = function (f) {
-      var bilder = (f.bilder || []).filter(function (b) { return b.gross || b.klein; });
-      if (!bilder.length) return '<div class="gal"><div class="gal-track">' + noImg + "</div></div>";
-      var imgs = bilder.map(function (b, i) {
-        return '<img src="' + esc(b.gross || b.klein) + '" alt="' + esc(f.titel + " – Bild " + (i + 1)) + '"' +
-          (i ? ' loading="lazy"' : ' fetchpriority="high"') + ' decoding="async" width="1024" height="768">';
-      }).join("");
-      var multi = bilder.length > 1;
-      return '<div class="gal">' +
-        '<div class="gal-track" tabindex="0" aria-label="Bildergalerie, mit Pfeiltasten oder Wischen blättern">' + imgs + "</div>" +
-        (multi ? '<button type="button" class="gal-btn gal-prev" aria-label="Vorheriges Bild">‹</button>' +
-                 '<button type="button" class="gal-btn gal-next" aria-label="Nächstes Bild">›</button>' +
-                 '<div class="gal-count" aria-hidden="true">1 / ' + bilder.length + "</div>" : "") +
-        "</div>";
+      fzd.innerHTML = R.state(title, html);
     };
 
     // Vollbild-Ansicht: Bild antippen -> gross ansehen, wischen/Pfeile, Esc oder ✕ schliesst
     var initLightbox = function (f) {
       var track = $(".gal-track", fzd);
-      var bilder = (f.bilder || []).filter(function (b) { return b.gross || b.klein; });
+      var bilder = R.bilderVon(f);
       if (!track || !bilder.length) return;
       var n = bilder.length;
 
@@ -267,34 +209,24 @@
       }, { passive: true });
     };
 
-    var renderDetail = function (f) {
+    var initDetail = function (f) {
       document.title = f.titel + " — auto-in Ingolstadt";
-      var canon = document.createElement("link");
-      canon.rel = "canonical";
-      canon.href = "https://kfzankauf-ingolstadt.de/fahrzeug?id=" + encodeURIComponent(f.id);
-      document.head.appendChild(canon);
-      fzd.setAttribute("aria-busy", "false");
-      fzd.innerHTML =
-        '<div class="fzd-layout">' + galerie(f) +
-          '<div class="fzd-info">' +
-            (f.zustand ? '<span class="eyebrow">' + esc(f.zustand) + "</span>" : "") +
-            "<h1>" + esc(f.titel) + "</h1>" +
-            '<div class="car-price fzd-price">' + esc(preis(f)) + (f.preis != null ? "<small>Gesamtpreis</small>" : "") + "</div>" +
-            '<dl class="fzd-specs">' +
-              row("Erstzulassung", f.ez) + row("Kilometerstand", f.km != null ? fmt(f.km) + " km" : null) +
-              row("Kraftstoff", f.kraftstoff) + row("Getriebe", f.getriebe) + row("Leistung", leistung(f)) +
-              row("Hubraum", f.hubraum != null ? fmt(f.hubraum) + " cm³" : null) + row("Kategorie", f.kategorie) +
-              row("Farbe", f.farbe) + row("Türen", f.tueren) + row("Sitzplätze", f.sitze) +
-              row("Vorbesitzer", f.vorbesitzer) + row("HU bis", f.hu) +
-            "</dl>" +
-            actions(f) +
-          "</div>" +
-        "</div>" +
-        umwelt(f.umwelt) +
-        (f.beschreibung ? '<div class="fzd-desc"><h2>Beschreibung</h2><p>' + esc(f.beschreibung) + "</p></div>" : "");
       initGalerie();
       initLightbox(f);
     };
+
+    var renderDetail = function (f) {
+      fzd.setAttribute("aria-busy", "false");
+      fzd.innerHTML = R.detail(f);
+      initDetail(f);
+    };
+
+    // Vom Worker bereits fertig gerendert? Dann nur noch Galerie & Lightbox aktivieren
+    if (fzd.hasAttribute("data-ssr")) {
+      var vorab = document.getElementById("fzdData");
+      try { if (vorab) initDetail(JSON.parse(vorab.textContent)); } catch (e) { /* Seite bleibt lesbar */ }
+      return;
+    }
 
     if (!/^\d{1,15}$/.test(id)) {
       fail("Fahrzeug nicht gefunden", "Der Link ist ungültig. Im Bestand findest du alle aktuellen Fahrzeuge.");
